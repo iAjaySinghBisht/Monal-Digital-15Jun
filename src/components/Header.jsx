@@ -12,6 +12,7 @@ const NAV = [
   ["Portfolio", "/#work"],
   ["Solutions", "/#services"],
   ["Team", "/#team"],
+  ["Blog", "/blog"],
 ];
 
 const NavLink = ({ href, children }) => (
