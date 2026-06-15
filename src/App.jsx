@@ -3,6 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import ServiceDetail from "./pages/ServiceDetail";
 import AllWork from "./pages/AllWork";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import ScrollProgress from "./components/ScrollProgress";
 import CustomCursor from "./components/CustomCursor";
 import "./App.css";
@@ -49,6 +51,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/work" element={<AllWork />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/services/:slug" element={<ServiceDetail />} />
       </Routes>
     </div>
