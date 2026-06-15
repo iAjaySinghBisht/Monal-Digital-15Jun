@@ -116,15 +116,43 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Giant white logo */}
+      {/* Giant white logo over a layered mountain range (brand shades) */}
       <div className="relative px-6 md:px-12 pt-8 md:pt-12 pb-10 md:pb-16 select-none">
+        {/* Mountain pattern — overlapping translucent peaks in brand purples.
+            Stretches full width and fades into the black footer at the top. */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1440 520"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
+        >
+          {/* Extra light — distant range, tallest with a dominant peak */}
+          <path
+            d="M0,520 V400 L240,300 L380,360 L660,110 L840,320 L1080,210 L1260,330 L1440,250 V520 Z"
+            fill="#8b7cff"
+            fillOpacity="0.12"
+          />
+          {/* Light — mid range */}
+          <path
+            d="M0,520 V440 L200,360 L440,430 L720,250 L960,410 L1200,310 L1440,400 V520 Z"
+            fill="#6c4df6"
+            fillOpacity="0.22"
+          />
+          {/* Dark — nearest range, lower foothills, most solid */}
+          <path
+            d="M0,520 V475 L260,410 L520,478 L780,390 L1040,475 L1300,420 L1440,465 V520 Z"
+            fill="#4b32c3"
+            fillOpacity="0.45"
+          />
+        </svg>
+
         <img
           src={logo}
           alt="Monal Digital"
           loading="lazy"
           decoding="async"
           draggable="false"
-          className="w-full max-w-[1100px] mx-auto h-auto brightness-0 invert"
+          className="relative w-full max-w-[1100px] mx-auto h-auto brightness-0 invert"
         />
       </div>
 

@@ -5,6 +5,7 @@ import wandsAndWingsJr from "../assets/Projects/W&W Jr.webp";
 import groovyTheMartian from "../assets/Projects/Groovy The Martian.webp";
 import gigglebellies from "../assets/Projects/Gigglebellies.webp";
 
+import ajaySinghBisht from "../assets/Team/Ajay_Singh_Bisht.jpeg";
 import nitinThirpola from "../assets/Team/Nitin_Thirpola.webp";
 import akshayKumarSingh from "../assets/Team/Akshay_Kumar_Singh.webp";
 import anandUpadhyay from "../assets/Team/Anand_Upadhyay.webp";
@@ -196,7 +197,7 @@ export const team = [
     name: "Ajay Singh Bisht",
     role: "Founder & CEO",
     bio: "Building animation studios, digital brands, and children's media ecosystems.",
-    img: "https://media.licdn.com/dms/image/v2/D5603AQFO7NFFq3ctEA/profile-displayphoto-shrink_200_200/B56Za4N4VcGoAc-/0/1746847375729?e=2147483647&v=beta&t=doipho5b3bNDBGpUIIxY_zXcdcz8X4yOnNU0foznt7I",
+    img: ajaySinghBisht,
     linkedin: "https://www.linkedin.com/in/iajaysinghbisht",
   },
   {
