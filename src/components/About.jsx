@@ -48,7 +48,7 @@ const About = () => {
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
-            Stories worth <span className="mark-sun">building</span> on
+            Who <span className="mark-sun">we</span> are
           </h2>
           <p
             data-reveal="up"
@@ -66,7 +66,7 @@ const About = () => {
           {/* Row 1 · Left — Monal story (wide) */}
           <article data-tilt="3" className="group card card-hover bg-mist border-transparent lg:col-span-7 p-7 md:p-10 flex flex-col justify-center">
             <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
-              Who we are
+              Stories worth building on
             </span>
             <p className="text-ink text-xl md:text-[1.6rem] leading-relaxed font-medium">
               We help studios, creators, and brands transform ideas into
