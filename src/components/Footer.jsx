@@ -119,7 +119,8 @@ const Footer = () => {
       {/* Giant white logo over a layered mountain range (brand shades) */}
       <div className="relative px-6 md:px-12 pt-8 md:pt-12 pb-10 md:pb-16 select-none">
         {/* Mountain pattern — overlapping translucent peaks in brand purples.
-            Stretches full width and fades into the black footer at the top. */}
+            Stretches full width and fades into the black footer at the top.
+            The two larger ranges sit BEHIND the logo. */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1440 520"
@@ -138,12 +139,6 @@ const Footer = () => {
             fill="#6c4df6"
             fillOpacity="0.22"
           />
-          {/* Dark — nearest range, lower foothills, most solid */}
-          <path
-            d="M0,520 V475 L260,410 L520,478 L780,390 L1040,475 L1300,420 L1440,465 V520 Z"
-            fill="#4b32c3"
-            fillOpacity="0.45"
-          />
         </svg>
 
         <img
@@ -154,6 +149,21 @@ const Footer = () => {
           draggable="false"
           className="relative w-full max-w-[1100px] mx-auto h-auto brightness-0 invert"
         />
+
+        {/* Small foreground range — rendered AFTER the logo so it sits ABOVE it */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1440 520"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
+        >
+          {/* Dark — nearest range, lower foothills, solid */}
+          <path
+            d="M0,520 V475 L260,410 L520,478 L780,390 L1040,475 L1300,420 L1440,465 V520 Z"
+            fill="#322B80"
+            fillOpacity="1"
+          />
+        </svg>
       </div>
 
       {/* Bottom bar */}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Pill } from "./Decor";
+import { Eyebrow, Pill } from "./Decor";
 import { prefersReducedMotion } from "../hooks/useUiAnimations";
 import baby from "../assets/BABY.png";
 import bunty from "../assets/BUNTY.png";
@@ -129,25 +129,29 @@ const Hero = () => {
       <div className="relative max-w-325 mx-auto px-6 md:px-12 w-full flex flex-col flex-1 justify-center">
         {/* Headline */}
         <div className="flex flex-col items-center text-center">
+          <div data-reveal="up" className="mb-6">
+            <Eyebrow dot="bg-royal">From Uttarakhand. For the World.</Eyebrow>
+          </div>
+
           <h1
             data-reveal="up"
+            data-reveal-delay="0.08"
             className="font-display font-normal text-ink leading-[1.04] tracking-[-0.02em] text-[clamp(2.2rem,6.2vw,4.6rem)] max-w-4xl"
           >
-            Creating worlds <span className="mark-violet">kids</span> love
+            Crafting Thoughtful Experiences for <span className="mark-violet">Kids</span>.
           </h1>
 
           <p
             data-reveal="up"
-            data-reveal-delay="0.08"
+            data-reveal-delay="0.16"
             className="mt-5 text-muted text-base md:text-lg leading-relaxed max-w-xl"
           >
-            A creative studio crafting animation, original IPs and the
-            children&apos;s brands families watch around the world.
+            Monal Digital is a creative company building at the intersection of kids' education, entertainment, technology and imagination.
           </p>
 
           <div
             data-reveal="up"
-            data-reveal-delay="0.16"
+            data-reveal-delay="0.24"
             className="mt-7 flex flex-wrap items-center justify-center gap-3"
           >
             <Pill as={Link} to="/#work" variant="dark">
@@ -225,14 +229,12 @@ const Hero = () => {
         <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-black/10 pointer-events-none" />
 
         <div className="absolute top-5 left-5 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/35 border border-white/20 backdrop-blur-md text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
-          <span className="w-1.5 h-1.5 rounded-full bg-sun animate-pulse-dot" />
-          Reel · 2026
+          <span className="w-1.5 h-1.5 rounded-full bg-royal animate-pulse-dot" />
+          Showreel
         </div>
 
         <div className="absolute bottom-0 inset-x-0 px-5 md:px-7 py-5 flex items-end justify-between gap-3 bg-linear-to-t from-black/70 to-transparent">
-          <div className="font-display text-white text-2xl md:text-3xl leading-none">
-            Showreel.
-          </div>
+          
           <div className="flex items-center gap-2">
             <button
               type="button"
