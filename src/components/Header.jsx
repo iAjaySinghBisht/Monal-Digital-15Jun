@@ -114,7 +114,7 @@ const Header = () => {
         {/* CTA + mobile toggle */}
         <div data-header-item className="flex items-center gap-3">
           <div className="hidden lg:block">
-            <Pill as={Link} to="/#contact" variant="dark" magnetic={false} withArrow={false}>
+            <Pill as={Link} to="/contact-us" variant="dark" magnetic={false} withArrow={false}>
               Get in touch
             </Pill>
           </div>
@@ -158,7 +158,7 @@ const Header = () => {
           ))}
           <Pill
             as={Link}
-            to="/#contact"
+            to="/contact-us"
             variant="royal"
             magnetic={false}
             withArrow={false}

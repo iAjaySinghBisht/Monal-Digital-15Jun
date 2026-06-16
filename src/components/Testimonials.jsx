@@ -115,7 +115,7 @@ const Testimonials = () => {
               Build the next children&apos;s brand with us.
             </span>
             <div className="mt-6">
-              <Pill as={Link} to="/#contact" variant="dark">
+              <Pill as={Link} to="/contact-us" variant="dark">
                 Get started
               </Pill>
             </div>

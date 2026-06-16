@@ -35,7 +35,7 @@ const AllWork = () => {
             data-split
             className="font-display text-[clamp(2.8rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.04em]"
           >
-            Our work.
+            Our Work.
           </h1>
           <p
             data-reveal="up"

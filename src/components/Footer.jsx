@@ -9,7 +9,7 @@ const SocialIcon = ({ children, href = "#", label }) => (
     aria-label={label}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-11 h-11 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white hover:text-ink hover:border-white transition-all"
+    className="w-11 h-11 rounded-full border border-royal/40 text-royal flex items-center justify-center hover:bg-royal hover:text-white hover:border-royal transition-all"
   >
     {children}
   </a>
@@ -50,7 +50,7 @@ const Footer = () => {
               </p>
             </div>
             <div>
-              <Pill as={Link} to="/#contact" variant="royal">
+              <Pill as={Link} to="/contact-us" variant="royal">
                 Start a conversation
               </Pill>
             </div>
@@ -81,17 +81,30 @@ const Footer = () => {
 
           {/* Explore + Socials */}
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
-              Explore
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
+                  Explore
+                </div>
+                <ul className="space-y-3.5 text-base">
+                  <FooterLink href="/#work">Portfolio</FooterLink>
+                  <FooterLink href="/#services">Solutions</FooterLink>
+                  <FooterLink href="/team">Team</FooterLink>
+                  <FooterLink href="/blog">Blog</FooterLink>
+                </ul>
+              </div>
+
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
+                  Company
+                </div>
+                <ul className="space-y-3.5 text-base">
+                  <FooterLink href="/about-us">About</FooterLink>
+                  <FooterLink href="/contact-us">Contact</FooterLink>
+                  <FooterLink href="/career">Careers</FooterLink>
+                </ul>
+              </div>
             </div>
-            <ul className="space-y-3.5 text-base">
-              <FooterLink href="/#work">Portfolio</FooterLink>
-              <FooterLink href="/#about">Studio</FooterLink>
-              <FooterLink href="/#services">Solutions</FooterLink>
-              <FooterLink href="/#team">Team</FooterLink>
-              <FooterLink href="/blog">Blog</FooterLink>
-              <FooterLink href="/#contact">Contact</FooterLink>
-            </ul>
 
             <div className="mt-8 pt-6 border-t border-white/10">
               <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-4">
