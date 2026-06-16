@@ -48,16 +48,15 @@ const About = () => {
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
-            Who <span className="mark-sun">we</span> are
+            Who <span className="mark-sun">we</span> are.
           </h2>
           <p
             data-reveal="up"
             data-reveal-delay="0.12"
             className="text-muted max-w-xl leading-relaxed"
           >
-            Founded in Uttarakhand, Monal Digital is a creative studio
-            specializing in animation, YouTube growth, and children&apos;s
-            entertainment.
+            Monal Digital is a creative company building at the intersection of
+            kids&apos; education, entertainment, technology and imagination.
           </p>
         </div>
 

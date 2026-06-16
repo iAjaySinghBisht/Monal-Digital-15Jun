@@ -5,6 +5,10 @@ import ServiceDetail from "./pages/ServiceDetail";
 import AllWork from "./pages/AllWork";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import Career from "./pages/Career";
+import TeamPage from "./pages/TeamPage";
 import ScrollProgress from "./components/ScrollProgress";
 import CustomCursor from "./components/CustomCursor";
 import "./App.css";
@@ -50,6 +54,10 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/career" element={<Career />} />
+        <Route path="/team" element={<TeamPage />} />
         <Route path="/work" element={<AllWork />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />

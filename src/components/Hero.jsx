@@ -146,7 +146,7 @@ const Hero = () => {
             data-reveal-delay="0.16"
             className="mt-5 text-muted text-base md:text-lg leading-relaxed max-w-xl"
           >
-            Monal Digital is a creative company building at the intersection of kids' education, entertainment, technology and imagination.
+            A creative studio crafting animation, original IPs and the children&apos;s brands families watch around the world.
           </p>
 
           <div
