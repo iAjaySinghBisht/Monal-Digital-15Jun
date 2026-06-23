@@ -54,13 +54,13 @@ const Testimonials = () => {
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-royal">Testimonials</Eyebrow>
+            <Eyebrow dot="bg-sun">Testimonials</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
           >
-            Loved by <span className="mark-violet">partners</span>.
+            Loved by <span className="mark-sun">partners</span>.
           </h2>
           <p
             data-reveal="up"

@@ -2,24 +2,42 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Eyebrow, Pill } from "./Decor";
 import { prefersReducedMotion } from "../hooks/useUiAnimations";
 import baby from "../assets/BABY.png";
 import bunty from "../assets/BUNTY.png";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(useGSAP);
 
 const VIDEO_SRC = "/showreel/Showreel.mp4";
 const VIDEO_POSTER = "/showreel/Showreel-poster.webp";
 
 const Hero = () => {
-  const rootRef = useRef(null);
-  const slotRef = useRef(null); // in-flow placeholder that reserves the video's resting box
-  const stageRef = useRef(null); // the actual video layer that expands to full-screen
   const videoRef = useRef(null);
+  const distantRangeRef = useRef(null);
+  const midRangeRef = useRef(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+
+  /* On load the two back ranges rise up out of the front foothills into
+     their resting positions, as if emerging from behind the front mountain. */
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+    gsap.from(midRangeRef.current, {
+      y: 230,
+      autoAlpha: 0,
+      duration: 1.1,
+      ease: "power3.out",
+      delay: 0.15,
+    });
+    gsap.from(distantRangeRef.current, {
+      y: 340,
+      autoAlpha: 0,
+      duration: 1.3,
+      ease: "power3.out",
+      delay: 0.3,
+    });
+  }, []);
 
   React.useEffect(() => {
     const onChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -39,97 +57,47 @@ const Hero = () => {
     setIsMuted(v.muted);
   };
 
-  /* The video layer (stageRef) is absolutely positioned inside the hero
-     section and sits exactly over its in-flow placeholder (slotRef) at
-     rest. On scroll the hero pins and a scrubbed timeline grows the layer
-     from that resting box to cover the whole section (= full viewport),
-     then releases so it scrolls away naturally. */
-  useGSAP(
-    () => {
-      const root = rootRef.current;
-      const slot = slotRef.current;
-      const stage = stageRef.current;
-      if (!root || !slot || !stage) return;
-
-      /* Resting box of the video, measured relative to the section. */
-      const restBox = () => {
-        const s = root.getBoundingClientRect();
-        const c = slot.getBoundingClientRect();
-        return {
-          top: c.top - s.top,
-          left: c.left - s.left,
-          width: c.width,
-          height: c.height,
-        };
-      };
-
-      const placeAtRest = () => {
-        const r = restBox();
-        gsap.set(stage, {
-          position: "absolute",
-          top: r.top,
-          left: r.left,
-          width: r.width,
-          height: r.height,
-          borderRadius: 28,
-          autoAlpha: 1,
-        });
-      };
-
-      placeAtRest();
-
-      if (prefersReducedMotion()) {
-        const onResize = () => placeAtRest();
-        window.addEventListener("resize", onResize);
-        return () => window.removeEventListener("resize", onResize);
-      }
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          start: "top top",
-          end: "+=130%",
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      tl.fromTo(
-        stage,
-        {
-          top: () => restBox().top,
-          left: () => restBox().left,
-          width: () => restBox().width,
-          height: () => restBox().height,
-          borderRadius: 28,
-        },
-        {
-          top: 0,
-          left: 0,
-          width: () => root.offsetWidth,
-          height: () => root.offsetHeight,
-          borderRadius: 0,
-          ease: "none",
-        },
-      );
-    },
-    { scope: rootRef },
-  );
-
   return (
-    <section
-      id="home"
-      ref={rootRef}
-      className="relative bg-paper overflow-hidden min-h-svh flex flex-col pt-24 md:pt-28 pb-8 md:pb-12"
-    >
-      <div className="absolute inset-0 bg-dots opacity-60 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
+    <>
+      {/* Hero — heading, description and buttons only */}
+      <section
+        id="home"
+        className="relative bg-paper overflow-hidden min-h-svh flex flex-col items-center justify-center text-center pt-24 md:pt-28 pb-8 md:pb-12"
+      >
+        <div className="absolute inset-0 bg-dots opacity-60 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
 
-      <div className="relative max-w-325 mx-auto px-6 md:px-12 w-full flex flex-col flex-1 justify-center">
-        {/* Headline */}
-        <div className="flex flex-col items-center text-center">
-          <div data-reveal="up" className="mb-6">
+        {/* Layered mountain range at the bottom — overlapping brand-purple peaks,
+            fading up into the paper background (mirrors the footer). */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1440 520"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[62%] [mask-image:linear-gradient(to_top,#000_60%,transparent)]"
+        >
+          {/* Extra light — distant range, tallest peaks */}
+          <path
+            ref={distantRangeRef}
+            d="M0,520 L0,340 L240,180 L480,300 L720,100 L960,280 L1200,160 L1440,300 L1440,520 Z"
+            fill="#8b7cff"
+            fillOpacity="0.14"
+          />
+          {/* Light — mid range, peaks offset to sit in the valleys above */}
+          <path
+            ref={midRangeRef}
+            d="M0,520 L0,400 L360,260 L720,380 L1080,240 L1440,380 L1440,520 Z"
+            fill="#6c4df6"
+            fillOpacity="0.2"
+          />
+          {/* Dark — nearest range, lowest foothills */}
+          <path
+            d="M0,520 L0,460 L300,400 L600,470 L900,400 L1200,470 L1440,420 L1440,520 Z"
+            fill="#322B80"
+            fillOpacity="0.92"
+          />
+        </svg>
+
+        <div className="relative max-w-325 mx-auto px-6 md:px-12 w-full flex flex-col items-center text-center">
+          <div data-reveal="up" className="mb-8 md:mb-9">
             <Eyebrow dot="bg-royal">From Uttarakhand. For the World.</Eyebrow>
           </div>
 
@@ -152,7 +120,7 @@ const Hero = () => {
           <div
             data-reveal="up"
             data-reveal-delay="0.24"
-            className="mt-7 flex flex-wrap items-center justify-center gap-3"
+            className="mt-9 md:mt-11 flex flex-wrap items-center justify-center gap-3"
           >
             <Pill as={Link} to="/#work" variant="dark">
               View our work
@@ -162,80 +130,75 @@ const Hero = () => {
             </Pill>
           </div>
         </div>
+      </section>
 
-        {/* Bento row — small square side boxes + the video placeholder.
-            Reveal is applied to the side boxes only (not the group) so the
-            video placeholder is never transformed — keeping the expanding
-            video layer perfectly aligned to it. */}
-        <div className="mt-12 md:mt-16 flex flex-col lg:flex-row gap-4 md:gap-5 lg:items-end">
-          {/* Left — small square, lavender, Baby pops out of an inner card */}
-          <div
-            data-reveal="up"
-            data-tilt="4"
-            className="group card card-hover bg-sun-soft border-transparent relative overflow-visible shrink-0 hidden lg:block lg:w-[25vh] lg:h-[21vh] p-4"
-          >
-            <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[88%] h-[72%] rounded-full bg-white blur-2xl opacity-0 transition-opacity duration-[800ms] ease-out group-hover:opacity-70" />
-            <img
-              src={baby}
-              alt="Monal character"
-              loading="lazy"
-              draggable="false"
-              className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-0 h-[155%] w-auto max-w-none object-contain z-10 drop-shadow-[0_24px_30px_rgba(24,24,27,0.28)] transition-[transform,filter] duration-[800ms] ease-out group-hover:-translate-y-2 group-hover:scale-[1.1] group-hover:drop-shadow-[0_44px_56px_rgba(24,24,27,0.4)]"
-            />
+      {/* Showreel — large video card with the two characters poking out of its corners */}
+      <section className="relative bg-paper overflow-hidden min-h-svh flex flex-col justify-center py-12 md:py-20">
+        <div className="relative max-w-325 mx-auto px-6 md:px-12 w-full">
+          {/* Section header — eyebrow, heading and intro above the video card */}
+          <div className="mb-10 md:mb-14 flex flex-col items-center text-center">
+            <div data-reveal="up">
+              <Eyebrow dot="bg-sun">Watch</Eyebrow>
+            </div>
+            <h2
+              data-split
+              data-reveal-delay="0.08"
+              className="mt-6 font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
+            >
+              Our <span className="mark-sun">Showreel</span>.
+            </h2>
+            <p
+              data-reveal="up"
+              data-reveal-delay="0.16"
+              className="mt-5 text-muted text-base md:text-lg leading-relaxed max-w-xl"
+            >
+              A peek at the worlds, characters and stories we bring to life for kids everywhere.
+            </p>
           </div>
 
-          {/* Center — in-flow placeholder reserving the video's resting box */}
-          <div
-            ref={slotRef}
-            className="card flex-1 relative overflow-hidden min-h-72 lg:h-[40vh] lg:max-h-[27rem] bg-ink"
-            aria-hidden="true"
-          />
+          {/* Wrapper is the positioning context for the corner characters and the video.
+              overflow-visible lets the characters spill past the card edges. */}
+          <div className="relative overflow-visible">
+            {/* Characters poking out of the corners */}
+            <div className="pointer-events-none">
+              <img
+                src={baby}
+                alt="Monal character"
+                loading="lazy"
+                draggable="false"
+                className="absolute z-[60] -top-12 -left-4 md:-top-20 md:-left-10 h-[18vh] md:h-[26vh] w-auto max-w-none object-contain drop-shadow-[0_28px_36px_rgba(24,24,27,0.34)]"
+              />
+              <img
+                src={bunty}
+                alt="Monal character"
+                loading="lazy"
+                draggable="false"
+                className="absolute z-[60] -bottom-12 -right-4 md:-bottom-20 md:-right-10 h-[18vh] md:h-[26vh] w-auto max-w-none object-contain drop-shadow-[0_28px_36px_rgba(24,24,27,0.34)]"
+              />
+            </div>
 
-          {/* Right — small square, yellow, Bunty pops out of an inner card */}
-          <div
-            data-reveal="up"
-            data-reveal-delay="0.1"
-            data-tilt="4"
-            className="group card card-hover bg-sky border-transparent relative overflow-visible shrink-0 hidden lg:block lg:w-[25vh] lg:h-[21vh] p-4"
-          >
-            <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[88%] h-[72%] rounded-full bg-white blur-2xl opacity-0 transition-opacity duration-[800ms] ease-out group-hover:opacity-70" />
-            <img
-              src={bunty}
-              alt="Monal character"
-              loading="lazy"
-              draggable="false"
-              className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-0 h-[155%] w-auto max-w-none object-contain z-10 drop-shadow-[0_24px_30px_rgba(24,24,27,0.28)] transition-[transform,filter] duration-[800ms] ease-out group-hover:-translate-y-2 group-hover:scale-[1.1] group-hover:drop-shadow-[0_44px_56px_rgba(24,24,27,0.4)]"
-            />
-          </div>
-        </div>
-      </div>
+            {/* Video card — fixed resting size, no scroll expansion */}
+            <div className="card relative overflow-hidden w-full h-[52vh] md:h-[64vh] lg:max-h-[42rem] bg-ink shadow-[0_30px_60px_-44px_rgba(24,24,27,0.5)]">
+              <video
+                ref={videoRef}
+                className="absolute inset-0 w-full h-full object-cover"
+                src={VIDEO_SRC}
+                poster={VIDEO_POSTER}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-black/10 pointer-events-none" />
 
-      {/* Expanding video layer — overlays the placeholder, grows on scroll */}
-      <div
-        ref={stageRef}
-        className="absolute z-50 overflow-hidden bg-ink opacity-0 shadow-[0_30px_60px_-44px_rgba(24,24,27,0.5)] will-change-[top,left,width,height]"
-      >
-        <video
-          ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
-          src={VIDEO_SRC}
-          poster={VIDEO_POSTER}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-black/10 pointer-events-none" />
+              <div className="absolute top-5 left-5 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/35 border border-white/20 backdrop-blur-md text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
+                <span className="w-1.5 h-1.5 rounded-full bg-royal animate-pulse-dot" />
+                Showreel
+              </div>
 
-        <div className="absolute top-5 left-5 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/35 border border-white/20 backdrop-blur-md text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
-          <span className="w-1.5 h-1.5 rounded-full bg-royal animate-pulse-dot" />
-          Showreel
-        </div>
-
-        <div className="absolute bottom-0 inset-x-0 px-5 md:px-7 py-5 flex items-end justify-between gap-3 bg-linear-to-t from-black/70 to-transparent">
-          
-          <div className="flex items-center gap-2">
+              <div className="absolute bottom-0 inset-x-0 px-5 md:px-7 py-5 flex items-end justify-between gap-3 bg-linear-to-t from-black/70 to-transparent">
+                <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={toggleMute}
@@ -265,11 +228,14 @@ const Hero = () => {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3" />
               </svg>
-            </button>
+                </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
