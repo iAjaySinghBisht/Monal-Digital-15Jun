@@ -192,6 +192,39 @@ export const services = {
   },
 };
 
+export const ventures = [
+  {
+    title: "Monal Kids Videos",
+    tagline: "Stories kids press play on.",
+    desc: "2D, 3D, and live-action videos, songs, shows, stories, and movies for children.",
+  },
+  {
+    title: "Monal AI",
+    tagline: "A friendly, safe companion.",
+    desc: "A safe AI companion designed to help children learn, explore, ask questions, and grow.",
+  },
+  {
+    title: "Monal Games",
+    tagline: "Play that teaches.",
+    desc: "Fun, educational, and age-appropriate games that inspire curiosity and creativity.",
+  },
+  {
+    title: "Monal Preschool",
+    tagline: "Where learning begins.",
+    desc: "Early learning experiences rooted in creativity, care, curiosity, and culture.",
+  },
+  {
+    title: "Monal Academy",
+    tagline: "Skills for the next generation.",
+    desc: "Training the next generation of artists, animators, creators, and storytellers.",
+  },
+  {
+    title: "Monal Consultancy Services",
+    tagline: "Brands that grow.",
+    desc: "Helping kids' content brands grow through YouTube strategy, content planning, production, distribution, and channel management.",
+  },
+];
+
 export const team = [
   {
     name: "Ajay Singh Bisht",

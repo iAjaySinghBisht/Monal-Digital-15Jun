@@ -54,13 +54,13 @@ const ContentLibrary = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
           <div data-reveal="up">
-            <Eyebrow dot="bg-royal">Content Library</Eyebrow>
+            <Eyebrow dot="bg-sun">Content Library</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2.2rem,6.5vw,5rem)] leading-none max-w-3xl"
           >
-            Stories. Characters. <span className="mark-violet">Worlds</span>.
+            Stories. Characters. <span className="mark-sun">Worlds</span>.
           </h2>
           <p
             data-reveal="up"

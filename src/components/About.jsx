@@ -5,8 +5,6 @@ import pearl from "../assets/Pearl.png";
 const FEATURE_IMG =
 "https://media.licdn.com/dms/image/v2/D5622AQFfhWcV7yzJ7Q/feedshare-shrink_800/feedshare-shrink_800/0/1731300142228?e=2147483647&v=beta&t=2V_murHaG1thG8vrdAnFxmEc0j6XYZ5DmU8VRdmiDc4";
 
-const SPECIALTIES = ["Animation", "YouTube Growth", "Children's Entertainment"];
-
 const FEATURES = [
   {
     title: "Original IP Development",
@@ -42,13 +40,13 @@ const About = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-sun">About Monal</Eyebrow>
+            <Eyebrow dot="bg-royal">About Monal</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
-            Who <span className="mark-sun">we</span> are.
+            Who <span className="mark-violet">we</span> are.
           </h2>
           <p
             data-reveal="up"
@@ -68,25 +66,21 @@ const About = () => {
               Stories worth building on
             </span>
             <p className="text-ink text-xl md:text-[1.6rem] leading-relaxed font-medium">
-              We help studios, creators, and brands transform ideas into
-              characters, stories, and digital worlds that connect with
-              audiences at scale.
+              Monal Digital takes its name from the Himalayan Monal, the vibrant
+              state bird of Uttarakhand.
             </p>
             <p className="mt-5 text-muted leading-relaxed max-w-xl">
-              Over the last decade, our work has generated billions of views,
-              built global audiences, and helped launch original intellectual
-              properties enjoyed by children around the world.
+              Nestled in the foothills of the Himalayas, we grew up surrounded by
+              mountain villages, forests, rivers, stories, traditions, and a deep
+              connection to nature. These influences continue to shape everything
+              we create.
             </p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {SPECIALTIES.map((s) => (
-                <span
-                  key={s}
-                  className="rounded-full bg-paper border border-line px-3.5 py-1.5 text-[12px] font-medium text-ink/70"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
+            <p className="mt-4 text-muted leading-relaxed max-w-xl">
+              What began as a small creative venture has grown into a team of
+              artists, storytellers, educators, technologists, and entrepreneurs
+              working together to build thoughtful experiences for children
+              around the world.
+            </p>
           </article>
 
           {/* Row 1 · Right — image (narrow) */}
