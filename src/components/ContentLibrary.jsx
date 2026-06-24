@@ -3,24 +3,30 @@ import { Link } from "react-router-dom";
 import { projects } from "../data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
 
-/* 13 image slots cycle through the project artwork. */
-const wall = Array.from({ length: 13 }, (_, i) => projects[i % projects.length]);
-
-/* Seven equal-height columns — counts 2·3·1·1·1·3·2 — with small top
-   offsets for the organic, curved silhouette. */
-const COLS = [
-  { mt: "xl:mt-10", imgs: wall.slice(0, 2) },
-  { mt: "xl:mt-0", imgs: wall.slice(2, 5) },
-  { mt: "xl:mt-20", imgs: wall.slice(5, 6) },
-  { mt: "xl:mt-0", imgs: wall.slice(6, 7) },
-  { mt: "xl:mt-20", imgs: wall.slice(7, 8) },
-  { mt: "xl:mt-0", imgs: wall.slice(8, 11) },
-  { mt: "xl:mt-10", imgs: wall.slice(11, 13) },
+/* Six cards mixing 3:4 portraits and 1:1 squares for an editorial rhythm.
+   Each desktop column pairs one portrait with one square (alternating which
+   sits on top), so column heights stay balanced while the silhouette zigzags. */
+const items = [
+  { p: projects[0], ratio: "aspect-3/4" },
+  { p: projects[1], ratio: "aspect-square" },
+  { p: projects[2], ratio: "aspect-square" },
+  { p: projects[3], ratio: "aspect-3/4" },
+  { p: projects[4], ratio: "aspect-3/4" },
+  { p: projects[5], ratio: "aspect-square" },
 ];
 
-const Tile = ({ p, className = "" }) => (
-  <Link to="/work" className={`group relative block ${className}`}>
-    <div className="relative h-full w-full rounded-2xl overflow-hidden border border-line bg-cloud shadow-[0_30px_60px_-46px_rgba(24,24,27,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5">
+/* Desktop columns + gentle upward arc (edges nudged down). */
+const COLS = [
+  { mt: "lg:mt-12", cards: [items[0], items[1]] },
+  { mt: "lg:mt-0", cards: [items[2], items[3]] },
+  { mt: "lg:mt-12", cards: [items[4], items[5]] },
+];
+
+const Tile = ({ p, ratio }) => (
+  <Link to="/work" data-tilt="5" className="group relative block">
+    <div
+      className={`relative ${ratio} w-full rounded-2xl overflow-hidden border border-line bg-cloud shadow-[0_30px_60px_-46px_rgba(24,24,27,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5`}
+    >
       <img
         src={p.img}
         alt={p.title}
@@ -28,12 +34,12 @@ const Tile = ({ p, className = "" }) => (
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="absolute inset-x-0 bottom-0 p-3 flex items-end justify-between gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-        <h3 className="font-display text-white text-xs leading-tight drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
+      <div className="absolute inset-x-0 bottom-0 p-4 flex items-end justify-between gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+        <h3 className="font-display text-white text-sm leading-tight drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
           {p.title}
         </h3>
-        <span className="shrink-0 w-6 h-6 grid place-items-center rounded-full bg-paper text-ink">
-          <ArrowUpRight className="w-3 h-3" />
+        <span className="shrink-0 w-7 h-7 grid place-items-center rounded-full bg-paper text-ink">
+          <ArrowUpRight className="w-3.5 h-3.5" />
         </span>
       </div>
     </div>
@@ -72,27 +78,24 @@ const ContentLibrary = () => {
           </p>
         </div>
 
-        {/* Equal-height image columns (lg+) */}
-        <div data-reveal-group="up" className="hidden lg:flex justify-center items-start gap-3 xl:gap-4">
+        {/* Desktop — three balanced columns of mixed 3:4 / 1:1 cards */}
+        <div
+          data-reveal-group="up"
+          className="hidden lg:flex justify-center items-start gap-5 xl:gap-6"
+        >
           {COLS.map((col, ci) => (
-            <div
-              key={ci}
-              data-tilt="5"
-              className={`flex-1 max-w-42 h-104 xl:h-120 flex flex-col gap-3 xl:gap-4 ${col.mt}`}
-            >
-              {col.imgs.map((p, ii) => (
-                <Tile key={ii} p={p} className="flex-1 min-h-0" />
+            <div key={ci} className={`flex-1 max-w-64 flex flex-col gap-5 xl:gap-6 ${col.mt}`}>
+              {col.cards.map((c, ii) => (
+                <Tile key={ii} p={c.p} ratio={c.ratio} />
               ))}
             </div>
           ))}
         </div>
 
-        {/* Mobile / tablet — horizontal scroll gallery */}
-        <div className="lg:hidden flex gap-3 overflow-x-auto no-scrollbar -mx-6 px-6 pb-2">
-          {projects.map((p) => (
-            <div key={p.title} className="shrink-0 w-40 sm:w-44 h-56">
-              <Tile p={p} className="h-full" />
-            </div>
+        {/* Mobile / tablet — uniform 1:1 thumbnails in a two-column grid */}
+        <div data-reveal-group="up" className="lg:hidden grid grid-cols-2 gap-4">
+          {items.map((c, i) => (
+            <Tile key={i} p={c.p} ratio="aspect-square" />
           ))}
         </div>
 
