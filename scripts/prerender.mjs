@@ -38,8 +38,10 @@ const esc = (s = "") =>
     .replace(/"/g, "&quot;");
 
 // ---- read posts ---------------------------------------------------------
+// Only .mdx files are real posts — mirrors the app's import.meta.glob in
+// src/blog/posts.js, so docs like README.md are never treated as a post.
 const posts = readdirSync(contentDir)
-  .filter((f) => f.endsWith(".mdx") || f.endsWith(".md"))
+  .filter((f) => f.endsWith(".mdx"))
   .map((file) => {
     const { data } = matter(readFileSync(join(contentDir, file), "utf8"));
     return { ...data, slug: data.slug || file.replace(/\.mdx?$/, "") };
