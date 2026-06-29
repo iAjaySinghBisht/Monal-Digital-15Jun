@@ -7,4 +7,7 @@ const { join } = require("path");
  */
 module.exports = {
   cacheDirectory: join(__dirname, ".cache", "puppeteer"),
+  // On Vercel we render with @sparticuz/chromium instead, so skip Puppeteer's
+  // own Chrome download there (faster install, fewer failure points).
+  skipDownload: !!process.env.VERCEL,
 };

@@ -258,10 +258,20 @@ function startServer() {
 const bodyByPath = {};
 try {
   const puppeteer = (await import("puppeteer")).default;
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  // Vercel's build container can't run Puppeteer's bundled Chrome, so use the
+  // Lambda-compatible @sparticuz/chromium binary there. Locally, fall back to
+  // Puppeteer's own Chrome (the @sparticuz binary is Linux-only).
+  const onVercel = !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
+  let launchOpts = { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] };
+  if (onVercel) {
+    const chromium = (await import("@sparticuz/chromium")).default;
+    launchOpts = {
+      headless: true,
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+    };
+  }
+  const browser = await puppeteer.launch(launchOpts);
   const { server, port } = await startServer();
   const page = await browser.newPage();
   // Reduced motion => the app skips entry animations and leaves content
