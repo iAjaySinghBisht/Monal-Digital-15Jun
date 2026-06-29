@@ -1,9 +1,8 @@
 import React from "react";
 import { Eyebrow } from "./Decor";
 import pearl from "../assets/Pearl.png";
-
-const FEATURE_IMG =
-"https://media.licdn.com/dms/image/v2/D5622AQFfhWcV7yzJ7Q/feedshare-shrink_800/feedshare-shrink_800/0/1731300142228?e=2147483647&v=beta&t=2V_murHaG1thG8vrdAnFxmEc0j6XYZ5DmU8VRdmiDc4";
+// Himalayan Monal — photo by Gurung pratap, CC BY-SA 4.0 (Wikimedia Commons)
+import monalBird from "../assets/Projects/Himalayan Monal.jpg";
 
 const FEATURES = [
   {
@@ -86,8 +85,8 @@ const About = () => {
           {/* Row 1 · Right — image (narrow) */}
           <article data-tilt="3" className="group card card-hover border-transparent lg:col-span-5 relative overflow-hidden p-0 min-h-72">
             <img
-              src={FEATURE_IMG}
-              alt="Monal animation craft"
+              src={monalBird}
+              alt="The Himalayan Monal, the vibrant state bird of Uttarakhand"
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
