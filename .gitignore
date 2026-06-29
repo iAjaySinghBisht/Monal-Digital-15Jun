@@ -9,6 +9,9 @@ pnpm-debug.log*
 # Dependencies
 node_modules
 
+# Puppeteer Chromium cache (downloaded on install)
+.cache
+
 # Build output
 dist
 dist-ssr
