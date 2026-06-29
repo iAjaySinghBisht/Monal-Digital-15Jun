@@ -1,5 +1,7 @@
 import zappyToons from "../assets/Projects/Zappy Toons.webp";
+import zappyToonsSq from "../assets/Projects/Zappy Toons sq.webp";
 import zappyZoo from "../assets/Projects/Zappy Zoo.webp";
+import zappyZooSq from "../assets/Projects/Zappy Zoo sq.webp";
 import wandsAndWings from "../assets/Projects/W&W.webp";
 import wandsAndWingsJr from "../assets/Projects/W&W Jr.webp";
 import groovyTheMartian from "../assets/Projects/Groovy The Martian.webp";
@@ -29,10 +31,12 @@ export const projects = [
   {
     title: "Zappy Toons",
     img: zappyToons,
+    imgSq: zappyToonsSq,
   },
   {
     title: "Zappy Zoo",
     img: zappyZoo,
+    imgSq: zappyZooSq,
   },
   {
     title: "Wands And Wings",

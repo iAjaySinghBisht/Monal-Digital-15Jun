@@ -28,7 +28,7 @@ const Tile = ({ p, ratio }) => (
       className={`relative ${ratio} w-full rounded-2xl overflow-hidden border border-line bg-cloud shadow-[0_30px_60px_-46px_rgba(24,24,27,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5`}
     >
       <img
-        src={p.img}
+        src={ratio === "aspect-square" && p.imgSq ? p.imgSq : p.img}
         alt={p.title}
         loading="lazy"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
