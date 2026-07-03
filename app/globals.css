@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ *  Monal Digital — "Bento" minimalist theme
+ *  Clean white canvas, soft rounded bento cards, pastel accent tiles
+ *  (yellow + purple + soft pastels), black pill buttons, calm motion.
+ *  One geometric typeface (Onest) across the whole site.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  --color-ink: #18181b;        /* near-black headings + text           */
+  --color-paper: #ffffff;      /* white canvas                         */
+  --color-mist: #f6f6f7;       /* soft off-white section background     */
+  --color-cloud: #efeff1;      /* light neutral fill                   */
+  --color-line: #eaeaec;       /* hairline borders                     */
+  --color-muted: #71717a;      /* muted body text                      */
+
+  /* Accent system — yellow + purple lead, soft pastels for tiles. */
+  --color-sun: #facc15;        /* signature yellow                     */
+  --color-sun-soft: #fde9a8;   /* pale yellow plate                    */
+  --color-royal: #6c4df6;      /* signature purple                     */
+  --color-violet: #8b7cff;     /* lighter purple                       */
+  --color-deep: #4b32c3;       /* deep purple for depth                */
+
+  /* Pastel tints for portrait / accent card backgrounds. */
+  --color-lav: #ece9fb;
+  --color-mint: #d6f0de;
+  --color-peach: #f8e6d2;
+  --color-pink: #f9d9e6;
+  --color-sky: #d9e6fb;
+
+  /* Onest everywhere. */
+  --font-display: "Onest", system-ui, sans-serif;
+  --font-body: "Onest", system-ui, sans-serif;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+}
+
+/* ----------------------------- utilities --------------------------- */
+
+.font-display { font-family: var(--font-display); font-weight: 400; }
+.font-body { font-family: var(--font-body); }
+.font-heavy { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; }
+
+/* Highlighted heading word — a soft rounded marker behind the text,
+   mirroring the mondly "selected word" look. Two accent flavours. */
+.mark-sun,
+.mark-violet {
+  position: relative;
+  display: inline-block;
+  padding: 0 0.18em;
+  border-radius: 0.28em;
+  white-space: nowrap;
+}
+.mark-sun { background: var(--color-sun); color: var(--color-ink); }
+.mark-violet { background: var(--color-royal); color: #fff; }
+
+/* Pill buttons + bento cards live in the components layer so Tailwind
+   utility colours (e.g. bg-lav, bg-sun) can still override their default
+   surface — utilities outrank the components layer. */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 9999px;
+    padding: 0.95rem 1.6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .btn-dark {
+    background: var(--color-ink);
+    color: #fff;
+    box-shadow: 0 16px 34px -16px rgba(24, 24, 27, 0.6);
+  }
+  .btn-dark:hover {
+    background: var(--color-royal);
+    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.65);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1.5px solid var(--color-line);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-sun {
+    background: var(--color-sun);
+    color: var(--color-ink);
+    box-shadow: 0 16px 34px -16px rgba(250, 204, 21, 0.7);
+  }
+  .btn-sun:hover { transform: translateY(-2px); }
+  .btn-royal {
+    background: var(--color-royal);
+    color: #fff;
+    box-shadow: 0 16px 34px -16px rgba(108, 77, 246, 0.7);
+  }
+  .btn-royal:hover {
+    background: var(--color-violet);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.7);
+  }
+
+  /* Bento card surface — soft, rounded, lifts on hover. */
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 28px;
+    box-shadow: 0 30px 60px -44px rgba(24, 24, 27, 0.28);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.45s ease, border-color 0.45s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 44px 80px -40px rgba(24, 24, 27, 0.32);
+    border-color: rgba(24, 24, 27, 0.16);
+  }
+}
+
+/* Soft section backdrops ------------------------------------------- */
+.bg-dots {
+  background-image: radial-gradient(rgba(24, 24, 27, 0.07) 1.2px, transparent 1.3px);
+  background-size: 24px 24px;
+}
+.bg-dots-light {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.2px, transparent 1.3px);
+  background-size: 24px 24px;
+}
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(24, 24, 27, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 24, 27, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Hairline rule that fades at both ends. */
+.rule-fade {
+  height: 1px; border: 0;
+  background: linear-gradient(90deg, transparent, var(--color-line), transparent);
+}
+.rule-fade-light {
+  height: 1px; border: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* --------------------------- blog prose --------------------------- */
+/* MDX post bodies inherit component-level styling from mdx-styles.tsx;
+   this wrapper only needs to establish rhythm around them. */
+.blog-prose > :first-child { margin-top: 0; }
+
+/* --------------------------- keyframes ----------------------------- */
+
+@keyframes md-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-float { animation: md-float 6s ease-in-out infinite; }
+  .animate-float-slow { animation: md-float 9s ease-in-out infinite; }
+}
+
+@keyframes md-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.8); }
+}
+.animate-pulse-dot { animation: md-pulse-dot 2.4s ease-in-out infinite; }
+
+@keyframes md-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.animate-fade-in { animation: md-fade-in 0.35s ease forwards; }
+
+@keyframes md-spin { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: md-spin 18s linear infinite; }
+
+/* --------------------------- custom cursor ------------------------- */
+
+.has-custom-cursor,
+.has-custom-cursor * { cursor: none !important; }
+
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 12px; height: 12px;
+  background-color: var(--color-ink);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease,
+    background-color 0.2s ease;
+}
+.cursor-dot.is-visible { opacity: 1; }
+.cursor-dot.is-visible.cursor-dot--hover {
+  width: 42px; height: 42px;
+  background-color: var(--color-royal);
+  opacity: 0.35;
+}
+.cursor-dot.cursor-dot--down { width: 9px; height: 9px; }
+/* Brand purple over dark sections so the dot stays visible on black. */
+.cursor-dot.cursor-dot--dark { background-color: var(--color-violet); }
+.cursor-dot.is-visible.cursor-dot--hover.cursor-dot--dark {
+  background-color: var(--color-violet);
+  opacity: 0.5;
+}
+
+/* --------------------------- scrollbar ----------------------------- */
+
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: var(--color-mist); }
+::-webkit-scrollbar-thumb { background: var(--color-ink); border-radius: 9px; }
