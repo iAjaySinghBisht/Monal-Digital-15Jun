@@ -8,14 +8,20 @@ pnpm-debug.log*
 
 # Dependencies
 node_modules
+/.pnp
+.pnp.*
 
-# Puppeteer Chromium cache (downloaded on install)
-.cache
+# Next.js build output
+/.next
+/out
+/build
 
-# Build output
-dist
-dist-ssr
-*.local
+# Next.js / TypeScript generated
+next-env.d.ts
+*.tsbuildinfo
+
+# Vercel
+.vercel
 
 # Editor / OS
 .vscode/*
