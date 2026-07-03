@@ -49,3 +49,20 @@ mdx-components.tsx    MDX component styling map (App Router convention)
 - `app/sitemap.ts` → `/sitemap.xml`, `app/robots.ts` → `/robots.txt`
 - Open Graph + Twitter tags; article tags on blog posts
 - All pages prerendered as static HTML — no client-side-only content for crawlers
+
+## Deployment (Vercel)
+
+The project deploys as a standard Next.js app — use the default settings:
+
+- **Framework Preset:** Next.js
+- **Build Command:** `next build` (default)
+- **Output Directory:** `.next` (default)
+- **Install Command:** `npm install` (default)
+
+Set these environment variables in the Vercel project (they are not committed,
+since `.env` is git-ignored):
+
+- `NEXT_PUBLIC_SITE_URL` — e.g. `https://www.monaldigital.com`
+- `NEXT_PUBLIC_GA_ID` — GA4 measurement ID (optional)
+
+After deploying, resubmit the sitemap (`/sitemap.xml`) in Google Search Console.
