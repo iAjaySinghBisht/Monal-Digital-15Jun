@@ -15,7 +15,7 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
     target="_blank"
     rel="noopener noreferrer"
     data-tilt="4"
-    aria-label={`${m.name} — ${m.role}, on LinkedIn`}
+    aria-label={`${m.name}, ${m.role}, on LinkedIn`}
     className="group card card-hover overflow-hidden p-3 block"
   >
     {/* Portrait on a pastel plate */}
@@ -62,29 +62,31 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
   </a>
 );
 
-const Team = () => {
+const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
   return (
     <section id="team" className="relative bg-paper py-24 md:py-32 border-t border-line">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
-        <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
-          <div data-reveal="up">
-            <Eyebrow dot="bg-royal">The Collective</Eyebrow>
+        {showHeader && (
+          <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
+            <div data-reveal="up">
+              <Eyebrow dot="bg-royal">The Collective</Eyebrow>
+            </div>
+            <h2
+              data-split
+              className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
+            >
+              Meet the <span className="mark-violet">team</span>.
+            </h2>
+            <p
+              data-reveal="up"
+              data-reveal-delay="0.12"
+              className="text-muted max-w-md leading-relaxed"
+            >
+              Artists, storytellers, strategists, and builders shaping the future
+              of children&apos;s entertainment.
+            </p>
           </div>
-          <h2
-            data-split
-            className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
-          >
-            Meet the <span className="mark-violet">team</span>.
-          </h2>
-          <p
-            data-reveal="up"
-            data-reveal-delay="0.12"
-            className="text-muted max-w-md leading-relaxed"
-          >
-            Artists, storytellers, strategists, and builders shaping the future
-            of children&apos;s entertainment.
-          </p>
-        </div>
+        )}
 
         <div data-reveal-group="up" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {team.map((m, i) => (

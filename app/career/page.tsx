@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Join Monal Digital. Opportunities for artists, animators, storytellers, educators and technologists.",
   alternates: { canonical: "/career" },
   openGraph: {
-    title: "Careers — Monal Digital",
+    title: "Careers | Monal Digital",
     description:
       "Join Monal Digital. Opportunities for artists, animators, storytellers, educators and technologists.",
     url: "/career",

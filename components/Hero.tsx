@@ -106,7 +106,7 @@ const Hero = () => {
             data-reveal-delay="0.08"
             className="font-display font-normal text-ink leading-[1.04] tracking-[-0.02em] text-[clamp(2.2rem,6.2vw,4.6rem)] max-w-4xl"
           >
-            Crafting Thoughtful Experiences for <span className="mark-violet">Kids</span>.
+            Crafting Thoughtful Experiences For <span className="mark-violet">Kids</span>.
           </h1>
 
           <p

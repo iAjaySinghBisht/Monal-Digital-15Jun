@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import About from "@/components/About";
+import AboutStory from "@/components/AboutStory";
 import UiAnimations from "@/components/UiAnimations";
 import { Eyebrow, ArrowGlyph } from "@/components/Decor";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Meet Monal Digital — a creative studio building at the intersection of kids' education, entertainment, technology and imagination.",
+    "Meet the team behind Monal Digital, a creative animation studio born in the foothills of the Himalayas, building original IP and content loved by families worldwide.",
   alternates: { canonical: "/about-us" },
   openGraph: {
-    title: "About Us — Monal Digital",
+    title: "About Us | Monal Digital",
     description:
-      "Meet Monal Digital — a creative studio building at the intersection of kids' education, entertainment, technology and imagination.",
+      "Meet the team behind Monal Digital, a creative animation studio born in the foothills of the Himalayas, building original IP and content loved by families worldwide.",
     url: "/about-us",
   },
 };
@@ -60,8 +60,8 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Studio story, stats and what sets us apart */}
-      <About />
+      {/* Studio story, photo bento and stats */}
+      <AboutStory />
 
       <Footer />
     </>

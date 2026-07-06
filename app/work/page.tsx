@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     "Explore Monal Digital's portfolio of animated brands, original IPs and children's content enjoyed by families across the globe.",
   alternates: { canonical: "/work" },
   openGraph: {
-    title: "Our Work — Monal Digital",
+    title: "Our Work | Monal Digital",
     description:
       "Explore Monal Digital's portfolio of animated brands, original IPs and children's content enjoyed by families across the globe.",
     url: "/work",
