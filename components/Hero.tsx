@@ -122,10 +122,10 @@ const Hero = () => {
             data-reveal-delay="0.24"
             className="mt-9 md:mt-11 flex flex-wrap items-center justify-center gap-3"
           >
-            <Pill as={Link} href="/#work" variant="dark">
+            <Pill as={Link} href="/work" variant="dark">
               View our work
             </Pill>
-            <Pill as={Link} href="/#services" variant="outline" withArrow={false}>
+            <Pill as={Link} href="/services" variant="outline" withArrow={false}>
               Explore services
             </Pill>
           </div>

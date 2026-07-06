@@ -94,8 +94,8 @@ const Footer = () => {
                   Explore
                 </div>
                 <ul className="space-y-3.5 text-base">
-                  <FooterLink href="/#work">Portfolio</FooterLink>
-                  <FooterLink href="/#services">Solutions</FooterLink>
+                  <FooterLink href="/work">Portfolio</FooterLink>
+                  <FooterLink href="/services">Solutions</FooterLink>
                   <FooterLink href="/team">Team</FooterLink>
                   <FooterLink href="/blog">Blog</FooterLink>
                 </ul>

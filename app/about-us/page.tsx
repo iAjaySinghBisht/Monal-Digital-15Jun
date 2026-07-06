@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import About from "@/components/About";
 import UiAnimations from "@/components/UiAnimations";
 import { Eyebrow, ArrowGlyph } from "@/components/Decor";
 
@@ -59,12 +60,8 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Placeholder body — to be detailed later */}
-      <section className="relative bg-paper py-16 md:py-24">
-        <div className="max-w-325 mx-auto px-6 md:px-12 text-center text-muted">
-          More about our story is coming soon.
-        </div>
-      </section>
+      {/* Studio story, stats and what sets us apart */}
+      <About />
 
       <Footer />
     </>

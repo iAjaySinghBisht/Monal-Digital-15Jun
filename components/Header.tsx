@@ -8,11 +8,11 @@ import { prefersReducedMotion } from "@/hooks/useUiAnimations";
 import { Pill, ArrowGlyph } from "./Decor";
 
 const NAV: [string, string][] = [
-  ["Home", "/#home"],
-  ["About", "/#about"],
-  ["Portfolio", "/#work"],
-  ["Solutions", "/#services"],
-  ["Team", "/#team"],
+  ["Home", "/"],
+  ["About", "/about-us"],
+  ["Portfolio", "/work"],
+  ["Solutions", "/services"],
+  ["Team", "/team"],
   ["Blog", "/blog"],
   ["Careers", "/career"],
 ];
@@ -84,7 +84,7 @@ const Header = () => {
         }`}
       >
         {/* Logo */}
-        <Link href="/#home" data-header-item className="flex items-center gap-2.5 shrink-0">
+        <Link href="/" data-header-item className="flex items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/monal-logo.png"

@@ -31,7 +31,7 @@ export default function WorkPage() {
 
         <div className="absolute top-28 md:top-32 left-6 md:left-12 z-10">
           <Link
-            href="/#work"
+            href="/"
             className="group inline-flex items-center gap-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-white/60 hover:text-white transition-colors"
           >
             <ArrowGlyph className="w-3.5 h-3.5 rotate-180 transition-transform group-hover:-translate-x-1" />
