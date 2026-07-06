@@ -96,7 +96,7 @@ const About = () => {
               Original IPs kids fall for
             </h3>
             <p className="mt-2 text-muted text-sm max-w-[15rem]">
-              Characters and worlds built to last — and to be loved by millions.
+              Characters and worlds built to last, and to be loved by millions.
             </p>
 
             <div className="relative mt-auto h-44">

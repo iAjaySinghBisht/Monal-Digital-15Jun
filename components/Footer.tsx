@@ -52,7 +52,7 @@ const Footer = () => {
                 Join the studios building what&apos;s next
               </h2>
               <p className="mt-4 text-white/55 leading-relaxed max-w-sm">
-                Whether it&apos;s a new series, a channel, or an original IP —
+                Whether it&apos;s a new series, a channel, or an original IP,
                 let&apos;s build it together.
               </p>
             </div>
@@ -94,8 +94,8 @@ const Footer = () => {
                   Explore
                 </div>
                 <ul className="space-y-3.5 text-base">
-                  <FooterLink href="/#work">Portfolio</FooterLink>
-                  <FooterLink href="/#services">Solutions</FooterLink>
+                  <FooterLink href="/work">Portfolio</FooterLink>
+                  <FooterLink href="/services">Solutions</FooterLink>
                   <FooterLink href="/team">Team</FooterLink>
                   <FooterLink href="/blog">Blog</FooterLink>
                 </ul>

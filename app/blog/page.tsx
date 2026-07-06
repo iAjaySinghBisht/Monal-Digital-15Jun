@@ -9,14 +9,14 @@ import { getPosts, getCategories } from "@/lib/posts";
 import { SITE_NAME } from "@/lib/site";
 
 const DESCRIPTION =
-  "Notes from the Monal Digital studio — original IP, animation craft, and what keeps young audiences watching.";
+  "Notes from the Monal Digital studio on original IP, animation craft, and what keeps young audiences watching.";
 
 export const metadata: Metadata = {
-  title: "Blog — Stories, craft & studio notes",
+  title: "Blog: Stories, craft & studio notes",
   description: DESCRIPTION,
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: `Blog — Stories, craft & studio notes | ${SITE_NAME}`,
+    title: `Blog: Stories, craft & studio notes | ${SITE_NAME}`,
     description: DESCRIPTION,
     url: "/blog",
     images: ["/blog/covers/animation-pipeline.webp"],
@@ -58,7 +58,7 @@ export default function BlogPage() {
             data-reveal="up"
             className="font-display text-[clamp(2.8rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.04em]"
           >
-            The blog.
+            The Blog.
           </h1>
           <p
             data-reveal="up"

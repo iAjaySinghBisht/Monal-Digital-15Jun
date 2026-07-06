@@ -32,7 +32,7 @@ export async function generateMetadata({
     description: service.desc,
     alternates: { canonical: url },
     openGraph: {
-      title: `${service.title} — Monal Digital`,
+      title: `${service.title} | Monal Digital`,
       description: service.desc,
       url,
     },

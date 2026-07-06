@@ -7,12 +7,12 @@ import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 const DEFAULT_DESCRIPTION =
-  "Monal Digital — a premium animation studio crafting cinematic stories, original IPs and next-gen visual experiences for kids worldwide.";
+  "Monal Digital is a premium animation studio crafting cinematic stories, original IPs and next-gen visual experiences for kids worldwide.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Monal Digital — Creative Animation Studio",
+    default: "Monal Digital | Creative Animation Studio",
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
-    title: "Monal Digital — Creative Animation Studio",
+    title: "Monal Digital | Creative Animation Studio",
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
   },
   twitter: {
     card: "summary",
-    title: "Monal Digital — Creative Animation Studio",
+    title: "Monal Digital | Creative Animation Studio",
     description: DEFAULT_DESCRIPTION,
   },
 };

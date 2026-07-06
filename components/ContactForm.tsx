@@ -195,7 +195,7 @@ export default function ContactForm() {
                     </svg>
                   </span>
                   <h2 className="font-display text-ink text-3xl leading-tight">
-                    Thanks — we&apos;ll be in touch.
+                    Thanks, we&apos;ll be in touch.
                   </h2>
                   <p className="text-muted leading-relaxed">
                     Your message has reached our team. We usually reply within a

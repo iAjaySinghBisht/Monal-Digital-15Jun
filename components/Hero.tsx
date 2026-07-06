@@ -106,7 +106,7 @@ const Hero = () => {
             data-reveal-delay="0.08"
             className="font-display font-normal text-ink leading-[1.04] tracking-[-0.02em] text-[clamp(2.2rem,6.2vw,4.6rem)] max-w-4xl"
           >
-            Crafting Thoughtful Experiences for <span className="mark-violet">Kids</span>.
+            Crafting Thoughtful Experiences For <span className="mark-violet">Kids</span>.
           </h1>
 
           <p
@@ -122,10 +122,10 @@ const Hero = () => {
             data-reveal-delay="0.24"
             className="mt-9 md:mt-11 flex flex-wrap items-center justify-center gap-3"
           >
-            <Pill as={Link} href="/#work" variant="dark">
+            <Pill as={Link} href="/work" variant="dark">
               View our work
             </Pill>
-            <Pill as={Link} href="/#services" variant="outline" withArrow={false}>
+            <Pill as={Link} href="/services" variant="outline" withArrow={false}>
               Explore services
             </Pill>
           </div>

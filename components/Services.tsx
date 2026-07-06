@@ -30,30 +30,38 @@ const VentureCard = ({
   </div>
 );
 
-const Services = () => {
+const Services = ({
+  showPartners = true,
+  showHeader = true,
+}: {
+  showPartners?: boolean;
+  showHeader?: boolean;
+}) => {
   return (
     <section id="services" className="relative bg-mist py-24 md:py-32 border-t border-line">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
-        <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
-          <div data-reveal="up">
-            <Eyebrow dot="bg-royal">Services</Eyebrow>
+        {showHeader && (
+          <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
+            <div data-reveal="up">
+              <Eyebrow dot="bg-royal">Services</Eyebrow>
+            </div>
+            <h2
+              data-split
+              className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
+            >
+              What we <span className="mark-violet">build</span>.
+            </h2>
+            <p
+              data-reveal="up"
+              data-reveal-delay="0.12"
+              className="text-muted max-w-md leading-relaxed"
+            >
+              Six ventures, one purpose: meaningful experiences that help children
+              learn, imagine, and grow.
+            </p>
           </div>
-          <h2
-            data-split
-            className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
-          >
-            What we <span className="mark-violet">build</span>.
-          </h2>
-          <p
-            data-reveal="up"
-            data-reveal-delay="0.12"
-            className="text-muted max-w-md leading-relaxed"
-          >
-            Six ventures, one purpose — meaningful experiences that help children
-            learn, imagine, and grow.
-          </p>
-        </div>
+        )}
 
         {/* Venture cards */}
         <div data-reveal-group="up" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
@@ -68,6 +76,7 @@ const Services = () => {
         </div>
 
         {/* Partners */}
+        {showPartners && (
         <div className="mt-24 md:mt-32 pt-16 md:pt-20 border-t border-line">
           <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
             <div data-reveal="up">
@@ -101,6 +110,7 @@ const Services = () => {
             ))}
           </div>
         </div>
+        )}
       </div>
     </section>
   );

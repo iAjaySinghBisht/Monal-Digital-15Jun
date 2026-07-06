@@ -2,24 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AboutStory from "@/components/AboutStory";
+import Services from "@/components/Services";
 import UiAnimations from "@/components/UiAnimations";
 import { Eyebrow, ArrowGlyph } from "@/components/Decor";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: "Services",
   description:
-    "Meet the team behind Monal Digital, a creative animation studio born in the foothills of the Himalayas, building original IP and content loved by families worldwide.",
-  alternates: { canonical: "/about-us" },
+    "End-to-end animation services from Monal Digital, covering pre-production, production, and distribution & growth.",
+  alternates: { canonical: "/services" },
   openGraph: {
-    title: "About Us | Monal Digital",
+    title: "Services | Monal Digital",
     description:
-      "Meet the team behind Monal Digital, a creative animation studio born in the foothills of the Himalayas, building original IP and content loved by families worldwide.",
-    url: "/about-us",
+      "End-to-end animation services from Monal Digital, covering pre-production, production, and distribution & growth.",
+    url: "/services",
   },
 };
 
-export default function AboutUsPage() {
+export default function ServicesPage() {
   return (
     <>
       <UiAnimations />
@@ -41,27 +41,27 @@ export default function AboutUsPage() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="bg-violet">About us</Eyebrow>
+            <Eyebrow tone="dark" dot="bg-violet">Services</Eyebrow>
           </div>
           <h1
             data-split
             className="font-display text-[clamp(2.8rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.04em]"
           >
-            About Us.
+            What We Build.
           </h1>
           <p
             data-reveal="up"
             data-reveal-delay="0.12"
             className="mt-7 text-white/60 text-lg leading-relaxed max-w-xl mx-auto"
           >
-            A creative studio crafting animation, original IPs and the
-            children&apos;s brands families watch around the world.
+            Six ventures, one purpose: meaningful experiences that help children
+            learn, imagine, and grow.
           </p>
         </div>
       </section>
 
-      {/* Studio story, photo bento and stats */}
-      <AboutStory />
+      {/* Ventures (header lives in the hero above) */}
+      <Services showPartners={false} showHeader={false} />
 
       <Footer />
     </>

@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/career",
     "/team",
     "/work",
+    "/services",
     "/blog",
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
