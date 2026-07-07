@@ -27,15 +27,15 @@ export type TeamMember = {
 export const brands: Brand[] = [
   {
     name: "Lunar-X",
-    logo: "https://lunar-x.com/images/logo/lunar-x.png",
+    logo: "/assets/brands/lunar-x.png",
   },
   {
     name: "Adruto",
-    logo: "https://static.wixstatic.com/media/2d3abb_30370966b975496da23f0022befbb3c4~mv2.png/v1/fill/w_201,h_64,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/adruto%20logo%20(2).png",
+    logo: "/assets/brands/adruto.png",
   },
   {
     name: "The Boldeye",
-    logo: "https://theboldeye.com/cdn/shop/files/Logo-01_05431799-1466-4a4c-b629-711baef09aab_410x.png?v=1734161385",
+    logo: "/assets/brands/the-boldeye.png",
   },
 ];
 
