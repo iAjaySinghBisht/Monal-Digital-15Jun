@@ -1,26 +1,25 @@
 import Link from "next/link";
 import { Eyebrow, Pill } from "./Decor";
 
-/* Real partner testimonials. Replace the placeholder quote and contact
-   fields below with authentic statements as they come in. */
+/* Partner testimonials. */
 const TESTIMONIALS = [
   {
-    name: "Rohan Mehta",
-    role: "Lunar X",
+    name: "Lucas Kollmann",
+    role: "Lunar-X",
     quote:
-      "Monal turned our rough concept into a fully realised animated world. Their team handled everything from character design to final render, and the quality genuinely raised the bar for our channel.",
+      "Monal Digital has done a fantastic job on Lunar Kids. They took the series from rough concept to polished episodes at a scale we simply couldn't reach on our own, and the animation quality lifted the whole channel. Watch time and subscriber growth have climbed steadily ever since.",
   },
   {
-    name: "Priya Nair",
-    role: "Shemaroo",
+    name: "Mohit Pachwari",
+    role: "Adruto",
     quote:
-      "Working with Monal felt like having an in-house creative team. They understood our audience, delivered consistently on schedule, and the engagement on every release has been outstanding.",
+      "What impressed us most was the reliability. Monal handled scripting, animation, and delivery end to end, always on schedule and always on brief. They understood our young audience better than we did, and the engagement on every release proves it.",
   },
   {
-    name: "Arjun Sharma",
-    role: "FreeBird",
+    name: "Mayank Pachwari",
+    role: "The Boldeye",
     quote:
-      "From scripting to distribution, Monal made the whole process effortless. Our views and subscribers grew faster than we expected, and the storytelling kept kids coming back for more.",
+      "Monal didn't just produce content for us, they helped shape original characters and stories our viewers genuinely love. Their instinct for what keeps kids watching is rare, and partnering with them has been one of the best decisions we've made.",
   },
 ];
 
@@ -55,13 +54,13 @@ const Testimonials = () => {
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-sun">Testimonials</Eyebrow>
+            <Eyebrow dot="bg-royal">Testimonials</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
           >
-            Loved by <span className="mark-sun">partners</span>.
+            Loved by <span className="mark-violet">partners</span>.
           </h2>
           <p
             data-reveal="up"

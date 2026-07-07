@@ -61,6 +61,7 @@ export const projects: Project[] = [
   {
     title: "Groovy The Martian",
     img: "/assets/projects/groovy-the-martian.webp",
+    imgSq: "/assets/projects/groovy-the-martian-sq.webp",
   },
   {
     title: "Gigglebellies",
