@@ -2,36 +2,23 @@ import Link from "next/link";
 import { projects, type Project } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
 
-/* Six cards mixing 3:4 portraits and 1:1 squares for an editorial rhythm.
-   Each desktop column pairs one portrait with one square (alternating which
-   sits on top), so column heights stay balanced while the silhouette zigzags. */
-const items = [
-  { p: projects[0], ratio: "aspect-3/4" },
-  { p: projects[1], ratio: "aspect-square" },
-  { p: projects[2], ratio: "aspect-square" },
-  { p: projects[3], ratio: "aspect-3/4" },
-  { p: projects[4], ratio: "aspect-3/4" },
-  { p: projects[5], ratio: "aspect-square" },
-];
-
-/* Desktop columns + gentle upward arc (edges nudged down). */
+/* Three columns, each pairing two posters, with a gentle staggered arc.
+   Cards take each image's natural aspect ratio so nothing is ever cropped. */
 const COLS = [
-  { mt: "lg:mt-12", cards: [items[0], items[1]] },
-  { mt: "lg:mt-0", cards: [items[2], items[3]] },
-  { mt: "lg:mt-12", cards: [items[4], items[5]] },
+  { mt: "lg:mt-12", cards: [projects[0], projects[1]] },
+  { mt: "lg:mt-0", cards: [projects[2], projects[3]] },
+  { mt: "lg:mt-12", cards: [projects[4], projects[5]] },
 ];
 
-const Tile = ({ p, ratio }: { p: Project; ratio: string }) => (
+const Tile = ({ p }: { p: Project }) => (
   <Link href="/work" data-tilt="5" className="group relative block">
-    <div
-      className={`relative ${ratio} w-full rounded-2xl overflow-hidden border border-line bg-cloud shadow-[0_30px_60px_-46px_rgba(24,24,27,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5`}
-    >
+    <div className="relative aspect-1587/2245 w-full rounded-2xl overflow-hidden border border-line bg-cloud shadow-[0_30px_60px_-46px_rgba(24,24,27,0.45)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={ratio === "aspect-square" && p.imgSq ? p.imgSq : p.img}
+        src={p.img}
         alt={p.title}
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       <div className="absolute inset-x-0 bottom-0 p-4 flex items-end justify-between gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
@@ -78,24 +65,24 @@ const ContentLibrary = () => {
           </p>
         </div>
 
-        {/* Desktop — three balanced columns of mixed 3:4 / 1:1 cards */}
+        {/* Desktop — three columns of posters at their natural ratio */}
         <div
           data-reveal-group="up"
           className="hidden lg:flex justify-center items-start gap-5 xl:gap-6"
         >
           {COLS.map((col, ci) => (
             <div key={ci} className={`flex-1 max-w-64 flex flex-col gap-5 xl:gap-6 ${col.mt}`}>
-              {col.cards.map((c, ii) => (
-                <Tile key={ii} p={c.p} ratio={c.ratio} />
+              {col.cards.map((p, ii) => (
+                <Tile key={ii} p={p} />
               ))}
             </div>
           ))}
         </div>
 
-        {/* Mobile / tablet — uniform 1:1 thumbnails in a two-column grid */}
-        <div data-reveal-group="up" className="lg:hidden grid grid-cols-2 gap-4">
-          {items.map((c, i) => (
-            <Tile key={i} p={c.p} ratio="aspect-square" />
+        {/* Mobile / tablet — two-column grid at natural ratio */}
+        <div data-reveal-group="up" className="lg:hidden grid grid-cols-2 items-start gap-4">
+          {projects.map((p, i) => (
+            <Tile key={i} p={p} />
           ))}
         </div>
 

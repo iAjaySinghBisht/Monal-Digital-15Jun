@@ -7,6 +7,27 @@ const STATS = [
   { n: "100", suffix: "+", label: "Channels & Projects Managed" },
 ];
 
+const FEATURES = [
+  {
+    title: "Original IP Development",
+    desc: "Creating characters, stories, and worlds designed for long-term growth.",
+  },
+  {
+    title: "End-to-End Production",
+    desc: "From concept art and scripting to animation, publishing, and distribution.",
+  },
+  {
+    title: "Audience-First Strategy",
+    desc: "Creative decisions backed by data, analytics, and real audience behaviour.",
+  },
+];
+
+const CheckIcon = ({ className }: { className?: string }) => (
+  <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
 /* Small caption pinned to the bottom of an image tile. */
 const Caption = ({ children }: { children: React.ReactNode }) => (
   <>
@@ -128,6 +149,60 @@ const AboutStory = () => {
               <span className="text-sun">learn, imagine, and grow</span>, with
               stories worth watching again and again.
             </p>
+          </article>
+        </div>
+
+        {/* What sets us apart + Original IP */}
+        <div
+          data-reveal-group="up"
+          className="mt-4 md:mt-5 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5"
+        >
+          {/* What sets us apart (wide) */}
+          <article className="lg:col-span-7 card bg-mist border-transparent p-7 md:p-9 flex flex-col justify-center">
+            <h3 className="font-display text-ink text-2xl md:text-[1.7rem] leading-tight mb-6">
+              What sets us apart
+            </h3>
+            <ul className="space-y-3">
+              {FEATURES.map((f) => (
+                <li
+                  key={f.title}
+                  className="group/item flex items-start gap-4 rounded-2xl bg-paper border border-line px-4 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-royal/30 hover:shadow-[0_18px_40px_-30px_rgba(24,24,27,0.5)]"
+                >
+                  <span className="grid place-items-center w-9 h-9 rounded-xl bg-mint text-ink shrink-0 transition-colors duration-300 group-hover/item:bg-royal group-hover/item:text-white">
+                    <CheckIcon className="w-4 h-4" />
+                  </span>
+                  <p className="leading-snug">
+                    <span className="font-semibold text-ink">{f.title}</span>{" "}
+                    <span className="text-muted">{f.desc}</span>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          {/* Original IPs kids fall for (narrow) */}
+          <article className="group lg:col-span-5 card card-hover bg-mist border-transparent p-7 md:p-9 relative overflow-hidden flex flex-col min-h-80">
+            <h3 className="font-display text-ink text-2xl md:text-[1.9rem] leading-tight max-w-56">
+              Original IPs kids fall for
+            </h3>
+            <p className="mt-2 text-muted text-sm max-w-60">
+              Characters and worlds built to last, and to be loved by millions.
+            </p>
+
+            <div className="relative mt-auto h-44">
+              <div className="absolute right-3 bottom-0 w-44 h-40 rounded-3xl bg-lav" />
+              <span className="absolute left-0 bottom-8 -rotate-6 rounded-2xl bg-sun text-ink font-display text-sm px-4 py-3 leading-none shadow-[0_14px_30px_-12px_rgba(250,204,21,0.9)] z-10">
+                Original<br />IP
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/pearl.png"
+                alt="Monal original character"
+                loading="lazy"
+                draggable="false"
+                className="absolute right-2 -bottom-2 h-60 w-auto max-w-none object-contain z-20 drop-shadow-[0_30px_40px_rgba(24,24,27,0.32)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.04]"
+              />
+            </div>
           </article>
         </div>
 
