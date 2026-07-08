@@ -41,12 +41,12 @@ const Hero = () => {
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-black/35 pointer-events-none" />
         <div className="absolute inset-0 bg-linear-to-r from-black/40 to-transparent pointer-events-none" />
 
-        {/* Mute / unmute (top-right — offset down on mobile to clear the nav) */}
+        {/* Mute / unmute (bottom-right — clear of the fixed nav so it stays clickable) */}
         <button
           type="button"
           onClick={toggleMute}
           aria-label={isMuted ? "Unmute video" : "Mute video"}
-          className="absolute top-20 right-5 md:top-7 md:right-7 z-20 flex items-center justify-center w-11 h-11 rounded-full bg-white/15 border border-white/25 backdrop-blur-md text-white hover:bg-white hover:text-ink transition-colors"
+          className="absolute bottom-7 right-5 md:bottom-11 md:right-7 z-20 flex items-center justify-center w-11 h-11 rounded-full bg-white/15 border border-white/25 backdrop-blur-md text-white hover:bg-white hover:text-ink transition-colors"
         >
           {isMuted ? (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

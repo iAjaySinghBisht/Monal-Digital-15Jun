@@ -22,6 +22,8 @@ export type TeamMember = {
   bio: string;
   img: string;
   linkedin: string;
+  /* Optional per-photo framing (zoom / reposition) for the square card. */
+  imgStyle?: { transform?: string; objectPosition?: string };
 };
 
 export const brands: Brand[] = [
@@ -270,5 +272,35 @@ export const team: TeamMember[] = [
     bio: "Ensuring projects, teams, and partnerships scale efficiently.",
     img: "/assets/team/akshay-kumar-singh.webp",
     linkedin: "https://www.linkedin.com/in/akshay-singh-70283b24b",
+  },
+  {
+    name: "Kavindra Kaphaliya",
+    role: "Senior Animator",
+    bio: "Bringing characters to life with expressive, detail-rich animation.",
+    img: "/assets/team/kavindra-kaphaliya.webp",
+    linkedin: "https://www.linkedin.com/in/kavindra-kafaliya-49a767167",
+  },
+  {
+    name: "Pratistha Saraf",
+    role: "Digital Marketing Executive",
+    bio: "Growing our audience and brand presence across every channel.",
+    img: "/assets/team/pratistha-saraf.webp",
+    linkedin: "https://www.linkedin.com/in/pratisthasaraf26",
+  },
+  {
+    name: "Khushi Rathore",
+    role: "Human Resources",
+    bio: "Building a happy, thriving team and a great place to create.",
+    img: "/assets/team/khushi-rathore.webp",
+    imgStyle: { objectPosition: "center 35%" },
+    linkedin: "https://www.linkedin.com/in/khushi-rathor-888838215",
+  },
+  {
+    name: "Kunal Mali",
+    role: "Software Developer",
+    bio: "Engineering the platforms and tools that power the studio.",
+    img: "/assets/team/kunal-mali.webp",
+    imgStyle: { objectPosition: "center 25%" },
+    linkedin: "https://www.linkedin.com/in/kunal-mali2",
   },
 ];
