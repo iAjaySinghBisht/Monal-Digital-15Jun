@@ -18,15 +18,28 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
     aria-label={`${m.name}, ${m.role}, on LinkedIn`}
     className="group card card-hover overflow-hidden p-3 block"
   >
-    {/* Portrait on a pastel plate */}
+    {/* Portrait on a pastel plate (initials fallback when no photo yet) */}
     <div className={`relative overflow-hidden rounded-[20px] aspect-square ${pastel}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={m.img}
-        alt={m.name}
-        loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-      />
+      {m.img ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={m.img}
+          alt={m.name}
+          loading="lazy"
+          style={m.imgStyle}
+          className={`absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out ${
+            m.imgStyle?.transform ? "" : "group-hover:scale-[1.06]"
+          }`}
+        />
+      ) : (
+        <span className="absolute inset-0 grid place-items-center font-display text-ink/70 text-[3.2rem] leading-none transition-transform duration-700 ease-out group-hover:scale-[1.06]">
+          {m.name
+            .split(" ")
+            .map((w) => w[0])
+            .slice(0, 2)
+            .join("")}
+        </span>
+      )}
     </div>
 
     {/* Info */}
