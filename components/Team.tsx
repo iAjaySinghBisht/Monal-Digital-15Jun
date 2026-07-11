@@ -26,10 +26,15 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
           src={m.img}
           alt={m.name}
           loading="lazy"
-          style={m.imgStyle}
-          className={`absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out ${
-            m.imgStyle?.transform ? "" : "group-hover:scale-[1.06]"
-          }`}
+          /* Base zoom rides on a CSS var so the hover zoom can multiply it
+             instead of being overridden by an inline transform. */
+          style={
+            {
+              objectPosition: m.imgStyle?.objectPosition,
+              "--zoom": m.imgStyle?.zoom ?? 1,
+            } as React.CSSProperties
+          }
+          className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out scale-[var(--zoom)] group-hover:scale-[calc(var(--zoom)*1.06)]"
         />
       ) : (
         <span className="absolute inset-0 grid place-items-center font-display text-ink/70 text-[3.2rem] leading-none transition-transform duration-700 ease-out group-hover:scale-[1.06]">

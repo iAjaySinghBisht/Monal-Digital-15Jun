@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Services from "@/components/Services";
 import UiAnimations from "@/components/UiAnimations";
-import { Eyebrow, ArrowGlyph } from "@/components/Decor";
+import { Eyebrow, ArrowGlyph, ArrowUpRight } from "@/components/Decor";
+import { services } from "@/data/constants";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     url: "/services",
   },
 };
+
+/* Stable display order, matching the service detail pages. */
+const ORDER = ["pre", "production", "distribution"] as const;
 
 export default function ServicesPage() {
   return (
@@ -41,27 +44,72 @@ export default function ServicesPage() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="bg-violet">Services</Eyebrow>
+            <Eyebrow tone="dark" dot="bg-violet">What we do</Eyebrow>
           </div>
           <h1
             data-split
             className="font-display text-[clamp(2.8rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.04em]"
           >
-            What We Build.
+            Services.
           </h1>
           <p
             data-reveal="up"
             data-reveal-delay="0.12"
             className="mt-7 text-white/60 text-lg leading-relaxed max-w-xl mx-auto"
           >
-            Six ventures, one purpose: meaningful experiences that help children
-            learn, imagine, and grow.
+            Three stages, one studio. Every frame is imagined, animated, and
+            carried to its audience without ever leaving our hands.
           </p>
         </div>
       </section>
 
-      {/* Ventures (header lives in the hero above) */}
-      <Services showPartners={false} showHeader={false} />
+      {/* Service cards */}
+      <section className="relative bg-paper py-20 md:py-28">
+        <div className="max-w-325 mx-auto px-6 md:px-12">
+          <div
+            data-reveal-group="up"
+            className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch"
+          >
+            {ORDER.map((key) => {
+              const s = services[key];
+              return (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  data-tilt="4"
+                  className="group card card-hover flex flex-col h-full p-8 md:p-10"
+                >
+                  {/* Number + stage label share one baseline row */}
+                  <div className="flex items-center gap-4">
+                    <span className="grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink bg-lav shrink-0 transition-colors duration-300 group-hover:bg-royal group-hover:text-white">
+                      {s.number}
+                    </span>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+                      {s.eyebrow}
+                    </span>
+                  </div>
+
+                  {/* Title block — fixed height so taglines line up across cards */}
+                  <div className="mt-8 md:min-h-28">
+                    <h2 className="font-display text-ink text-2xl md:text-[1.7rem] leading-tight text-balance">
+                      {s.title}
+                    </h2>
+                    <p className="mt-2 text-royal font-medium">{s.tagline}</p>
+                  </div>
+
+                  <p className="mt-5 text-muted leading-relaxed">{s.desc}</p>
+
+                  {/* Pinned to the bottom edge, so it aligns on every card */}
+                  <span className="mt-auto pt-8 inline-flex items-center gap-2 text-sm font-semibold text-ink">
+                    Explore
+                    <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </>

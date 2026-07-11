@@ -1,5 +1,3 @@
-import { Eyebrow } from "./Decor";
-
 const STATS = [
   { n: "10", suffix: "+", label: "Years of Creative Excellence" },
   { n: "100", suffix: "M+", label: "Subscribers Across Our Network" },
@@ -45,31 +43,46 @@ const AboutStory = () => {
   return (
     <section className="relative bg-paper py-20 md:py-28 border-t border-line">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
-        {/* Intro — studio story */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end mb-14 md:mb-20">
-          <div className="lg:col-span-7">
-            <div data-reveal="up" className="mb-6">
-              <Eyebrow dot="bg-royal">Who We Are</Eyebrow>
-            </div>
+        {/* Intro — studio story, as bento cards */}
+        <div
+          data-reveal-group="up"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5 mb-14 md:mb-20"
+        >
+          {/* Statement card */}
+          <article
+            data-tilt="3"
+            className="group card card-hover bg-royal border-transparent lg:col-span-7 p-8 md:p-11 flex flex-col justify-center"
+          >
             <h2
               data-split
-              className="font-display text-ink text-[clamp(2rem,5.5vw,4.2rem)] leading-[1.02]"
+              className="font-display text-white text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05] text-balance"
             >
-              Where characters become <span className="mark-violet">childhood</span>.
+              Where characters become <span className="text-sun">childhood</span>.
             </h2>
-          </div>
-          <div className="lg:col-span-5 space-y-5">
-            <p data-reveal="up" className="text-ink text-lg leading-relaxed font-medium">
+            <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-xl">
               Monal Digital is a creative animation studio building original
               characters, stories, and worlds for children everywhere.
             </p>
-            <p data-reveal="up" data-reveal-delay="0.1" className="text-muted leading-relaxed">
+          </article>
+
+          {/* Supporting card */}
+          <article
+            data-tilt="3"
+            className="group card card-hover bg-mist border-transparent lg:col-span-5 p-8 md:p-11 flex flex-col justify-center"
+          >
+            <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
+              A decade in
+            </span>
+            <p className="text-ink text-xl md:text-[1.5rem] leading-snug font-display">
+              Craft, scaled by technology.
+            </p>
+            <p className="mt-4 text-muted leading-relaxed">
               For over a decade we&apos;ve produced kids&apos; entertainment that
               reaches audiences at global scale, pairing storytelling craft with
               technology, data, and a real understanding of how young viewers
               watch, learn, and grow.
             </p>
-          </div>
+          </article>
         </div>
 
         {/* Bento — three studio photos woven with story cards */}

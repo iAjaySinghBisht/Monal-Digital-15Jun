@@ -40,15 +40,16 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Hide the navbar once the contact section scrolls into view. */
+  /* Hide the navbar only once the giant footer logo is well into view, so it
+     stays put through the contact section and the top of the footer. */
   useEffect(() => {
-    const contact = document.getElementById("contact");
-    if (!contact) return;
+    const footerLogo = document.getElementById("footer-logo");
+    if (!footerLogo) return;
     const io = new IntersectionObserver(
-      ([entry]) => setAtFooter(entry.isIntersecting),
-      { rootMargin: "0px 0px -35% 0px" },
+      ([entry]) => setAtFooter(entry.intersectionRatio >= 0.6),
+      { threshold: [0, 0.6] },
     );
-    io.observe(contact);
+    io.observe(footerLogo);
     return () => io.disconnect();
   }, []);
 
@@ -70,14 +71,14 @@ const Header = () => {
   return (
     <header
       ref={rootRef}
-      className={`fixed top-0 left-0 w-full z-100 px-4 pt-4 md:pt-5 transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 w-full z-100 px-4 pt-6 md:pt-9 transition-all duration-500 ease-out ${
         atFooter
           ? "-translate-y-full opacity-0 pointer-events-none"
           : "translate-y-0 opacity-100"
       }`}
     >
       <div
-        className={`max-w-300 mx-auto flex justify-between items-center gap-4 rounded-full border bg-paper pl-5 pr-2.5 py-2.5 transition-all duration-500 ${
+        className={`max-w-300 mx-auto flex justify-between items-center gap-4 rounded-full border bg-paper pl-4 pr-2 py-1.5 transition-all duration-500 ${
           isScrolled
             ? "border-line shadow-[0_22px_55px_-30px_rgba(24,24,27,0.4)]"
             : "border-transparent shadow-[0_14px_40px_-32px_rgba(24,24,27,0.28)]"
@@ -94,7 +95,7 @@ const Header = () => {
             loading="eager"
             fetchPriority="high"
             decoding="async"
-            className="h-7 md:h-8 w-auto"
+            className="h-6 md:h-7 w-auto"
           />
         </Link>
 

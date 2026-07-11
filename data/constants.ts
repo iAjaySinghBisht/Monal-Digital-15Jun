@@ -1,7 +1,8 @@
 // Static site data. Image assets live under /public/assets and are referenced
 // by absolute URL path (URL-safe, lowercase-kebab filenames).
 
-export type Brand = { name: string; logo: string };
+/* `color` keeps the logo in its own colours; others render as black marks. */
+export type Brand = { name: string; logo: string; color?: boolean };
 export type Project = { title: string; img: string; imgSq?: string };
 export type ServiceDetailItem = { name: string; desc: string };
 export type Service = {
@@ -22,8 +23,9 @@ export type TeamMember = {
   bio: string;
   img: string;
   linkedin: string;
-  /* Optional per-photo framing (zoom / reposition) for the square card. */
-  imgStyle?: { transform?: string; objectPosition?: string };
+  /* Optional per-photo framing for the square card. `zoom` is a plain scale
+     factor so the card's hover zoom can multiply it. */
+  imgStyle?: { zoom?: number; objectPosition?: string };
 };
 
 export const brands: Brand[] = [
@@ -38,6 +40,16 @@ export const brands: Brand[] = [
   {
     name: "The Boldeye",
     logo: "/assets/brands/the-boldeye.png",
+  },
+  {
+    name: "Vaibhav Studios",
+    logo: "/assets/brands/vaibhav-studios.png",
+    color: true,
+  },
+  {
+    name: "Freebird Animation Studios",
+    logo: "/assets/brands/freebird-animation.png",
+    color: true,
   },
 ];
 
@@ -88,7 +100,6 @@ export const services: Record<string, Service> = {
       "Animatic Production",
       "Character Design",
       "Environment & Prop Design",
-      "Voice Casting & Recording",
     ],
     detail: [
       {
@@ -114,10 +125,6 @@ export const services: Record<string, Service> = {
       {
         name: "Environment & Prop Design",
         desc: "From sweeping locations to the smallest hand-held object, we design every background and prop the characters touch, keeping style, scale, and detail consistent across the entire world.",
-      },
-      {
-        name: "Voice Casting & Recording",
-        desc: "We find the right voices and direct talent through recording sessions, capturing performance-driven dialogue early so animation can be timed perfectly to the actors' delivery.",
       },
     ],
   },
@@ -292,7 +299,7 @@ export const team: TeamMember[] = [
     role: "Human Resources",
     bio: "Building a happy, thriving team and a great place to create.",
     img: "/assets/team/khushi-rathore.webp",
-    imgStyle: { objectPosition: "center 35%" },
+    imgStyle: { zoom: 1.5, objectPosition: "center 50%" },
     linkedin: "https://www.linkedin.com/in/khushi-rathor-888838215",
   },
   {

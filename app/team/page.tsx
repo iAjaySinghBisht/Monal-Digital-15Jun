@@ -47,7 +47,7 @@ export default function TeamPage() {
             data-split
             className="font-display text-[clamp(2.8rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.04em]"
           >
-            Meet The Team.
+            Meet The Monals.
           </h1>
           <p
             data-reveal="up"

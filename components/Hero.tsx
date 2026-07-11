@@ -78,9 +78,10 @@ const Hero = () => {
           <p
             data-reveal="up"
             data-reveal-delay="0.16"
-            className="mt-4 md:mt-5 text-white/80 text-base md:text-lg leading-relaxed md:whitespace-nowrap drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]"
+            className="mt-4 md:mt-5 text-white/80 text-base md:text-lg leading-relaxed max-w-2xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]"
           >
-            Monal builds worlds for kids: videos, games, learning &amp; friendly AI.
+            Original shows, characters, and worlds. Watched by millions of kids,
+            built frame by frame in the foothills of the Himalayas.
           </p>
         </div>
       </div>

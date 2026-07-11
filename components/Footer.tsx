@@ -136,8 +136,12 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Giant white logo over a layered mountain range (brand shades) */}
-      <div className="relative px-6 md:px-12 pt-8 md:pt-12 pb-10 md:pb-16 select-none">
+      {/* Giant logo over a layered mountain range (brand shades).
+          The id is the cue the header uses to hide itself. */}
+      <div
+        id="footer-logo"
+        className="relative px-6 md:px-12 pt-8 md:pt-12 pb-10 md:pb-16 select-none"
+      >
         {/* Mountain pattern — overlapping translucent peaks in brand purples.
             Stretches full width and fades into the black footer at the top.
             The two larger ranges sit BEHIND the logo. */}
@@ -168,7 +172,7 @@ const Footer = () => {
           loading="lazy"
           decoding="async"
           draggable="false"
-          className="relative w-full max-w-[1100px] mx-auto h-auto brightness-0 invert"
+          className="relative w-full max-w-[1100px] mx-auto h-auto"
         />
 
         {/* Small foreground range — rendered AFTER the logo so it sits ABOVE it */}
