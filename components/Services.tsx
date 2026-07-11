@@ -44,20 +44,20 @@ const Services = ({
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="bg-sun">Services</Eyebrow>
+              <Eyebrow dot="bg-sun">Our Ecosystem</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              What we <span className="mark-sun">build</span>.
+              What we&apos;re <span className="mark-sun">building</span>.
             </h2>
             <p
               data-reveal="up"
               data-reveal-delay="0.12"
-              className="text-muted max-w-md leading-relaxed"
+              className="text-muted max-w-lg leading-relaxed"
             >
-              Six ventures, one purpose: meaningful experiences that help children
+              A growing world of Monal, an ecosystem built around how children
               learn, imagine, and grow.
             </p>
           </div>
@@ -90,21 +90,28 @@ const Services = ({
             </h2>
           </div>
 
-          <div data-reveal-group="up" className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
+          <div
+            data-reveal-group="up"
+            className="flex flex-wrap justify-center gap-4 md:gap-5"
+          >
             {brands.map((b) => (
               <div
                 key={b.name}
                 data-tilt="4"
-                className="group card card-hover min-h-44 p-8 flex items-center justify-center"
+                className={`group card card-hover min-h-44 flex items-center justify-center w-full sm:w-[calc(33.333%-0.667rem)] md:w-[calc(33.333%-0.834rem)] ${
+                  b.color ? "p-4" : "p-8"
+                }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={b.logo}
                   alt={b.name}
                   loading="lazy"
-                  className={`max-h-14 md:max-h-16 max-w-[70%] w-auto object-contain brightness-0 opacity-80 transition-all duration-500 group-hover:opacity-100 group-hover:scale-105 ${
-                    b.name === "Adruto" ? "scale-150 group-hover:scale-[1.6]" : ""
-                  }`}
+                  className={`w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
+                    b.color
+                      ? "max-h-32 md:max-h-40 max-w-full"
+                      : "max-h-14 md:max-h-16 max-w-[70%] brightness-0 opacity-80 group-hover:opacity-100"
+                  } ${b.name === "Adruto" ? "scale-150 group-hover:scale-[1.6]" : ""}`}
                 />
               </div>
             ))}

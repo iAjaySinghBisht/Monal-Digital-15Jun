@@ -6,18 +6,21 @@ const TESTIMONIALS = [
   {
     name: "Lucas Kollmann",
     role: "Lunar-X",
+    img: "/assets/testimonials/lucas-kollmann.jpg",
     quote:
       "Monal Digital has done a fantastic job on Lunar Kids. They took the series from rough concept to polished episodes at a scale we simply couldn't reach on our own, and the animation quality lifted the whole channel. Watch time and subscriber growth have climbed steadily ever since.",
   },
   {
     name: "Mohit Pachwari",
     role: "Adruto",
+    img: "/assets/testimonials/mohit-pachwari.jpg",
     quote:
       "What impressed us most was the reliability. Monal handled scripting, animation, and delivery end to end, always on schedule and always on brief. They understood our young audience better than we did, and the engagement on every release proves it.",
   },
   {
     name: "Mayank Pachwari",
     role: "The Boldeye",
+    img: "/assets/testimonials/mayank-pachwari.jpg",
     quote:
       "Monal didn't just produce content for us, they helped shape original characters and stories our viewers genuinely love. Their instinct for what keeps kids watching is rare, and partnering with them has been one of the best decisions we've made.",
   },
@@ -35,9 +38,13 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
     </span>
     <p className="text-ink/80 leading-relaxed">{t.quote}</p>
     <div className="mt-auto pt-6 flex items-center gap-3 border-t border-line mt-6">
-      <span className="grid place-items-center w-11 h-11 rounded-full bg-royal text-white shrink-0 font-display text-base transition-transform duration-300 group-hover:scale-110">
-        {t.role.charAt(0)}
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={t.img}
+        alt={t.name}
+        loading="lazy"
+        className="w-11 h-11 rounded-full shrink-0 object-cover ring-2 ring-royal/15 transition-transform duration-300 group-hover:scale-110"
+      />
       <div className="leading-tight">
         <div className="font-display text-ink">{t.name}</div>
         <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted mt-1">
