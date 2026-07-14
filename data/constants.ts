@@ -67,10 +67,12 @@ export const projects: Project[] = [
   {
     title: "Wands And Wings",
     img: "/assets/projects/wands-and-wings.webp",
+    imgSq: "/assets/projects/wands-and-wings-sq.webp",
   },
   {
     title: "Wands And Wings Junior",
     img: "/assets/projects/wands-and-wings-jr.webp",
+    imgSq: "/assets/projects/wands-and-wings-jr-sq.webp",
   },
   {
     title: "Groovy The Martian",
