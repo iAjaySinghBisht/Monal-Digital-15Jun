@@ -82,6 +82,7 @@ export const projects: Project[] = [
   {
     title: "Gigglebellies",
     img: "/assets/projects/gigglebellies.webp",
+    imgSq: "/assets/projects/gigglebellies-sq.webp",
   },
 ];
 
