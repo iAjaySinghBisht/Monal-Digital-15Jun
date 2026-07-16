@@ -80,8 +80,9 @@ const Hero = () => {
             data-reveal-delay="0.16"
             className="mt-4 md:mt-5 text-white/80 text-base md:text-lg leading-relaxed max-w-2xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]"
           >
-            Original shows, characters, and worlds. Watched by millions of kids,
-            built frame by frame in the foothills of the Himalayas.
+            One studio, many worlds: original IPs, animation services, and an
+            ecosystem where kids learn, imagine, and grow, built frame by frame
+            in the foothills of the Himalayas.
           </p>
         </div>
       </div>

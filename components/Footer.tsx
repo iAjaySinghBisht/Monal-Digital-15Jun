@@ -75,8 +75,8 @@ const Footer = () => {
               <a href="mailto:hello@monaldigital.com" className="block text-white/80 text-lg hover:text-violet transition-colors break-all">
                 hello@monaldigital.com
               </a>
-              <a href="tel:+917830314847" className="block text-white/80 text-lg hover:text-violet transition-colors">
-                +91 78303 14847
+              <a href="tel:+917017820679" className="block text-white/80 text-lg hover:text-violet transition-colors">
+                +91 70178 20679
               </a>
             </div>
             <p className="text-white/45 leading-relaxed mt-auto">
