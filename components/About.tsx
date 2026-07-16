@@ -26,38 +26,13 @@ const About = () => {
           </p>
         </div>
 
-        {/* Studio card (full width) */}
-        <div
-          data-reveal-group="up"
-          className="grid grid-cols-1 gap-4 md:gap-5 mb-4 md:mb-5"
-        >
-          <article
-            data-tilt="3"
-            className="group card card-hover bg-royal border-transparent p-8 md:p-11 flex flex-col justify-center"
-          >
-            <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-sun mb-5">
-              The studio
-            </span>
-            <p className="text-white/90 leading-relaxed">
-              We&apos;re a full-service 2D and 3D animation studio based in
-              Haldwani, Uttarakhand, handling everything from concept and scripting
-              to animation, voice, and post-production. Our team brings 10+ years of
-              experience in kids&apos; animation, building original IPs watched by
-              millions of families worldwide, from YouTube to Amazon Prime Video.
-            </p>
-          </article>
-        </div>
-
         {/* Story + image */}
         <div
           data-reveal-group="up"
           className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5"
         >
           {/* Himalayan Monal image (narrow) */}
-          <article
-            data-tilt="3"
-            className="group card card-hover border-transparent lg:col-span-5 relative overflow-hidden p-0 min-h-80"
-          >
+          <article className="group card border-transparent lg:col-span-5 relative overflow-hidden p-0 min-h-80">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/assets/projects/himalayan-monal.jpg"
@@ -69,10 +44,7 @@ const About = () => {
           </article>
 
           {/* Monal story (wide) */}
-          <article
-            data-tilt="3"
-            className="group card card-hover bg-mist border-transparent lg:col-span-7 p-7 md:p-10 flex flex-col justify-center"
-          >
+          <article className="group card bg-mist border-transparent lg:col-span-7 p-7 md:p-10 flex flex-col justify-center">
             <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
               Stories worth building on
             </span>

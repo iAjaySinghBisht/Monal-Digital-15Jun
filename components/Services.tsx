@@ -94,27 +94,45 @@ const Services = ({
             data-reveal-group="up"
             className="flex flex-wrap justify-center gap-4 md:gap-5"
           >
-            {brands.map((b) => (
-              <div
-                key={b.name}
-                data-tilt="4"
-                className={`group card card-hover min-h-44 flex items-center justify-center w-full sm:w-[calc(33.333%-0.667rem)] md:w-[calc(33.333%-0.834rem)] ${
-                  b.color ? "p-4" : "p-8"
-                }`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={b.logo}
-                  alt={b.name}
-                  loading="lazy"
-                  className={`w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
-                    b.color
-                      ? "max-h-32 md:max-h-40 max-w-full"
-                      : "max-h-14 md:max-h-16 max-w-[70%] brightness-0 opacity-80 group-hover:opacity-100"
-                  } ${b.name === "Adruto" ? "scale-150 group-hover:scale-[1.6]" : ""}`}
-                />
-              </div>
-            ))}
+            {brands.map((b, i) => {
+              /* Per-logo scale: named tweaks first, then a slight shrink for
+                 everything past the first row of three. */
+              const scale =
+                b.name === "Adruto"
+                  ? "scale-[1.35] group-hover:scale-[1.45]"
+                  : b.name === "Lunar-X" || b.name === "Tata Play"
+                    ? "scale-[1.15] group-hover:scale-[1.22]"
+                    : b.name === "Lenny's Studios"
+                      ? "scale-[0.78] group-hover:scale-[0.83] rounded-xl"
+                      : i >= 3
+                        ? "scale-[0.9] group-hover:scale-[0.95]"
+                        : "group-hover:scale-105";
+              return (
+                <div
+                  key={b.name}
+                  data-tilt="4"
+                  className={`group card card-hover min-h-44 flex items-center justify-center w-full sm:w-[calc(33.333%-0.667rem)] md:w-[calc(33.333%-0.834rem)] ${
+                    b.color ? "p-4" : "p-8"
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={b.logo}
+                    alt={b.name}
+                    loading="lazy"
+                    className={`w-auto object-contain transition-all duration-500 ${
+                      b.color
+                        ? "max-h-32 md:max-h-40 max-w-full"
+                        : "max-h-14 md:max-h-16 max-w-[70%]"
+                    } ${
+                      b.color || b.noTint
+                        ? ""
+                        : "brightness-0 opacity-80 group-hover:opacity-100"
+                    } ${scale}`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         )}

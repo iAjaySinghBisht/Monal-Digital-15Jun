@@ -1,8 +1,10 @@
 // Static site data. Image assets live under /public/assets and are referenced
 // by absolute URL path (URL-safe, lowercase-kebab filenames).
 
-/* `color` keeps the logo in its own colours; others render as black marks. */
-export type Brand = { name: string; logo: string; color?: boolean };
+/* `color` keeps the logo in its own colours at the larger display size;
+   `noTint` keeps its own colours at the standard size. Others render as
+   black marks. */
+export type Brand = { name: string; logo: string; color?: boolean; noTint?: boolean };
 export type Project = { title: string; img: string; imgSq?: string };
 export type ServiceDetailItem = { name: string; desc: string };
 export type Service = {
@@ -28,10 +30,27 @@ export type TeamMember = {
   imgStyle?: { zoom?: number; objectPosition?: string };
 };
 
+/* Listed in display order — three per row on desktop. */
 export const brands: Brand[] = [
   {
     name: "Lunar-X",
     logo: "/assets/brands/lunar-x.png",
+    noTint: true,
+  },
+  {
+    name: "Shemaroo",
+    logo: "/assets/brands/shemaroo.png",
+    color: true,
+  },
+  {
+    name: "Tata Play",
+    logo: "/assets/brands/tata-play.png",
+    color: true,
+  },
+  {
+    name: "Vaibhav Studios",
+    logo: "/assets/brands/vaibhav-studios.png",
+    color: true,
   },
   {
     name: "Adruto",
@@ -42,13 +61,13 @@ export const brands: Brand[] = [
     logo: "/assets/brands/the-boldeye.png",
   },
   {
-    name: "Vaibhav Studios",
-    logo: "/assets/brands/vaibhav-studios.png",
+    name: "Freebird Animation Studios",
+    logo: "/assets/brands/freebird-animation.png",
     color: true,
   },
   {
-    name: "Freebird Animation Studios",
-    logo: "/assets/brands/freebird-animation.png",
+    name: "Lenny's Studios",
+    logo: "/assets/brands/lenny-studio.jpg",
     color: true,
   },
 ];
