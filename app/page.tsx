@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -8,6 +9,13 @@ import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
 
 export default function HomePage() {
+  /* The hero poster is the LCP element — fetch it with high priority so it
+     paints without waiting to be discovered in the markup. */
+  ReactDOM.preload("/showreel/Showreel-poster.webp", {
+    as: "image",
+    fetchPriority: "high",
+  });
+
   return (
     <>
       <UiAnimations />
