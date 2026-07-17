@@ -30,9 +30,10 @@ const VentureCard = ({
         <span className={`grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 ${tint.plate} ${tint.hover} group-hover:text-white`}>
           {num}
         </span>
-        {/* A venture is either not open yet, or somewhere you can go — never both. */}
+        {/* A venture is either not open yet, or somewhere you can go — never both.
+            The status chip stays hidden until the card is hovered. */}
         {venture.status ? (
-          <span className="mt-1 shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <span className="mt-1 shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             {venture.status}
           </span>
         ) : venture.href ? (

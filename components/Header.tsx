@@ -88,10 +88,10 @@ const Header = () => {
         <Link href="/" data-header-item className="flex items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/assets/monal-logo.png"
+            src="/assets/monal-logo-nav.png"
             alt="Monal Digital"
-            width="600"
-            height="127"
+            width="300"
+            height="64"
             loading="eager"
             fetchPriority="high"
             decoding="async"

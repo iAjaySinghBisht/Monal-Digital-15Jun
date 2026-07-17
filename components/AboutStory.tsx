@@ -1,8 +1,11 @@
+import { stats } from "@/data/constants";
+
+/* Figures come from data/constants.ts; only the labels live here. */
 const STATS = [
-  { n: "10", suffix: "+", label: "Years of Creative Excellence" },
-  { n: "100", suffix: "M+", label: "Subscribers Across Our Network" },
-  { n: "50", suffix: "B+", label: "Lifetime Views" },
-  { n: "50", suffix: "+", label: "YouTube Channels" },
+  { ...stats.years, label: "Years of Creative Excellence" },
+  { ...stats.subscribers, label: "Subscribers Across Our Network" },
+  { ...stats.views, label: "Lifetime Views" },
+  { ...stats.channels, label: "YouTube Channels" },
 ];
 
 const FEATURES = [
@@ -71,14 +74,15 @@ const AboutStory = () => {
             className="group card card-hover bg-mist border-transparent lg:col-span-5 p-8 md:p-11 flex flex-col justify-center"
           >
             <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
-              A decade in
+              Six years in
             </span>
             <p className="text-ink text-xl md:text-[1.5rem] leading-snug font-display">
               Craft, scaled by technology.
             </p>
             <p className="mt-4 text-muted leading-relaxed">
-              For over a decade we&apos;ve produced kids&apos; entertainment that
-              reaches audiences at global scale, pairing storytelling craft with
+              For six years and counting we&apos;ve produced kids&apos;
+              entertainment that reaches audiences at global scale, pairing
+              storytelling craft with
               technology, data, and a real understanding of how young viewers
               watch, learn, and grow.
             </p>

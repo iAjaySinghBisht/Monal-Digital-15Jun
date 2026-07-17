@@ -14,7 +14,8 @@ const About = () => {
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
-            Artists, storytellers, strategists, and builders.
+            Artists, storytellers, strategists &amp;{" "}
+            <span className="mark-violet">builders</span>.
           </h2>
           <p
             data-reveal="up"
@@ -36,7 +37,7 @@ const About = () => {
             <article className="group card border-transparent relative overflow-hidden p-0 h-64 md:h-72 shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/projects/himalayan-monal.jpg"
+                src="/assets/projects/himalayan-monal.webp"
                 alt="The Himalayan Monal, the vibrant state bird of Uttarakhand"
                 loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"

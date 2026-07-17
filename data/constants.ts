@@ -40,6 +40,16 @@ export type TeamMember = {
   imgStyle?: { zoom?: number; objectPosition?: string };
 };
 
+/* Network-scale figures, single-sourced: every page that shows stats
+   (homepage hero, /about-us) pulls the numbers from here and supplies
+   its own labels. */
+export const stats = {
+  views: { n: "50", suffix: "B+" },
+  subscribers: { n: "80", suffix: "M+" },
+  channels: { n: "90", suffix: "+" },
+  years: { n: "6", suffix: "+" },
+} as const;
+
 /* Listed in display order — three per row on desktop. */
 export const brands: Brand[] = [
   {
@@ -263,7 +273,7 @@ export const ventures: Venture[] = [
     title: "Monal AI",
     tagline: "A trusted companion for curious minds.",
     desc: "Helping children learn, explore and ask questions in a safe, thoughtful way.",
-    href: "https://www.mindora.ai/",
+    status: "Coming 2027",
   },
   {
     title: "Monal Games",

@@ -2,17 +2,18 @@
 
 import { useRef, useState } from "react";
 import { Eyebrow } from "./Decor";
+import { stats } from "@/data/constants";
 
 const VIDEO_SRC = "/showreel/Showreel.mp4";
 const VIDEO_POSTER = "/showreel/Showreel-poster.webp";
 
 /* Proof of scale, stated before anything is asked of the visitor.
-   Kept in sync with the figures on /about-us (components/AboutStory.tsx). */
+   Figures come from data/constants.ts; only the labels live here. */
 const STATS: { n: string; suffix: string; label: string }[] = [
-  { n: "50", suffix: "B+", label: "Views" },
-  { n: "100", suffix: "M+", label: "Subscribers" },
-  { n: "50", suffix: "+", label: "YouTube Channels" },
-  { n: "10", suffix: "+", label: "Years in Kids' Media" },
+  { ...stats.views, label: "Views" },
+  { ...stats.subscribers, label: "Subscribers" },
+  { ...stats.channels, label: "YouTube Channels" },
+  { ...stats.years, label: "Years in Kids' Media" },
 ];
 
 const Hero = () => {
