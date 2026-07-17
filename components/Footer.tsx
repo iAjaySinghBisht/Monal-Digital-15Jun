@@ -81,7 +81,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-white/45 leading-relaxed mt-auto">
-              Monal Digital, Karan Tower, Gas Godam Rd,
+              Monal Digital, Karan Tower, Gas Godam Road,
               <br />
               Haldwani, Uttarakhand, India 263139
             </p>
