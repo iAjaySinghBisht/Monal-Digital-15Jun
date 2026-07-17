@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { ventures, brands, type Venture } from "@/data/constants";
-import { Eyebrow } from "./Decor";
+import { Eyebrow, ArrowUpRight } from "./Decor";
 
 /* Per-card pastel tint + hover accent. */
 const TINTS = [
@@ -8,6 +9,8 @@ const TINTS = [
   { plate: "bg-mint", hover: "group-hover:bg-royal" },
 ];
 
+/* Tinted mist so the cards still read against the section's white canvas —
+   the same treatment About gives its story card. */
 const VentureCard = ({
   venture,
   num,
@@ -16,19 +19,69 @@ const VentureCard = ({
   venture: Venture;
   num: string;
   tint: { plate: string; hover: string };
-}) => (
-  <div data-tilt="4" className="group card card-hover flex flex-col p-7 md:p-8">
-    <span className={`grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 ${tint.plate} ${tint.hover} group-hover:text-white`}>
-      {num}
-    </span>
+}) => {
+  const isExternal = venture.href?.startsWith("http");
+  const surface =
+    "group card card-hover bg-mist border-transparent flex flex-col p-7 md:p-8";
 
-    <h3 className="mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
-      {venture.title}
-    </h3>
-    <p className="mt-1.5 text-royal font-medium">{venture.tagline}</p>
-    <p className="mt-4 text-muted leading-relaxed">{venture.desc}</p>
-  </div>
-);
+  const body = (
+    <>
+      <div className="flex items-start justify-between gap-3">
+        <span className={`grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 ${tint.plate} ${tint.hover} group-hover:text-white`}>
+          {num}
+        </span>
+        {/* A venture is either not open yet, or somewhere you can go — never both. */}
+        {venture.status ? (
+          <span className="mt-1 shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+            {venture.status}
+          </span>
+        ) : venture.href ? (
+          <span
+            aria-hidden="true"
+            className="mt-1 shrink-0 grid place-items-center w-9 h-9 rounded-full bg-paper text-ink opacity-0 -translate-y-0.5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0"
+          >
+            <ArrowUpRight className="w-4 h-4" />
+          </span>
+        ) : null}
+      </div>
+
+      <h3 className="mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
+        {venture.title}
+      </h3>
+      <p className="mt-1.5 text-royal font-medium">{venture.tagline}</p>
+      <p className="mt-4 text-muted leading-relaxed">{venture.desc}</p>
+    </>
+  );
+
+  if (!venture.href) {
+    return (
+      <div data-tilt="4" className={surface}>
+        {body}
+      </div>
+    );
+  }
+
+  if (isExternal) {
+    return (
+      <a
+        data-tilt="4"
+        className={surface}
+        href={venture.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {body}
+        <span className="sr-only">(opens in a new tab)</span>
+      </a>
+    );
+  }
+
+  return (
+    <Link data-tilt="4" className={surface} href={venture.href}>
+      {body}
+    </Link>
+  );
+};
 
 const Services = ({
   showPartners = true,
@@ -38,7 +91,7 @@ const Services = ({
   showHeader?: boolean;
 }) => {
   return (
-    <section id="services" className="relative bg-mist py-24 md:py-32 border-t border-line">
+    <section id="services" className="relative bg-paper py-24 md:py-32 border-t border-line">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         {showHeader && (
@@ -57,8 +110,9 @@ const Services = ({
               data-reveal-delay="0.12"
               className="text-muted max-w-lg leading-relaxed"
             >
-              A growing world of Monal, an ecosystem built around how children
-              learn, imagine, and grow.
+              One world flowing naturally into the next. A character born in a
+              story can become a friend in a game, a guide in learning, and a
+              familiar face in the classroom.
             </p>
           </div>
         )}

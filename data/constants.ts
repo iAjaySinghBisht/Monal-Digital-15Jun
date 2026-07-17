@@ -18,7 +18,17 @@ export type Service = {
   features: string[];
   detail: ServiceDetailItem[];
 };
-export type Venture = { title: string; tagline: string; desc: string };
+/* `status` marks a venture that isn't open yet — stating the date reads as
+   confidence; implying it already exists does not.
+   `href` may be internal ("/services") or an absolute URL; absolute ones
+   open in a new tab. */
+export type Venture = {
+  title: string;
+  tagline: string;
+  desc: string;
+  status?: string;
+  href?: string;
+};
 export type TeamMember = {
   name: string;
   role: string;
@@ -240,36 +250,44 @@ export const services: Record<string, Service> = {
   },
 };
 
+/* Tagline states the promise; desc must add something the tagline can't —
+   a capability, a reach, a proof point. Never a paraphrase of the tagline. */
 export const ventures: Venture[] = [
   {
-    title: "Monal Kids Videos",
-    tagline: "Stories kids press play on.",
-    desc: "2D, 3D, and live-action videos, songs, shows, stories, and movies for children.",
+    title: "Monal Kids",
+    tagline: "Where every story begins.",
+    desc: "Original stories, beloved characters and worlds children return to—again and again.",
+    href: "https://www.youtube.com/@MonalKidsHindi",
   },
   {
     title: "Monal AI",
-    tagline: "A friendly, safe companion.",
-    desc: "A safe AI companion designed to help children learn, explore, ask questions, and grow.",
+    tagline: "A trusted companion for curious minds.",
+    desc: "Helping children learn, explore and ask questions in a safe, thoughtful way.",
+    href: "https://www.mindora.ai/",
   },
   {
     title: "Monal Games",
-    tagline: "Play that teaches.",
-    desc: "Fun, educational, and age-appropriate games that inspire curiosity and creativity.",
+    tagline: "Play that sparks discovery.",
+    desc: "Games designed to reward curiosity, creativity and problem-solving—not just screen time.",
+    status: "Coming 2027",
   },
   {
     title: "Monal Preschool",
-    tagline: "Where learning begins.",
-    desc: "Early learning experiences rooted in creativity, care, curiosity, and culture.",
+    tagline: "Where wonder takes root.",
+    desc: "Early childhood experiences inspired by nature, imagination and joyful learning.",
+    status: "Coming 2028",
   },
   {
     title: "Monal Academy",
-    tagline: "Skills for the next generation.",
-    desc: "Training the next generation of artists, animators, creators, and storytellers.",
+    tagline: "Creating tomorrow's storytellers.",
+    desc: "Training artists, animators and creators who will shape the future of children's entertainment.",
+    href: "https://relianceacademyhld.com/",
   },
   {
-    title: "Monal Consultancy Services",
-    tagline: "Brands that grow.",
-    desc: "Helping kids' content brands grow through YouTube strategy, content planning, production, distribution, and channel management.",
+    title: "Monal Consultancy",
+    tagline: "Helping children's brands grow.",
+    desc: "Strategy, production and distribution for creators who want to reach families around the world.",
+    href: "/services",
   },
 ];
 

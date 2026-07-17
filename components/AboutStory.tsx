@@ -2,7 +2,7 @@ const STATS = [
   { n: "10", suffix: "+", label: "Years of Creative Excellence" },
   { n: "100", suffix: "M+", label: "Subscribers Across Our Network" },
   { n: "50", suffix: "B+", label: "Lifetime Views" },
-  { n: "100", suffix: "+", label: "Channels & Projects Managed" },
+  { n: "50", suffix: "+", label: "YouTube Channels" },
 ];
 
 const FEATURES = [

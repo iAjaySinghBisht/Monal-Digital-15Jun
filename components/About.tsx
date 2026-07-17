@@ -8,13 +8,13 @@ const About = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-royal">About Monal</Eyebrow>
+            <Eyebrow dot="bg-royal">Who We Are</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
-            Who <span className="mark-violet">we</span> are.
+            Artists, storytellers, strategists, and builders.
           </h2>
           <p
             data-reveal="up"
@@ -26,47 +26,55 @@ const About = () => {
           </p>
         </div>
 
-        {/* Story + image */}
+        {/* Three cards: the bird, the name it gave us, and the story. */}
         <div
           data-reveal-group="up"
           className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-5"
         >
-          {/* Himalayan Monal image (narrow) */}
-          <article className="group card border-transparent lg:col-span-5 relative overflow-hidden p-0 min-h-80">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/assets/projects/himalayan-monal.jpg"
-              alt="The Himalayan Monal, the vibrant state bird of Uttarakhand"
-              loading="lazy"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
-          </article>
+          {/* Left column — photo above, namesake card below */}
+          <div className="lg:col-span-5 flex flex-col gap-4 md:gap-5">
+            <article className="group card border-transparent relative overflow-hidden p-0 h-64 md:h-72 shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/assets/projects/himalayan-monal.jpg"
+                alt="The Himalayan Monal, the vibrant state bird of Uttarakhand"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent" />
+            </article>
 
-          {/* Monal story (wide) */}
+            <article className="card card-hover bg-royal border-transparent text-white p-7 md:p-8 flex-1 flex flex-col justify-center">
+              <p className="text-lg md:text-xl leading-relaxed font-medium">
+                Monal takes its name from the Himalayan Monal — the vibrant
+                state bird of Uttarakhand and a symbol of beauty, resilience,
+                and wonder.
+              </p>
+            </article>
+          </div>
+
+          {/* Right — the story */}
           <article className="group card bg-mist border-transparent lg:col-span-7 p-7 md:p-10 flex flex-col justify-center">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
-              Stories worth building on
-            </span>
-            <p className="text-ink text-xl md:text-[1.6rem] leading-relaxed font-medium">
-              Monal Digital takes its name from the Himalayan Monal, the vibrant
-              state bird of Uttarakhand.
-            </p>
-            <p className="mt-5 text-muted leading-relaxed max-w-xl">
-              Nestled in the foothills of the Himalayas, we grew up surrounded by
-              mountain villages, forests, rivers, stories, traditions, and a deep
-              connection to nature. These influences continue to shape everything
-              we create.
+            <p className="text-muted leading-relaxed max-w-xl">
+              Our story began in the foothills of the Himalayas, where childhood
+              meant forests, rivers, mountain villages, and endless curiosity.
+              Nature wasn&apos;t just part of the landscape — it shaped how we saw
+              the world.
             </p>
             <p className="mt-4 text-muted leading-relaxed max-w-xl">
-              Today, that same spirit drives a full-service animation studio in
-              Uttarakhand producing 2D and 3D kids&apos; content watched by families
-              around the world: original characters, nursery rhymes, and
-              story-driven series rooted in the place we call home.
+              Those experiences taught us that childhood is built on simple
+              things: imagination, kindness, exploration, and the joy of
+              discovering something new.
             </p>
             <p className="mt-4 text-muted leading-relaxed max-w-xl">
-              Like the Monal itself, we believe the best stories come from the
-              mountains, and belong to the world.
+              Today, those same values guide everything we make. The tools have
+              changed — the questions we ask about childhood haven&apos;t.
+            </p>
+            {/* The closing beat — set apart so the last line lands. */}
+            <p className="mt-6 text-ink text-lg md:text-xl leading-relaxed font-medium max-w-xl">
+              Because we believe the best stories don&apos;t just entertain.
+              <br />
+              They shape childhood.
             </p>
             <Link
               href="/about-us"

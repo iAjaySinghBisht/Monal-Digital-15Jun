@@ -12,11 +12,12 @@ export default function HomePage() {
     <>
       <UiAnimations />
       <Header />
-      {/* Stacked, overlapping panels — each rises and opens over the last. */}
+      {/* The work comes before the ambition: the shows are the proof that the
+          six ventures are real, so they argue for the ecosystem that follows. */}
       <Hero />
       <About />
-      <Services />
       <ContentLibrary />
+      <Services />
       <Testimonials />
       <Footer />
     </>

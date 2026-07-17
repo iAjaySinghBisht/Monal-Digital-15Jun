@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Eyebrow, Pill } from "./Decor";
+import { Eyebrow } from "./Decor";
 
 /* Partner testimonials. */
 const TESTIMONIALS = [
@@ -27,6 +26,49 @@ const TESTIMONIALS = [
 ];
 
 type Testimonial = (typeof TESTIMONIALS)[number];
+
+/* A line lifted verbatim from the quote below it, set large. Carries the
+   section's colour and gives the eye a way in before the dense quotes. */
+const PullQuote = ({
+  t,
+  line,
+  tone,
+}: {
+  t: Testimonial;
+  line: string;
+  tone: "royal" | "sun";
+}) => {
+  const skin =
+    tone === "royal"
+      ? { surface: "bg-royal text-white", role: "text-white/60", ring: "ring-white/30" }
+      : { surface: "bg-sun text-ink", role: "text-ink/55", ring: "ring-ink/15" };
+  return (
+    <div
+      data-tilt="5"
+      className={`card card-hover border-transparent p-8 md:p-9 flex flex-col justify-between min-h-56 ${skin.surface}`}
+    >
+      <blockquote className="font-display text-[1.7rem] md:text-[2rem] leading-[1.12]">
+        &ldquo;{line}&rdquo;
+      </blockquote>
+      <div className="mt-8 flex items-center gap-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={t.img}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className={`w-9 h-9 rounded-full shrink-0 object-cover ring-2 ${skin.ring}`}
+        />
+        <div className="leading-tight">
+          <div className="font-semibold text-sm">{t.name}</div>
+          <div className={`text-[10px] font-semibold uppercase tracking-[0.14em] mt-0.5 ${skin.role}`}>
+            {t.role}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }) => (
   <article
@@ -61,13 +103,13 @@ const Testimonials = () => {
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-royal">Testimonials</Eyebrow>
+            <Eyebrow dot="bg-royal">In their words</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
           >
-            Loved by <span className="mark-violet">partners</span>.
+            More than a <span className="mark-violet">production line</span>.
           </h2>
           <p
             data-reveal="up"
@@ -78,55 +120,23 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Bento */}
+        {/* Each pull-quote sits directly above the full quote it's lifted
+            from, so it reads as a callout into the detail. No CTA here —
+            the page's single ask lives in the footer. */}
         <div data-reveal-group="up" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-          {/* Big rating tile */}
-          <div
-            data-tilt="5"
-            className="card card-hover bg-royal border-transparent p-8 md:p-9 flex flex-col justify-between text-white min-h-56"
-          >
-            {/* 5-star rating, filled to 4.9 / 5 (98%) */}
-            <div
-              className="relative inline-block w-max text-2xl leading-none tracking-[0.15em] select-none"
-              role="img"
-              aria-label="Rated 4.9 out of 5"
-            >
-              <div className="text-white/25" aria-hidden="true">★★★★★</div>
-              <div
-                className="absolute inset-0 overflow-hidden whitespace-nowrap text-sun"
-                style={{ width: "98%" }}
-                aria-hidden="true"
-              >
-                ★★★★★
-              </div>
-            </div>
-            <div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="font-display text-[3.4rem] leading-none">4.9</span>
-                <span className="font-display text-xl text-white/45">/ 5</span>
-              </div>
-              <p className="mt-2 text-white/70 text-sm">Average partner rating</p>
-            </div>
-          </div>
-
-          <QuoteCard t={TESTIMONIALS[0]} />
+          <PullQuote
+            t={TESTIMONIALS[0]}
+            tone="royal"
+            line="A scale we simply couldn’t reach on our own."
+          />
           <QuoteCard t={TESTIMONIALS[1]} />
-          <QuoteCard t={TESTIMONIALS[2]} className="md:col-span-2" />
-
-          {/* Yellow CTA tile */}
-          <div
-            data-tilt="5"
-            className="card card-hover bg-sun border-transparent p-8 md:p-9 flex flex-col justify-between min-h-56"
-          >
-            <span className="font-display text-ink text-2xl leading-tight">
-              Build the next children&apos;s brand with us.
-            </span>
-            <div className="mt-6">
-              <Pill as={Link} href="/contact-us" variant="dark">
-                Get started
-              </Pill>
-            </div>
-          </div>
+          <QuoteCard t={TESTIMONIALS[2]} />
+          <QuoteCard t={TESTIMONIALS[0]} className="md:col-span-2" />
+          <PullQuote
+            t={TESTIMONIALS[1]}
+            tone="sun"
+            line="Always on schedule. Always on brief."
+          />
         </div>
       </div>
     </section>

@@ -46,19 +46,20 @@ const Footer = () => {
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col justify-between gap-10">
             <div>
               <div className="mb-6">
-                <Eyebrow tone="dark" dot="bg-violet">Ready to start</Eyebrow>
+                <Eyebrow tone="dark" dot="bg-violet">Let&apos;s build together</Eyebrow>
               </div>
               <h2 className="font-display text-white text-[clamp(1.8rem,3.5vw,2.6rem)] leading-[1.04]">
-                Join the studios building what&apos;s next
+                Building the Future of Childhood?
               </h2>
-              <p className="mt-4 text-white/55 leading-relaxed max-w-sm">
-                Whether it&apos;s a new series, a channel, or an original IP,
-                let&apos;s build it together.
+              <p className="mt-4 text-white/55 leading-relaxed max-w-md">
+                Whether you&apos;re creating a new character, an original IP, an
+                animated series, a game, or an AI-powered learning experience,
+                we&apos;d love to help bring your vision to life.
               </p>
             </div>
             <div>
               <Pill as={Link} href="/contact-us" variant="royal">
-                Start a conversation
+                Build With Monal
               </Pill>
             </div>
           </div>
