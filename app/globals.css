@@ -15,23 +15,77 @@
   --color-line: #eaeaec;       /* hairline borders                     */
   --color-muted: #71717a;      /* muted body text                      */
 
-  /* Accent system — yellow + purple lead, soft pastels for tiles. */
-  --color-sun: #facc15;        /* signature yellow                     */
-  --color-sun-soft: #fde9a8;   /* pale yellow plate                    */
-  --color-royal: #6c4df6;      /* signature purple                     */
-  --color-violet: #8b7cff;     /* lighter purple                       */
-  --color-deep: #4b32c3;       /* deep purple for depth                */
-
-  /* Pastel tints for portrait / accent card backgrounds. */
-  --color-lav: #ece9fb;
-  --color-mint: #d6f0de;
-  --color-peach: #f8e6d2;
-  --color-pink: #f9d9e6;
-  --color-sky: #d9e6fb;
+  /* --------------------------- accents ---------------------------- *
+   *  Purple leads and is the only accent that carries text: --color-royal
+   *  is 5.21:1 on white, so links, taglines, buttons and eyebrow dots all
+   *  come from here rather than from the spectrum below.
+   * ---------------------------------------------------------------- */
+  --color-royal: #6c4df6;      /* signature purple — primary action    */
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;
   --font-body: var(--font-onest), system-ui, sans-serif;
+  /* Devanagari co-brand — Onest has no Devanagari coverage. */
+  --font-deva: var(--font-devanagari), var(--font-onest), system-ui, sans-serif;
+}
+
+/* ------------------------- brand spectrum -------------------------- *
+ *  The eight bands of the fractal wordmark, in the order they occur by
+ *  area in the artwork. Mirrored in lib/palette.ts — canvas needs real
+ *  hex, since a 2D context cannot resolve a CSS variable — so keep the
+ *  two in step.
+ *
+ *  DECORATION AND FILLS ONLY. None of the eight reaches 4.5:1 against
+ *  white, so none may carry body text on a light surface; each has an
+ *  `-ink` sibling for that. On the near-black ink they all clear 4.7:1
+ *  comfortably, which is where the logo itself lives. The primary action
+ *  colour is deliberately NOT from this set — it stays --color-royal,
+ *  the only accent that can carry a link or tagline unaided.
+ *
+ *  `sun` and `violet` are the spectrum's own lemon and violet: the
+ *  previous #facc15 / #8b7cff were within a hair of the logo values, so
+ *  they collapse here rather than sitting alongside as near-duplicates.
+ *
+ *  `static` because Tailwind prunes theme tokens it cannot see used, and
+ *  an inline `var(--color-leaf)` in a style prop is not always visible to
+ *  the scanner. A codified palette has to resolve whether or not this
+ *  build happens to reference every band.
+ * ------------------------------------------------------------------- */
+@theme static {
+  --color-magenta: #ff0185;
+  --color-sun: #ffd23f;        /* spectrum lemon — the signature yellow */
+  --color-leaf: #7ed957;
+  --color-teal: #22c9c9;
+  --color-azure: #3aa0ff;
+  --color-violet: #8c6bff;
+  --color-tangerine: #ff8a3c;
+  --color-blush: #ff5db1;
+
+  /* Text-safe siblings — same hue, darkened just past 4.5:1 on white.
+     magenta and blush converge once darkened, so the eight decorative
+     bands are seven distinct text-safe hues. */
+  --color-magenta-ink: #e60078;
+  --color-sun-ink: #947200;
+  --color-leaf-ink: #3e861e;
+  --color-teal-ink: #168383;
+  --color-azure-ink: #0075e3;
+  --color-violet-ink: #7c57ff;
+  --color-tangerine-ink: #c95100;
+  --color-blush-ink: #e60078;
+
+  /* Pale plates for accent card backgrounds — each one is a spectrum band
+     laid thinly over paper, rather than a hand-picked pastel. The previous
+     values were arbitrary: `mint` was a green unrelated to leaf, `sky` a
+     blue unrelated to azure, so the tints and the accents were two
+     separate palettes that happened to sit near each other. Deriving them
+     means a plate and its band always agree, and changing a band carries
+     through. All six hold ink text at ~15:1. */
+  --color-lav: color-mix(in srgb, var(--color-violet) 14%, white);
+  --color-mint: color-mix(in srgb, var(--color-leaf) 22%, white);
+  --color-peach: color-mix(in srgb, var(--color-tangerine) 18%, white);
+  --color-pink: color-mix(in srgb, var(--color-blush) 16%, white);
+  --color-sky: color-mix(in srgb, var(--color-azure) 18%, white);
+  --color-sun-soft: color-mix(in srgb, var(--color-sun) 35%, white);
 }
 
 @layer base {
@@ -83,6 +137,127 @@
 }
 .mark-sun { background: var(--color-sun); color: var(--color-ink); }
 .mark-violet { background: var(--color-royal); color: #fff; }
+
+/* Partner logo silhouettes. The colour comes from `background` and the
+   shape from an alpha-only `-mark.png` applied as a mask, so every logo
+   behaves identically no matter how its source file arrived — some had a
+   baked-in white background, one a black one, some were transparent. */
+.v-mark {
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  opacity: 0.85;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+}
+.group:hover .v-mark { opacity: 1; }
+
+/* Footer summit pins — a generous invisible hit area centred exactly on
+   each summit. The custom cursor forces `cursor: none` site-wide, so a
+   `cursor: help` hint could never show; the ring has to do that work. */
+.peak-pin {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px; /* centre the hit area on the summit */
+  border-radius: 9999px;
+}
+
+/* THE CUE — the skyline itself, lit. A short stretch of ridge either side
+   of each summit, drawn slightly brighter than the range beneath it. No
+   added shape, so it cannot clutter a silhouette made entirely of edges.
+
+   Kept at 0.38 rather than the 0.3 it was mocked at: this is the subtlest
+   of the cues considered, and it has to survive being drawn over a range
+   that is itself only 30% opaque. */
+.peak-crest {
+  stroke-width: 2;
+  opacity: 0.38;
+  transition: opacity 0.18s ease, stroke-width 0.18s ease;
+}
+
+/* Each pin lights its own crest. `:has()` rather than a sibling combinator
+   because the crest layer precedes the pins in the DOM — the pins must come
+   last so they sit above the wordmark and stay hoverable. */
+.peak-layer:has(.peak-pin:nth-of-type(1):hover) .peak-crest:nth-of-type(1),
+.peak-layer:has(.peak-pin:nth-of-type(2):hover) .peak-crest:nth-of-type(2),
+.peak-layer:has(.peak-pin:nth-of-type(3):hover) .peak-crest:nth-of-type(3),
+.peak-layer:has(.peak-pin:nth-of-type(4):hover) .peak-crest:nth-of-type(4),
+.peak-layer:has(.peak-pin:nth-of-type(5):hover) .peak-crest:nth-of-type(5),
+.peak-layer:has(.peak-pin:nth-of-type(6):hover) .peak-crest:nth-of-type(6),
+.peak-layer:has(.peak-pin:nth-of-type(7):hover) .peak-crest:nth-of-type(7),
+.peak-layer:has(.peak-pin:nth-of-type(8):hover) .peak-crest:nth-of-type(8) {
+  opacity: 1;
+  stroke-width: 3;
+}
+
+/* THE LABEL. Instant — 0.12s, no dwell — and dark glass rather than the
+   white pill it started as: a hard white chip on a near-black footer is
+   the brightest thing on the page, which is the wrong weight for a detail
+   you only see if you go looking. This sits IN the night instead of on
+   top of it, and takes its accent from the summit it names. */
+.peak-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 14px);
+  transform: translateX(-50%) translateY(3px);
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  white-space: nowrap;
+  padding: 6px 13px;
+  border-radius: 9999px;
+  background: rgb(9 9 14 / 0.72);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+.peak-pin:hover .peak-label { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* The name carries the summit's own band. Every spectrum colour clears
+   4.7:1 against this near-black, so colour here is legible, not just
+   decorative. The height is a footnote to the name, so it recedes. */
+.peak-name {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--peak, var(--color-sun));
+}
+.peak-alt {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.45);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The outermost summits sit ON the frame edges, so a centred label is half
+   off-screen. Anchor those two inward. Driven by a class from the index,
+   not :first-child — the layer's first child is the crest <svg>.
+
+   The 34px is not arbitrary: the pin is 56px wide with a -28px margin, so
+   its box starts 28px OUTSIDE the summit it marks. Insetting by the pin's
+   own edge therefore still hung the label off the frame (Chaukhamba landed
+   at -34px). 28 puts the label back level with the summit, +6 clears the
+   frame edge. */
+.peak-pin--start .peak-label {
+  left: 34px;
+  transform: translateX(0) translateY(3px);
+}
+.peak-pin--start:hover .peak-label { transform: translateX(0) translateY(0); }
+.peak-pin--end .peak-label {
+  left: auto;
+  right: 34px;
+  transform: translateX(0) translateY(3px);
+}
+.peak-pin--end:hover .peak-label { transform: translateX(0) translateY(0); }
 
 /* Pill buttons + bento cards live in the components layer so Tailwind
    utility colours (e.g. bg-lav, bg-sun) can still override their default
@@ -211,6 +386,68 @@
 @keyframes md-spin { to { transform: rotate(360deg); } }
 .animate-spin-slow { animation: md-spin 18s linear infinite; }
 
+/* ------------------------ play: fractal toys ----------------------- *
+ * The letterform mask is generated from the baked SVG wordmark by
+ * monal-julia-logo/build_grid.py; it cuts a canvas to the MONAL letters.     */
+.mask-monal-letters {
+  -webkit-mask-image: url("/play/monal-letters-mask.svg");
+  mask-image: url("/play/monal-letters-mask.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* The baked wordmark is a 235 x 57 canvas scaled up; keep its cell edges hard. */
+.pixel-canvas {
+  image-rendering: pixelated;
+}
+
+/* /embed/<toy> runs inside someone else's page: no custom cursor, no scroll bar. */
+body.is-embed .cursor-dot,
+body.is-embed [data-scroll-progress] {
+  display: none !important;
+}
+body.is-embed.has-custom-cursor,
+body.is-embed.has-custom-cursor * {
+  cursor: auto !important;
+}
+
+/* ----------------------------- focus ------------------------------- *
+ *  A keyboard user here had NOTHING: no focus ring anywhere outside the
+ *  two forms and the frond, and no pointer either, because the custom
+ *  cursor sets `cursor: none` on every element. There was no way to tell
+ *  where you were on the page.
+ *
+ *  `:focus-visible`, not `:focus`, so the ring appears for keyboard and
+ *  assistive navigation but never on a mouse click — which is what let the
+ *  site get away without one for so long.
+ *
+ *  `:where()` keeps specificity at zero, so any component that wants its
+ *  own focus treatment (the forms already do) overrides this without a
+ *  fight. Modern browsers follow the element's own border-radius for the
+ *  outline, so pills stay pills and cards stay cards.
+ * ------------------------------------------------------------------- */
+:where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--color-royal);
+  outline-offset: 3px;
+}
+
+/* On the dark sections royal sits at 3.4:1 against the ink — passing, but
+   only just. Violet clears 5.4:1 there, so the ring swaps rather than
+   straining. */
+:where(.bg-ink, .bg-black, footer)
+  :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline-color: var(--color-violet);
+}
+
+/* The custom cursor is hidden for pointer users, but a keyboard user
+   reaching a control still needs to see the page respond in the same way
+   the pointer makes it respond — so focus mirrors hover on the cards. */
+:where(a, button):focus-visible .v-mark { opacity: 1; }
+
 /* --------------------------- custom cursor ------------------------- */
 
 .has-custom-cursor,
@@ -228,14 +465,60 @@
   will-change: transform;
   transform: translate(-50%, -50%);
   transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease,
-    background-color 0.2s ease;
+    background-color 0.2s ease, border-color 0.2s ease;
+  border: 2px solid transparent; /* reserved so the hollow state cannot jump */
+  box-sizing: border-box;
 }
 .cursor-dot.is-visible { opacity: 1; }
+
+/* The cursor's shape reports whether a thing is OPEN TO YOU. Size alone
+   only said "something is here" — a venture you can visit and one that
+   ships in 2027 looked identical until you clicked. See CustomCursor.tsx.
+
+   OPEN — filled, with an arrow. The arrow is the whole point: it names the
+   action rather than leaving you to infer it from a size change. */
 .cursor-dot.is-visible.cursor-dot--hover {
-  width: 42px; height: 42px;
+  width: 38px; height: 38px;
   background-color: var(--color-royal);
-  opacity: 0.35;
+  opacity: 0.92;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
+  background-size: 16px 16px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+/* OPEN, over a surface that already carries a brand fill. A purple disc on
+   a purple button is invisible, so invert it: white disc, brand arrow. */
+.cursor-dot.is-visible.cursor-dot--hover.cursor-dot--invert {
+  background-color: var(--color-paper);
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c4df6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
+}
+
+/* PRECISION — the cursor must not become the thing you are aiming at. The
+   tap-to-grow frond is a small drawing; a 38px disc sat on top of it and
+   hid the plant you were growing. Over anything asking for a fine point,
+   the cursor shrinks to a ring you can see past. */
+.cursor-dot.is-visible.cursor-dot--fine {
+  width: 20px; height: 20px;
+  background-color: transparent;
+  background-image: none;
+  border: 2px solid var(--color-leaf);
+  opacity: 0.9;
+}
+
+/* NOT YET — hollow. Nothing to travel to, so no arrow; the ring says the
+   thing is real and deliberate rather than broken or unresponsive. */
+.cursor-dot.is-visible.cursor-dot--soon {
+  width: 34px; height: 34px;
+  background-color: transparent;
+  border: 2px solid var(--color-muted);
+  opacity: 0.75;
+}
+.cursor-dot.is-visible.cursor-dot--soon.cursor-dot--dark {
+  border-color: rgb(255 255 255 / 0.55);
+}
+
 .cursor-dot.cursor-dot--down { width: 9px; height: 9px; }
 /* Brand purple over dark sections so the dot stays visible on black. */
 .cursor-dot.cursor-dot--dark { background-color: var(--color-violet); }

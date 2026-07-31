@@ -9,7 +9,7 @@ export default function NotFound() {
       <Header />
       <section className="min-h-[70vh] grid place-items-center bg-paper px-6 text-center">
         <div>
-          <Eyebrow dot="bg-royal">404</Eyebrow>
+          <Eyebrow dot="royal">404</Eyebrow>
           <h1 className="mt-6 font-display text-[clamp(2rem,6vw,3.5rem)] tracking-tight text-ink">
             That page has wandered off.
           </h1>

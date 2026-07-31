@@ -175,7 +175,7 @@ export default function CareerForm() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="bg-violet">Careers</Eyebrow>
+            <Eyebrow tone="dark" dot="violet">Careers</Eyebrow>
           </div>
           <h1
             data-split
@@ -204,7 +204,7 @@ export default function CareerForm() {
             <div className="relative bg-linear-to-br from-royal to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
               <Graphics />
               <div className="relative">
-                <Eyebrow tone="dark" dot="bg-sun">Apply now</Eyebrow>
+                <Eyebrow tone="dark" dot="sun">Apply now</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
                   Tell us about <span className="text-sun">yourself</span>.
                 </h2>

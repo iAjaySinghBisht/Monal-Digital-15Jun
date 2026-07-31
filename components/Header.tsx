@@ -90,8 +90,8 @@ const Header = () => {
           <img
             src="/assets/monal-logo-nav.png"
             alt="Monal Digital"
-            width="300"
-            height="64"
+            width="480"
+            height="116"
             loading="eager"
             fetchPriority="high"
             decoding="async"

@@ -1,4 +1,5 @@
 import { Eyebrow } from "./Decor";
+import AipanMark from "./AipanMark";
 
 /* Partner testimonials. */
 const TESTIMONIALS = [
@@ -73,9 +74,17 @@ const PullQuote = ({
 const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }) => (
   <article
     data-tilt="4"
-    className={`group card card-hover p-7 md:p-8 flex flex-col ${className}`}
+    className={`group card card-hover p-7 md:p-8 flex flex-col relative overflow-hidden ${className}`}
   >
-    <span className="font-display text-royal text-5xl leading-none select-none mb-4" aria-hidden="true">
+    {/* Same corner as the venture cards, same reasoning: texture, not
+        ornament. These quotes are the page's quietest surface, so the mark
+        sits lower still. */}
+    <AipanMark
+      motif="corner"
+      size={28}
+      className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.045]"
+    />
+    <span className="relative font-display text-royal text-5xl leading-none select-none mb-4" aria-hidden="true">
       &rdquo;
     </span>
     <p className="text-ink/80 leading-relaxed">{t.quote}</p>
@@ -103,7 +112,7 @@ const Testimonials = () => {
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="bg-royal">In their words</Eyebrow>
+            <Eyebrow dot="royal">In their words</Eyebrow>
           </div>
           <h2
             data-split

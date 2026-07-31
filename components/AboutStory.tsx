@@ -74,13 +74,13 @@ const AboutStory = () => {
             className="group card card-hover bg-mist border-transparent lg:col-span-5 p-8 md:p-11 flex flex-col justify-center"
           >
             <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-royal mb-5">
-              Six years in
+              Ten years in
             </span>
             <p className="text-ink text-xl md:text-[1.5rem] leading-snug font-display">
               Craft, scaled by technology.
             </p>
             <p className="mt-4 text-muted leading-relaxed">
-              For six years and counting we&apos;ve produced kids&apos;
+              For ten years and counting we&apos;ve produced kids&apos;
               entertainment that reaches audiences at global scale, pairing
               storytelling craft with
               technology, data, and a real understanding of how young viewers

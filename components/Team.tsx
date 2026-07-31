@@ -87,7 +87,7 @@ const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="bg-royal">The Collective</Eyebrow>
+              <Eyebrow dot="royal">The Collective</Eyebrow>
             </div>
             <h2
               data-split

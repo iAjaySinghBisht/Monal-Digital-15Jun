@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { bisectDepths } from "@/lib/stagger";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
@@ -149,10 +150,26 @@ export function useUiAnimations() {
         const items = gsap.utils.toArray<HTMLElement>(group.children);
         if (!items.length) return;
         gsap.set(items, from);
+
+        /* `data-reveal-order="bisect"` staggers by recursive halving rather
+           than left to right: the middle item lands first, then the middle
+           of each half, then of each quarter. A group assembles by
+           subdivision — the same construction the rest of the page is built
+           on, expressed in time, where it costs nothing to look at.
+
+           GSAP's stagger accepts a function returning each item's delay,
+           which is what makes an arbitrary order possible at all — its
+           built-in `from` only offers start/center/edges/random. */
+        const depths = bisectDepths(items.length);
+        const stagger =
+          group.dataset.revealOrder === "bisect"
+            ? (i: number) => depths[i] * 0.13
+            : 0.12;
+
         gsap.to(items, {
           ...REVEAL_TO,
           duration: 0.95,
-          stagger: 0.12,
+          stagger,
           scrollTrigger: { trigger: group, start: "top 88%", once: true },
         });
       });

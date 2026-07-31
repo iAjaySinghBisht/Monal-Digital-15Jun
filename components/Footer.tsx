@@ -1,6 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Eyebrow, Pill } from "./Decor";
+import {
+  KUMAON_SKYLINE,
+  peakLabel,
+  ridgeCrests,
+  ridgePath,
+  ridgePoints,
+} from "@/lib/himalaya";
+import { SPECTRUM } from "@/lib/palette";
+import AipanMark from "./AipanMark";
 
 const SocialIcon = ({
   children,
@@ -46,7 +55,7 @@ const Footer = () => {
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col justify-between gap-10">
             <div>
               <div className="mb-6">
-                <Eyebrow tone="dark" dot="bg-violet">Let&apos;s build together</Eyebrow>
+                <Eyebrow tone="dark" dot="violet">Let&apos;s build together</Eyebrow>
               </div>
               <h2 className="font-display text-white text-[clamp(1.8rem,3.5vw,2.6rem)] leading-[1.04]">
                 Building the Future of Childhood?
@@ -97,6 +106,7 @@ const Footer = () => {
                 <ul className="space-y-3.5 text-base">
                   <FooterLink href="/work">Portfolio</FooterLink>
                   <FooterLink href="/services">Services</FooterLink>
+                  <FooterLink href="/play">Play</FooterLink>
                   <FooterLink href="/team">Team</FooterLink>
                   <FooterLink href="/blog">Blog</FooterLink>
                 </ul>
@@ -141,28 +151,86 @@ const Footer = () => {
           The id is the cue the header uses to hide itself. */}
       <div
         id="footer-logo"
-        className="relative px-6 md:px-12 pt-8 md:pt-12 pb-10 md:pb-16 select-none"
+        /* The ranges are anchored to the bottom of this box, so trading
+           bottom padding for top padding sinks the wordmark into them —
+           the letters read as resting on the ridge rather than floating
+           above it. */
+        className="relative px-6 md:px-12 pt-11 md:pt-18 pb-6 md:pb-10 select-none"
       >
-        {/* Mountain pattern — overlapping translucent peaks in brand purples.
-            Stretches full width and fades into the black footer at the top.
-            The two larger ranges sit BEHIND the logo. */}
+        {/* Four ranges receding into the distance. Each is the real Kumaon
+            skyline (see lib/himalaya.ts, so Nanda Devi genuinely dominates)
+            rotated by a different number of peaks so no two ridgelines ever
+            trace each other, and given a deeper `drop` the nearer it is —
+            close valleys read as cut, far ones as hazed over.
+
+            Reading up the frame: deep-purple foothills, royal, violet, and
+            snow furthest back. Distance drains colour, which is why the far
+            range is the pale one — it is the only one above the snowline.
+
+            The snow range's mask runs the OPPOSITE way to the others. They
+            fade out towards the top so their peaks dissolve into the footer;
+            that would make the summits the faintest part of this range,
+            which is backwards — snow sits ON the peaks. This one is opaque
+            at the top and fades out below, so what survives is the cap and
+            the rock beneath it recedes behind the range in front. That fade
+            IS the snowline.
+
+            Because it stays opaque upwards it cannot overshoot the box the
+            way a faded range harmlessly can: the container's top edge is
+            viewBox y=148, so 150 is as tall as this range can be and still
+            end inside its own frame. */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1440 520"
+          preserveAspectRatio="none"
+          className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,transparent_30%,#000_58%)]"
+        >
+          <path
+            d={ridgePath(KUMAON_SKYLINE, 1440, 520, 150, 0.34)}
+            /* Deliberately NOT a spectrum band: this range is above the
+               snowline, and snow is the absence of hue. A pale neutral
+               with a trace of the violet in it. */
+            fill="#eaecf7"
+            /* 0.45 was tuned against a near-black GREEN canvas. Over this
+               footer's true black the same value reads as a grey haze
+               rather than a snowline, so it sits lower here. */
+            fillOpacity="0.3"
+          />
+        </svg>
+
+
+        {/* Stretches full width and fades into the footer at the top.
+            Both of these sit BEHIND the logo. */}
         <svg
           aria-hidden="true"
           viewBox="0 0 1440 520"
           preserveAspectRatio="none"
           className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
         >
-          {/* Extra light — distant range, tallest with a dominant peak */}
+          {/* Azure — the range below the snowline. Furthest of the two, so
+              it takes the bluer band: distance drains warmth. */}
           <path
-            d="M0,520 V400 L240,300 L380,360 L660,110 L840,320 L1080,210 L1260,330 L1440,250 V520 Z"
-            fill="#8b7cff"
-            fillOpacity="0.12"
+            d={ridgePath(
+              [...KUMAON_SKYLINE.slice(2), ...KUMAON_SKYLINE.slice(0, 2)],
+              1440,
+              520,
+              232,
+              0.48,
+            )}
+            style={{ fill: "var(--color-azure)" }}
+            fillOpacity="0.16"
           />
-          {/* Light — mid range */}
+          {/* Violet — nearer still, sitting just above the foothills. */}
           <path
-            d="M0,520 V440 L200,360 L440,430 L720,250 L960,410 L1200,310 L1440,400 V520 Z"
-            fill="#6c4df6"
-            fillOpacity="0.22"
+            d={ridgePath(
+              [...KUMAON_SKYLINE.slice(4), ...KUMAON_SKYLINE.slice(0, 4)],
+              1440,
+              520,
+              312,
+              0.62,
+            )}
+            style={{ fill: "var(--color-violet)" }}
+            fillOpacity="0.2"
           />
         </svg>
 
@@ -183,13 +251,156 @@ const Footer = () => {
           preserveAspectRatio="none"
           className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
         >
-          {/* Dark — nearest range, lower foothills, solid */}
+          {/* Nearest range — the foothills you actually stand on, so the
+              same profile flattened right down and shifted again. */}
           <path
-            d="M0,520 V475 L260,410 L520,478 L780,390 L1040,475 L1300,420 L1440,465 V520 Z"
-            fill="#322B80"
+            d={ridgePath(
+              [...KUMAON_SKYLINE.slice(5), ...KUMAON_SKYLINE.slice(0, 5)],
+              1440,
+              520,
+              392,
+              0.75,
+            )}
+            /* The darkest range, so the violet band taken most of the way
+               down to black rather than an unrelated navy. */
+            style={{ fill: "color-mix(in srgb, var(--color-violet) 42%, #06060b)" }}
             fillOpacity="1"
           />
         </svg>
+
+        {/* The summits are real, so they are worth naming.
+
+            LAST, and above the wordmark. On the first attempt this layer
+            sat before the <img>, which is `relative` and therefore paints
+            over it — five of the eight peaks were behind the letters and
+            swallowed the hover, so most of the labels were unreachable.
+
+            The cue is the SKYLINE ITSELF: a short stretch of ridge either
+            side of each summit, drawn slightly brighter. No new shape is
+            added, so it cannot clutter a range made of nothing but edges,
+            and there is nothing to misalign — the crest is the same
+            geometry as the range beneath it, from the same function.
+
+            It has to carry the affordance alone: `.has-custom-cursor *`
+            forces `cursor: none` site-wide for the dot cursor, so a
+            `cursor: help` hint could never show.
+
+            Placed from the same elevation mapping as the ridge, so neither
+            crest nor label can drift off the summit it belongs to. The snow
+            range is the one labelled: it is the only one drawn in true
+            west-to-east order, the ranges in front are rotations. */}
+        <div className="peak-layer absolute inset-x-0 bottom-0 z-10 w-full h-[140%]">
+          {/* Same viewBox and preserveAspectRatio as the ranges, so the lit
+              crest inherits the identical stretch and lies exactly on the
+              ridge rather than beside it. */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 1440 520"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+          >
+            {/* Eight summits, eight bands of the wordmark — the ranges get
+                to walk the brand spectrum exactly once, west to east, so
+                each peak is identifiable by colour before you read it. */}
+            {ridgeCrests(KUMAON_SKYLINE, 1440, 520, 150, 0.34).map(({ peak, d }, i) => (
+              <path
+                key={peak.name}
+                className="peak-crest"
+                d={d}
+                fill="none"
+                stroke={SPECTRUM[i % SPECTRUM.length].hex}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+              />
+            ))}
+          </svg>
+
+          {ridgePoints(KUMAON_SKYLINE, 1440, 520, 150).map(({ peak, x, y }, i, all) => {
+            /* The outermost summits sit ON the frame edges, so a label
+               centred on them is half off-screen — the first version lost
+               "Chaukham" and showed "ba · 7,138 m". These anchor their
+               labels inward instead. Set from the index rather than
+               :first-child, which never matched: the first child of the
+               layer is the crest <svg>, not a pin. */
+            const edge =
+              i === 0 ? " peak-pin--start" : i === all.length - 1 ? " peak-pin--end" : "";
+            return (
+              <span
+                key={peak.name}
+                aria-label={peakLabel(peak)}
+                role="img"
+                className={`peak-pin${edge}`}
+                /* Percentages against the same box the ranges are drawn in,
+                   so a pin lands on its summit at every viewport width. The
+                   ranges use preserveAspectRatio="none", which maps the
+                   viewBox linearly onto this box — so x/1440 and y/520 are
+                   exactly the ridge's own coordinates.
+
+                   This is HTML rather than another <circle> for a reason:
+                   inside that stretched viewBox a circle renders as an
+                   ELLIPSE, because the 1440x520 box is squashed to a wide,
+                   short one. The first version was visibly oval and sat 14
+                   units below the summit it named. */
+                style={{
+                  left: `${(x / 1440) * 100}%`,
+                  top: `${(y / 520) * 100}%`,
+                  ["--peak" as string]: SPECTRUM[i % SPECTRUM.length].hex,
+                }}
+              >
+                {/* Real markup rather than a ::before, so the name and the
+                    elevation can be weighted differently — the name is what
+                    you are reading, the height is a footnote to it. */}
+                <span className="peak-label">
+                  <span className="peak-name">{peak.name}</span>
+                  <span className="peak-alt">{peak.m.toLocaleString("en-IN")} m</span>
+                </span>
+              </span>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Devanagari co-brand. The channels these worlds live on are
+          Hindi-first (Monal Kids Hindi), so the name is set in the script
+          the audience actually reads — not as decoration.
+
+          Padded equally top and bottom: this band is bounded by the hard
+          edge of the foreground ridge above and the bottom bar's rule
+          below, and with no top padding the Devanagari ascenders sit
+          flush against the ridge and read as overlapping it. */}
+      <div className="relative flex flex-col items-center gap-1 pt-10 pb-10">
+        {/* Devanagari flanked by Aipan rules: the script the audience reads
+            and the folk art of the place it is read in, set together. Both
+            are Uttarakhand, and this is where the page signs its name. */}
+        <div className="flex items-center gap-4">
+          <AipanMark
+            motif="rule"
+            size={13}
+            className="hidden text-white/25 sm:block"
+          />
+          <span
+            lang="hi"
+            className="text-[clamp(1.6rem,3.4vw,2.4rem)] leading-none text-white/80"
+            style={{ fontFamily: "var(--font-deva)", fontWeight: 700 }}
+          >
+            मोनाल डिजिटल
+          </span>
+          <AipanMark
+            motif="rule"
+            size={13}
+            className="hidden -scale-x-100 text-white/25 sm:block"
+          />
+        </div>
+        {/* Letter-spacing adds a trailing space after the last glyph, so
+            centred tracked text sits visually left of true centre. The
+            indent puts that space back on the front. */}
+        <span
+          className="text-[11px] uppercase tracking-[0.28em] text-white/35"
+          style={{ textIndent: "0.28em" }}
+        >
+          Monal Digital
+        </span>
       </div>
 
       {/* Bottom bar */}

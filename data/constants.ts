@@ -47,7 +47,7 @@ export const stats = {
   views: { n: "50", suffix: "B+" },
   subscribers: { n: "80", suffix: "M+" },
   channels: { n: "90", suffix: "+" },
-  years: { n: "6", suffix: "+" },
+  years: { n: "10", suffix: "+" },
 } as const;
 
 /* Listed in display order — three per row on desktop. */

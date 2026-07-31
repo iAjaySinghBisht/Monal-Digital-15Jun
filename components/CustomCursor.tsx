@@ -38,16 +38,48 @@ const CustomCursor = () => {
       }
 
       const target = e.target as Element;
-      /* Grow the dot over clickable elements for an interactive feel. */
-      const interactive = target.closest(
-        'a, button, [role="button"], input, textarea, select, label, [data-cursor="grow"]'
-      );
-      dot.classList.toggle("cursor-dot--hover", Boolean(interactive));
+      /* The cursor's SHAPE reports whether a thing is open to you, which is
+         the only distinction that matters on this page. Growing over
+         anything clickable said "something is here" without saying what,
+         so a venture you can visit and one that ships in 2027 looked
+         identical until you clicked.
+
+           filled + arrow  you can go here
+           hollow ring     real, but not yet
+           small dot       everything else
+
+         `soon` is checked first: a not-yet venture is not a link, but if
+         one ever became a card-shaped link it should still read as
+         pending rather than as open. */
+      const soon = target.closest('[data-cursor="soon"]');
+      const interactive =
+        !soon &&
+        target.closest(
+          'a, button, [role="button"], input, textarea, select, label, [data-cursor="grow"]'
+        );
+      /* Some targets are small drawings you aim INTO rather than buttons
+         you land on. There the cursor has to get out of the way. */
+      const fine = target.closest('[data-cursor="fine"]');
+
+      dot.classList.toggle("cursor-dot--hover", Boolean(interactive && !fine));
+      dot.classList.toggle("cursor-dot--soon", Boolean(soon && !fine));
+      dot.classList.toggle("cursor-dot--fine", Boolean(fine));
 
       /* The ink dot vanishes against dark sections (footer, service page
          heroes). Over any .bg-ink surface, switch it to brand purple. */
       const onDark = target.closest(".bg-ink, .bg-black");
       dot.classList.toggle("cursor-dot--dark", Boolean(onDark));
+
+      /* A purple cursor over a PURPLE button is invisible — the "Build
+         With Monal" CTA swallowed it whole. Over any surface already
+         carrying a brand fill, invert: white disc, brand-coloured arrow.
+         Checked on the interactive element itself, since that is the
+         thing whose background the cursor sits on. */
+      const onBrand =
+        interactive &&
+        (interactive.closest(".btn-royal, .btn-sun, .bg-royal, .bg-sun") ||
+          interactive.matches(".btn-royal, .btn-sun, .bg-royal, .bg-sun"));
+      dot.classList.toggle("cursor-dot--invert", Boolean(onBrand));
     };
 
     const handleLeave = () => {

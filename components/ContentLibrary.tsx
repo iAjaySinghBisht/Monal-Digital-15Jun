@@ -47,7 +47,7 @@ const ContentLibrary = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
           <div data-reveal="up">
-            <Eyebrow dot="bg-sun">Our Worlds</Eyebrow>
+            <Eyebrow dot="sun">Our Worlds</Eyebrow>
           </div>
           <h2
             data-split
