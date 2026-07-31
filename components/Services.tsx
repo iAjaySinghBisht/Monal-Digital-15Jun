@@ -246,6 +246,29 @@ const Services = ({
           ))}
         </div>
 
+        {/* The section's only way out. Six ventures, three of them not open
+            yet, and until now nothing to do about any of them — a reader
+            crossed this section and the testimonials, roughly 3,500px and
+            more than a third of the page, with no way to act between "View
+            All Our Work" and the footer.
+
+            Placed after the grid rather than before it: the ask only makes
+            sense once you have seen what is being offered. The copy names
+            the not-yet ventures on purpose, because a card marked
+            "Coming 2027" otherwise reads as a dead end rather than an
+            invitation. */}
+        <div className="mt-14 md:mt-16 flex flex-col items-center gap-3 text-center">
+          <p className="text-muted max-w-lg">
+            Building something for kids — a show, a game, a learning tool?
+            Several of these worlds are still taking shape, and the best
+            time to talk is now.
+          </p>
+          <Link href="/contact-us" data-magnetic="0.25" className="btn btn-primary group">
+            Talk to us about a venture
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
+
         {/* Partners */}
         {showPartners && (
         <div className="relative mt-24 md:mt-32 pt-16 md:pt-20 border-t border-line">

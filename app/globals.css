@@ -75,7 +75,12 @@
   --color-mist: #f6f6f7;       /* soft off-white section background     */
   --color-cloud: #efeff1;      /* light neutral fill                   */
   --color-line: #eaeaec;       /* hairline borders                     */
-  --color-muted: #71717a;      /* muted body text                      */
+  /* Retuned against MIST, not white. This sits on the alternating
+     off-white sections as often as on paper, and #71717a cleared 4.83:1
+     on white but only 4.47:1 on mist — so roughly half the body copy on
+     the page was under AA while the value looked safe in isolation. The
+     ground a colour actually lands on is the one to measure. */
+  --color-muted: #6f6f78;      /* muted body text — 4.61:1 on mist     */
 
   /* The semantic tier. See THE PALETTE at the top — this is the only
      colour on the site that means anything. (The claim that used to sit
@@ -91,7 +96,10 @@
      Two values, both load-bearing — unlike the eight `-ink` band siblings
      that were removed, which existed so decoration could pretend it was
      text. An accent genuinely has to do both jobs. */
-  --color-accent-ink: #178383;
+  /* Also retuned against mist: two thirds of the accent's text uses sit
+     on the tinted card grounds, where #178383 managed only 4.22:1. Same
+     hue as the fill to within 0.4deg, which a test enforces. */
+  --color-accent-ink: #167c7c;
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;

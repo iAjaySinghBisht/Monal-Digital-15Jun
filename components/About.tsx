@@ -116,7 +116,7 @@ const About = () => {
               </p>
               <Link
                 href="/about-us"
-                className="group/link mt-6 inline-flex items-center gap-2 text-sm font-semibold text-ink"
+                className="group/link mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-ink"
               >
                 More about us
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />

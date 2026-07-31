@@ -85,7 +85,7 @@ const Header = () => {
         }`}
       >
         {/* Logo */}
-        <Link href="/" data-header-item className="flex items-center gap-2.5 shrink-0">
+        <Link href="/" data-header-item className="flex min-h-11 items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/monal-logo-nav.png"

@@ -113,6 +113,40 @@ test("there is no by-name accessor to reintroduce the problem", () => {
   );
 });
 
+/* WCAG AA, measured against the ground each colour ACTUALLY lands on.
+   Both of these were set by checking them on white, and both passed there
+   while failing on the alternating off-white sections — muted at 4.47:1
+   and the accent's text form at 4.22:1. A colour is only as legible as
+   its worst real background, and on this page that is `mist`. */
+test("body copy and accent text clear AA on the darkest ground they sit on", () => {
+  const css = read("app/globals.css");
+  const val = (name: string) =>
+    css.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1] as string;
+
+  const srgb = (c: number) => {
+    const s = c / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  const lum = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    return 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b);
+  };
+  const contrast = (a: string, b: string) => {
+    const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p);
+    return (x + 0.05) / (y + 0.05);
+  };
+
+  const MIST = val("mist");
+  for (const token of ["muted", "accent-ink"]) {
+    const ratio = contrast(val(token), MIST);
+    assert.ok(
+      ratio >= 4.5,
+      `--color-${token} is ${ratio.toFixed(2)}:1 on --color-mist, under AA. ` +
+        `Check it against mist, not white — half the page's copy sits on mist.`
+    );
+  }
+});
+
 test("the heading highlight has exactly one flavour", () => {
   const css = read("app/globals.css");
   assert.ok(/^\.mark \{/m.test(css), ".mark should exist");

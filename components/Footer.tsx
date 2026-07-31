@@ -31,13 +31,20 @@ const SocialIcon = ({
   </a>
 );
 
+/* `min-h-11` = 44px, the smallest target a thumb reliably hits (WCAG 2.5.8
+   and the iOS/Android guidelines agree on it). These were 24px tall — the
+   text's own line box — because an inline-flex link is only as tall as its
+   content. The padding is vertical only, so the row rhythm is unchanged;
+   what grows is the part you can actually press. */
 const FooterLink = ({ href, children }: { href: string; children: ReactNode }) => (
   <li>
     <Link
       href={href}
-      className="group inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+      className="group inline-flex min-h-11 items-center gap-2 py-1 text-white/60 hover:text-white transition-colors"
     >
-      <span className="w-0 h-[1.5px] bg-violet transition-all duration-300 group-hover:w-4" />
+      {/* The growing rule marks a link, so it takes the accent — violet is
+          an identity band and may not carry meaning. */}
+      <span className="w-0 h-[1.5px] bg-accent transition-all duration-300 group-hover:w-4" />
       {children}
     </Link>
   </li>
@@ -82,10 +89,10 @@ const Footer = () => {
               Get in touch
             </div>
             <div className="space-y-2 mb-6">
-              <a href="mailto:hello@monaldigital.com" className="block text-white/80 text-lg hover:text-violet transition-colors break-all">
+              <a href="mailto:hello@monaldigital.com" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors break-all">
                 hello@monaldigital.com
               </a>
-              <a href="tel:+917017820679" className="block text-white/80 text-lg hover:text-violet transition-colors">
+              <a href="tel:+917017820679" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors">
                 +91 70178 20679
               </a>
             </div>
@@ -103,7 +110,7 @@ const Footer = () => {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
                   Explore
                 </div>
-                <ul className="space-y-3.5 text-base">
+                <ul className="space-y-1 text-base">
                   <FooterLink href="/work">Portfolio</FooterLink>
                   <FooterLink href="/services">Services</FooterLink>
                   <FooterLink href="/play">Play</FooterLink>
@@ -116,7 +123,7 @@ const Footer = () => {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
                   Company
                 </div>
-                <ul className="space-y-3.5 text-base">
+                <ul className="space-y-1 text-base">
                   <FooterLink href="/about-us">About</FooterLink>
                   <FooterLink href="/contact-us">Contact</FooterLink>
                   <FooterLink href="/career">Careers</FooterLink>

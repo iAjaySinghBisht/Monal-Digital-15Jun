@@ -74,13 +74,23 @@ export function useUiAnimations() {
           el.textContent = prefix + end + suffix;
           return;
         }
-        el.textContent = prefix + "0" + suffix;
+        /* The zeroing happens INSIDE onEnter, not here. Written outside, it
+           threw away the server-rendered value the moment the bundle
+           hydrated and left "0B+" on screen until the trigger fired — a
+           beat, or longer on a slow device, in which the hero's proof of
+           scale read zero. The figures are the most credibility-bearing
+           thing above the fold; they should never be seen as 0.
+
+           So the server's "50B+" now holds until the count-up is actually
+           about to run, and the animation is a flourish on top of correct
+           content rather than a prerequisite for it. */
         const proxy = { v: 0 };
         ScrollTrigger.create({
           trigger: el,
           start: "top 92%",
           once: true,
-          onEnter: () =>
+          onEnter: () => {
+            el.textContent = prefix + "0" + suffix;
             gsap.to(proxy, {
               v: end,
               duration: 2,
@@ -88,7 +98,8 @@ export function useUiAnimations() {
               onUpdate: () => {
                 el.textContent = prefix + Math.round(proxy.v) + suffix;
               },
-            }),
+            });
+          },
         });
       });
 
