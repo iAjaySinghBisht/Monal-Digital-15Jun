@@ -33,6 +33,8 @@
  *  vocabulary rather than copying any specific ceremonial design.
  * ------------------------------------------------------------------ */
 
+import { useId } from "react";
+
 import { diamondPath, innerRadius } from "@/lib/aipan";
 
 const UNIT = 34; // pitch of the repeat — one diamond per 34px
@@ -45,6 +47,15 @@ const GROUND = "#a81f16";
 const GROUND_DEEP = "#82130c";
 
 export default function AipanBorder({ className = "" }: { className?: string }) {
+  /* SVG ids are DOCUMENT-global, so two bands on one page would collide and
+     the second would silently paint with the first's gradient. It renders
+     once today, but it takes a `className` — which invites a second — and
+     the failure is invisible rather than loud. `useId` costs nothing and
+     removes the trap. */
+  const uid = useId().replace(/:/g, "");
+  const ground = `aipan-ground-${uid}`;
+  const diamond = `aipan-diamond-${uid}`;
+
   return (
     <div
       aria-hidden="true"
@@ -58,14 +69,14 @@ export default function AipanBorder({ className = "" }: { className?: string }) 
           {/* The ground is painted, not filled: a flat swatch of red looks
               like a CSS colour, so it darkens at both edges the way pigment
               pools where the stroke ends. */}
-          <linearGradient id="aipan-ground" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={ground} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor={GROUND_DEEP} />
             <stop offset="0.5" stopColor={GROUND} />
             <stop offset="1" stopColor={GROUND_DEEP} />
           </linearGradient>
 
           <pattern
-            id="aipan-diamond"
+            id={diamond}
             width={UNIT}
             height={H}
             patternUnits="userSpaceOnUse"
@@ -85,8 +96,8 @@ export default function AipanBorder({ className = "" }: { className?: string }) 
           </pattern>
         </defs>
 
-        <rect width="100%" height="100%" fill="url(#aipan-ground)" />
-        <rect width="100%" height="100%" fill="url(#aipan-diamond)" />
+        <rect width="100%" height="100%" fill={`url(#${ground})`} />
+        <rect width="100%" height="100%" fill={`url(#${diamond})`} />
       </svg>
     </div>
   );

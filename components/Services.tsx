@@ -128,7 +128,7 @@ const VentureCard = ({
             table cycled three arbitrary pastels across six cards, which
             meant card 1 and card 4 matched for no reason at all. */}
         <span
-          className="venture-plate grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 group-hover:text-white"
+          className="band-plate band-plate--lift grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 group-hover:text-white"
           style={{ ["--band" as string]: band }}
         >
           {num}
@@ -152,7 +152,7 @@ const VentureCard = ({
       <h3 className="relative mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
         {venture.title}
       </h3>
-      <p className="relative mt-1.5 text-royal font-medium">{venture.tagline}</p>
+      <p className="relative mt-1.5 text-accent-ink font-medium">{venture.tagline}</p>
       <p className="relative mt-4 text-muted leading-relaxed">{venture.desc}</p>
     </>
   );

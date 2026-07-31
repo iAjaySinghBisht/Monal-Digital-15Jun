@@ -165,7 +165,7 @@ export default async function BlogPostPage({
               </h2>
               <Link
                 href="/blog"
-                className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-royal transition-colors"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent-ink transition-colors"
               >
                 View all
                 <ArrowUpRight className="w-4 h-4" />
@@ -199,7 +199,7 @@ export default async function BlogPostPage({
                     </h3>
                     <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-semibold text-ink">
                       Read article
-                      <ArrowUpRight className="w-4 h-4 text-royal transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight className="w-4 h-4 text-accent-ink transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </Link>

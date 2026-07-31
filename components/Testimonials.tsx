@@ -37,9 +37,9 @@ const PullQuote = ({
   t: Testimonial;
   line: string;
 }) => {
-  /* One skin, not two. These were a royal card and a sun card sitting
+  /* One skin, not two. These were a accent card and a sun card sitting
      side by side, which put the ACTION colour on something you cannot
-     act on — royal now means "you can press this" and a quote is not a
+     act on — accent now means "you can press this" and a quote is not a
      button. Both pull quotes take the signature band. */
   const skin = { surface: "bg-sun text-ink", role: "text-ink/55", ring: "ring-ink/15" };
   return (
@@ -103,7 +103,7 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
       size={28}
       className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.045]"
     />
-    <span className="relative font-display text-royal text-5xl leading-none select-none mb-4" aria-hidden="true">
+    <span className="relative font-display text-accent-ink text-5xl leading-none select-none mb-4" aria-hidden="true">
       &rdquo;
     </span>
     <p className="text-ink/80 leading-relaxed">{t.quote}</p>
@@ -113,7 +113,7 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
         src={t.img}
         alt={t.name}
         loading="lazy"
-        className="w-11 h-11 rounded-full shrink-0 object-cover ring-2 ring-royal/15 transition-transform duration-300 group-hover:scale-110"
+        className="w-11 h-11 rounded-full shrink-0 object-cover ring-2 ring-accent-ink/15 transition-transform duration-300 group-hover:scale-110"
       />
       <div className="leading-tight">
         <div className="font-display text-ink">{t.name}</div>

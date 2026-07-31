@@ -34,7 +34,7 @@ const DisciplineRow = ({
     >
       <span
         className={`font-display text-xl md:text-2xl tabular-nums shrink-0 transition-colors duration-300 ${
-          isOpen ? "text-royal" : "text-muted group-hover:text-ink"
+          isOpen ? "text-accent-ink" : "text-muted group-hover:text-ink"
         }`}
       >
         {String(index + 1).padStart(2, "0")}

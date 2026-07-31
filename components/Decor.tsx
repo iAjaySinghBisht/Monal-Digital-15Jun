@@ -70,7 +70,7 @@ export const Diamond = ({
 /* Section eyebrow — a small rounded chip with the nested diamond.
    tone "light" sits on light backgrounds, "dark" on dark panels.
 
-   THE DIAMOND HAS NO COLOUR PROP. It used to take royal, sun or violet
+   THE DIAMOND HAS NO COLOUR PROP. It used to take accent, sun or violet
    per call site, decided ad hoc — twenty-one eyebrows across the site and
    nothing saying which hue belonged to which section, so the mark meant
    something different every time you met it. An eyebrow is a singleton,
@@ -122,7 +122,7 @@ type PillProps = {
 };
 
 /* Pill button. See THE BUTTON CONVENTION in globals.css — three tiers and
-   one filled colour: `primary` is the royal "do this", `outline` the
+   one filled colour: `primary` is the accent "do this", `outline` the
    quieter sibling, `ghost` the primary on a dark slab.
    Magnetic by default (picked up by the data-attribute motion engine). */
 export const Pill = ({

@@ -823,13 +823,6 @@ type Props = {
   /** Override the eight colour bands — each theme passes its own. */
   palette?: string[];
   /**
-   * Bands to swap to while the `activateOn` host is hovered. Pass the
-   * spectrum's `ink` siblings to have a motif deepen rather than merely
-   * brighten: at rest it is a watermark, under attention it resolves into
-   * a drawing. Falls back to `palette` when omitted.
-   */
-  paletteHover?: string[];
-  /**
    * Multiplier on this field's clock. Some variants read much faster than
    * others at the same rate — the Hilbert traversal in particular covers
    * its whole curve in one sweep, so it needs slowing well below the
@@ -856,7 +849,6 @@ type Props = {
 export default function FractalField({
   variant = "julia",
   palette,
-  paletteHover,
   speed = 1,
   species = 0,
   depth,
@@ -901,7 +893,11 @@ export default function FractalField({
 
     const paint = () => {
       const rest = palette && palette.length ? palette : BANDS;
-      const hot = paletteHover && paletteHover.length ? paletteHover : rest;
+      /* Hover deepens by drawing one more generation, not by changing
+         colour. There was a `paletteHover` prop for a second palette; its
+         only caller passed the band's `-ink` sibling, and when those were
+         removed the prop had no correct value left to take. */
+      const hot = rest;
       ctx.clearRect(0, 0, W, H);
       ctx.save();
       PAINTERS[variant](ctx, W, H, {
@@ -992,7 +988,7 @@ export default function FractalField({
       host?.removeEventListener("pointerleave", onLeave);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [variant, palette, paletteHover, speed, species, depth, scale, cell, seedIndex, drift, activateOn]);
+  }, [variant, palette, speed, species, depth, scale, cell, seedIndex, drift, activateOn]);
 
   return (
     <canvas

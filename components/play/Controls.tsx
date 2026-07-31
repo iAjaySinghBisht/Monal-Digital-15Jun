@@ -36,7 +36,7 @@ export function Knob({
         {label}
         {hint && <span className="block text-[12.5px] font-normal text-muted">{hint}</span>}
       </label>
-      <span className="text-[13px] font-semibold tabular-nums text-royal">
+      <span className="text-[13px] font-semibold tabular-nums text-accent-ink">
         {format ? format(value) : value.toFixed(2)}
       </span>
       <input
@@ -47,7 +47,7 @@ export function Knob({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="col-span-2 h-11 w-full cursor-pointer accent-royal"
+        className="col-span-2 h-11 w-full cursor-pointer accent-accent"
       />
     </div>
   );
@@ -78,7 +78,7 @@ export function Choice<T extends string>({
               onClick={() => onChange(o.value)}
               className={`min-h-11 rounded-full border px-4 text-[14px] font-medium transition-colors ${
                 active
-                  ? "border-royal bg-royal text-white"
+                  ? "border-accent bg-accent text-ink"
                   : "border-line bg-paper text-ink hover:border-ink/30"
               }`}
             >
@@ -116,7 +116,7 @@ export function PaletteChoice({
               title={p.name}
               onClick={() => onChange(p.id)}
               className={`flex h-11 items-center gap-2 rounded-full border pr-4 pl-1.5 transition-colors ${
-                active ? "border-royal bg-lav" : "border-line bg-paper hover:border-ink/30"
+                active ? "border-accent bg-lav" : "border-line bg-paper hover:border-ink/30"
               }`}
             >
               <span className="flex h-8 w-8 overflow-hidden rounded-full">
@@ -158,7 +158,7 @@ export function Switch({
       </span>
       <span
         className={`relative h-7 w-12 shrink-0 rounded-full transition-colors ${
-          checked ? "bg-royal" : "bg-cloud"
+          checked ? "bg-accent" : "bg-cloud"
         }`}
       >
         <span

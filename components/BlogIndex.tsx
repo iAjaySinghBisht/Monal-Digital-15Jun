@@ -59,7 +59,7 @@ export default function BlogIndex({
                 />
               </div>
               <div className="p-7 md:p-10 flex flex-col">
-                <div className="flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-royal mb-5">
+                <div className="flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent-ink mb-5">
                   <span className="inline-flex items-center gap-2 rounded-full bg-lav px-3 py-1">
                     {featured.category}
                   </span>
@@ -117,7 +117,7 @@ export default function BlogIndex({
                       </p>
                       <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-semibold text-ink">
                         Read article
-                        <ArrowUpRight className="w-4 h-4 text-royal transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <ArrowUpRight className="w-4 h-4 text-accent-ink transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </div>
                     </div>
                   </Link>

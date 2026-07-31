@@ -24,7 +24,7 @@ export const mdxComponents = {
   ),
   a: (props: Props<"a">) => (
     <a
-      className="text-royal font-medium underline decoration-royal/30 underline-offset-4 hover:decoration-royal transition"
+      className="text-accent-ink font-medium underline decoration-accent-ink/30 underline-offset-4 hover:decoration-accent transition"
       {...props}
     />
   ),
@@ -33,12 +33,12 @@ export const mdxComponents = {
   ),
   ol: (props: Props<"ol">) => (
     <ol
-      className="my-5 space-y-2.5 text-ink/75 text-[1.075rem] leading-[1.7] list-decimal pl-5 marker:text-royal marker:font-semibold"
+      className="my-5 space-y-2.5 text-ink/75 text-[1.075rem] leading-[1.7] list-decimal pl-5 marker:text-accent-ink marker:font-semibold"
       {...props}
     />
   ),
   li: ({ children, ...rest }: Props<"li">) => (
-    <li className="pl-1.5 marker:text-royal" {...rest}>
+    <li className="pl-1.5 marker:text-accent-ink" {...rest}>
       {children}
     </li>
   ),

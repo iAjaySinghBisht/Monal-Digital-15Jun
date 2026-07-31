@@ -41,7 +41,7 @@
  *  against white, so none may carry body text, links or any small copy on
  *  a light surface. That is not a limitation to work around; it is the
  *  reason the rule exists. Text takes `ink` or `muted`, and the accent
- *  takes `royal`.
+ *  takes `accent`.
  *
  *  Each stop used to carry an `ink` sibling — itself darkened past 4.5:1
  *  so it *could* hold text. That escape hatch is gone, along with the

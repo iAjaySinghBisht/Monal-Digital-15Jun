@@ -52,7 +52,7 @@ const Field = ({
 );
 
 const inputClass =
-  "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-royal focus:ring-2 focus:ring-royal/15";
+  "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent-ink/15";
 
 // Reads a File into a bare base64 string (no data-URL prefix).
 const toBase64 = (file: File) =>
@@ -200,8 +200,10 @@ export default function CareerForm() {
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
-            {/* Left — blue half with graphics */}
-            <div className="relative bg-linear-to-br from-royal to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
+            {/* Left — accent half with graphics. The ramp starts at the
+                text-safe teal, not the bright one: this panel carries white
+                copy, and bright teal under white is 2.11:1. */}
+            <div className="relative bg-linear-to-br from-accent-ink to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
               <Graphics />
               <div className="relative">
                 <Eyebrow tone="dark">Apply now</Eyebrow>
@@ -238,7 +240,7 @@ export default function CareerForm() {
                   <button
                     type="button"
                     onClick={() => setStatus("idle")}
-                    className="mt-2 text-sm font-semibold text-royal hover:underline"
+                    className="mt-2 text-sm font-semibold text-accent-ink hover:underline"
                   >
                     Submit another application
                   </button>
@@ -308,7 +310,7 @@ export default function CareerForm() {
                       <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
-                        className="shrink-0 rounded-2xl border border-line bg-paper px-4 py-3 text-sm font-semibold text-ink hover:border-royal transition-colors"
+                        className="shrink-0 rounded-2xl border border-line bg-paper px-4 py-3 text-sm font-semibold text-ink hover:border-accent transition-colors"
                       >
                         Choose file
                       </button>
@@ -345,7 +347,7 @@ export default function CareerForm() {
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink text-paper px-7 py-3.5 font-semibold transition-all hover:bg-royal disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink text-paper px-7 py-3.5 font-semibold transition-all hover:bg-accent disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {status === "sending" ? "Submitting…" : "Submit application"}
                     {status !== "sending" && (

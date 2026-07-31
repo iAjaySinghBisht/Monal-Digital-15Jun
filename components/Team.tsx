@@ -23,12 +23,13 @@ const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
     aria-label={`${m.name}, ${m.role}, on LinkedIn`}
     className="group card card-hover overflow-hidden p-3 block"
   >
-    {/* Portrait on this member's band, laid thinly (initials fallback when
-        no photo yet). Same 16% mix the venture plates use, so a plate is a
-        plate wherever you meet one. */}
+    {/* Portrait on this member's band, laid thinly. `.band-plate` without
+        the `--lift` modifier: no hover flood here, because the photo would
+        hide it and it would show only for members still on the initials
+        fallback. */}
     <div
-      className="relative overflow-hidden rounded-[20px] aspect-square"
-      style={{ background: `color-mix(in srgb, ${band} 16%, white)` }}
+      className="band-plate relative overflow-hidden rounded-[20px] aspect-square"
+      style={{ ["--band" as string]: band }}
     >
       {m.img ? (
         /* eslint-disable-next-line @next/next/no-img-element */
@@ -61,8 +62,8 @@ const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
     <div className="px-3 pt-5 pb-2">
       {/* Role row — turns brand purple on hover */}
       <div className="flex items-center gap-2 mb-2.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-royal transition-transform duration-300 group-hover:scale-125" />
-        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-royal">
+        <span className="w-2.5 h-2.5 rounded-full bg-accent transition-transform duration-300 group-hover:scale-125" />
+        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-accent-ink">
           {m.role}
         </span>
       </div>
@@ -76,13 +77,13 @@ const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
       {/* Footer — LinkedIn connect */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <LinkedInIcon className="w-4 h-4 text-royal" />
+          <LinkedInIcon className="w-4 h-4 text-accent-ink" />
           <div className="leading-tight">
             <div className="text-sm font-semibold text-ink">Connect</div>
             <div className="text-[11px] text-muted">on LinkedIn</div>
           </div>
         </div>
-        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-royal group-hover:text-white group-hover:border-royal">
+        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-accent group-hover:text-ink group-hover:border-accent">
           <ArrowUpRight className="w-4 h-4" />
         </span>
       </div>

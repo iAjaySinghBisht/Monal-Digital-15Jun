@@ -81,7 +81,7 @@ export default function ServicesPage() {
                 >
                   {/* Number + stage label share one baseline row */}
                   <div className="flex items-center gap-4">
-                    <span className="grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink bg-lav shrink-0 transition-colors duration-300 group-hover:bg-royal group-hover:text-white">
+                    <span className="grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink bg-lav shrink-0 transition-colors duration-300 group-hover:bg-accent group-hover:text-ink">
                       {s.number}
                     </span>
                     <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
@@ -94,7 +94,7 @@ export default function ServicesPage() {
                     <h2 className="font-display text-ink text-2xl md:text-[1.7rem] leading-tight text-balance">
                       {s.title}
                     </h2>
-                    <p className="mt-2 text-royal font-medium">{s.tagline}</p>
+                    <p className="mt-2 text-accent-ink font-medium">{s.tagline}</p>
                   </div>
 
                   <p className="mt-5 text-muted leading-relaxed">{s.desc}</p>

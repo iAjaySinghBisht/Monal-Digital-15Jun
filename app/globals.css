@@ -14,15 +14,23 @@
  *  ---------------------------------------------------------------- *
  *  TIER 1 — SEMANTIC. One accent, and the neutrals.
  *
- *      --color-royal    YOU CAN ACT ON THIS. Buttons, the GO cursor,
- *                       the focus ring, links. Nothing else, ever.
- *      --color-violet   royal's sibling on dark slabs, where royal only
- *                       reaches 3.4:1 and violet clears 5.4:1. The same
- *                       meaning at a lightness the ground allows.
+ *      --color-accent      YOU CAN ACT ON THIS. Teal. Buttons, the GO
+ *                          cursor, the focus ring, links. Nothing else.
+ *      --color-accent-ink  the same teal taken down until it clears
+ *                          4.5:1 on white. The accent has to be both a
+ *                          FILL and TEXT, and no single value does both:
+ *                          bright teal is 8.41:1 behind ink and 8.41:1
+ *                          on the dark slabs, but only 2.11:1 as text on
+ *                          white. Fills and dark-ground text take the
+ *                          bright form; text on pale grounds takes this.
  *      ink / paper / mist / cloud / line / muted — structure.
  *
- *  If a thing is not actionable it may not be royal. That single rule
- *  is what makes the accent legible at all.
+ *  If a thing is not actionable it may not be the accent. That single
+ *  rule is what makes the accent legible at all.
+ *
+ *  These two are NOT the `-ink` band siblings that were deleted. Those
+ *  were eight darkened decorations pretending they could hold text. This
+ *  is one accent in the two forms its two jobs actually require.
  *
  *  ---------------------------------------------------------------- *
  *  TIER 2 — IDENTITY. The eight bands of the wordmark. DECORATIVE ONLY.
@@ -43,6 +51,15 @@
  *  The pale plates (lav, mint, peach, sky, sun-soft) are bands laid
  *  thinly — tier 2, derived, never independent.
  *
+ *  ONE SANCTIONED OVERLAP. --color-accent IS the teal band. Tier 1 and
+ *  tier 2 share that one value on purpose, because the action colour was
+ *  asked to come from the brand set. The cost: wherever a series walks to
+ *  teal — one summit, one partner mark, one venture card — that
+ *  decoration is the exact colour of every button. It is tolerable
+ *  because the convention puts the meaning in FORM (a filled disc with an
+ *  arrow, a pill) and lets colour reinforce rather than carry it. A test
+ *  fails if the accent ever drifts onto a different band.
+ *
  *  ---------------------------------------------------------------- *
  *  TIER 3 — THE ONE EXCEPTION. Aipan's pigment: #a81f16 brick red and
  *  #f7f4ef chalk, in components/AipanBorder.tsx. Deliberately outside
@@ -60,12 +77,21 @@
   --color-line: #eaeaec;       /* hairline borders                     */
   --color-muted: #71717a;      /* muted body text                      */
 
-  /* --------------------------- accents ---------------------------- *
-   *  Purple leads and is the only accent that carries text: --color-royal
-   *  is 5.21:1 on white, so links, taglines, buttons and eyebrow dots all
-   *  come from here rather than from the spectrum below.
-   * ---------------------------------------------------------------- */
-  --color-royal: #6c4df6;      /* signature purple — primary action    */
+  /* The semantic tier. See THE PALETTE at the top — this is the only
+     colour on the site that means anything. (The claim that used to sit
+     here, that eyebrow dots come from the accent, stopped being true the
+     day they became the signature band.) */
+  --color-accent: #23c6c7;      /* teal — the one colour that means "act" */
+  /* Teal is a LIGHT value: 2.11:1 on white, so it cannot carry text there
+     the way the old purple could at 5.21:1. This is the same hue taken
+     down until it clears 4.5:1 (4.55:1) — for links, taglines and markers
+     on pale grounds. The bright value is for FILLS, and for text on the
+     dark slabs, where it reaches 8.41:1.
+
+     Two values, both load-bearing — unlike the eight `-ink` band siblings
+     that were removed, which existed so decoration could pretend it was
+     text. An accent genuinely has to do both jobs. */
+  --color-accent-ink: #178383;
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;
@@ -74,28 +100,16 @@
   --font-deva: var(--font-devanagari), var(--font-onest), system-ui, sans-serif;
 }
 
-/* ------------------------- brand spectrum -------------------------- *
- *  The eight bands of the fractal wordmark, in the order they occur by
- *  area in the artwork. Mirrored in lib/palette.ts — canvas needs real
- *  hex, since a 2D context cannot resolve a CSS variable — so keep the
- *  two in step.
- *
- *  DECORATION AND FILLS ONLY. None of the eight reaches 4.5:1 against
- *  white, so none may carry body text on a light surface; each has an
- *  `-ink` sibling for that. On the near-black ink they all clear 4.7:1
- *  comfortably, which is where the logo itself lives. The primary action
- *  colour is deliberately NOT from this set — it stays --color-royal,
- *  the only accent that can carry a link or tagline unaided.
- *
- *  `sun` and `violet` are the spectrum's own lemon and violet: the
- *  previous #facc15 / #8b7cff were within a hair of the logo values, so
- *  they collapse here rather than sitting alongside as near-duplicates.
- *
- *  `static` because Tailwind prunes theme tokens it cannot see used, and
- *  an inline `var(--color-leaf)` in a style prop is not always visible to
- *  the scanner. A codified palette has to resolve whether or not this
- *  build happens to reference every band.
- * ------------------------------------------------------------------- */
+/* The eight bands live in the TIER 2 block at the top of this file. They
+   are listed here in hue order — 329, 24, 46, 102, 180, 209, 253, 291 —
+   so a series that takes its colour from position walks the wheel rather
+   than jumping about. Mirrored in lib/palette.ts, because a 2D canvas
+   context cannot resolve a CSS variable; the drift test fails if the two
+   ever part.
+
+   This block used to restate the whole palette rule, and drifted: it was
+   still promising `-ink` siblings months after they were deleted. One
+   description, at the top. */
 @theme static {
   /* In hue order — 329, 24, 46, 102, 180, 209, 253, 291 — so a series
      that takes its colour from position walks the wheel rather than
@@ -115,7 +129,7 @@
      only matters if a band is allowed to carry text, and under the rule
      above no band ever is. They survived as eight tokens serving one
      caller, then zero. Text takes `ink` or `muted`; the accent takes
-     `royal`. If a band ever genuinely needs to carry copy, that is a sign
+     `accent`. If a band ever genuinely needs to carry copy, that is a sign
      the band is being used semantically and the fix is upstream. */
 
   /* Pale plates for accent card backgrounds — each one is a spectrum band
@@ -187,15 +201,23 @@
 }
 .mark { background: var(--color-sun); color: var(--color-ink); }
 
-/* The venture number plate. Its colour is the card's own band from the
-   wordmark's set — laid thinly at rest so the number stays readable, at
-   full strength on hover. Written here rather than as Tailwind utilities
-   because the band arrives as an inline custom property, and a utility
-   class cannot be built from a value the scanner never sees. */
-.venture-plate {
+/* A BAND LAID THINLY — the one way to do it. Two places wanted this (the
+   venture number plate and the team portrait ground) and each had grown
+   its own version, one as this class and one as an inline color-mix that
+   repeated the 16%. Two mechanisms for one idea is how the mix drifts.
+
+   Written as CSS rather than Tailwind utilities because the band arrives
+   as an inline custom property, and a utility class cannot be built from
+   a value the scanner never sees.
+
+   The lift is OPT-IN. The venture cards flood to full strength on hover;
+   the team portraits must not, because a photo sits on top and the flood
+   would only show through the initials fallback — an effect that appears
+   for some members and not others. */
+.band-plate {
   background: color-mix(in srgb, var(--band) 16%, white);
 }
-.group:hover .venture-plate {
+.group:hover .band-plate--lift {
   background: var(--band);
 }
 
@@ -339,28 +361,33 @@
       border-color 0.3s ease;
   }
   /* ---------------------- THE BUTTON CONVENTION ------------------- *
-   *  Same rule as the pointer: ROYAL MEANS ACT. A visitor learns it once
+   *  Same rule as the pointer: ACCENT MEANS ACT. A visitor learns it once
    *  from the cursor and it holds for every control on the page. There is
    *  exactly one filled button colour on this site.
    *
-   *    .btn-primary   royal fill      the one thing to do here
+   *    .btn-primary   accent fill      the one thing to do here
    *    .btn-outline   hairline        also available, no urgency
    *    .btn-ghost     white on dark   the primary, on a dark slab
    *
    *  The black pill this replaces was the loudest thing on every screen
    *  and said nothing: black is not a decision, it is the absence of one.
    *  What replaced it briefly — a green — was a second accent competing
-   *  with royal for the same job, which is the sprawl this palette pass
+   *  with accent for the same job, which is the sprawl this palette pass
    *  exists to end. */
+  /* INK on the accent, not white. Teal is a light value — white text on
+     it sits at 2.11:1, ink at 8.41:1. Hover DEEPENS to the text-safe teal
+     and the label flips to white, so the press reads as the button
+     getting heavier rather than merely moving. */
   .btn-primary {
-    background: var(--color-royal);
-    color: #fff;
-    box-shadow: 0 16px 34px -16px rgba(108, 77, 246, 0.7);
+    background: var(--color-accent);
+    color: var(--color-ink);
+    box-shadow: 0 16px 34px -16px rgba(35, 198, 199, 0.75);
   }
   .btn-primary:hover {
-    background: var(--color-violet);
+    background: var(--color-accent-ink);
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.7);
+    box-shadow: 0 22px 46px -18px rgba(23, 131, 131, 0.7);
   }
   .btn-outline {
     background: transparent;
@@ -370,11 +397,11 @@
   /* Promotes to the primary on hover rather than to black, so the two
      tiers are the same button at two weights. */
   .btn-outline:hover {
-    border-color: var(--color-royal);
-    background: var(--color-royal);
+    border-color: var(--color-accent-ink);
+    background: var(--color-accent-ink);
     color: #fff;
   }
-  /* `.btn-sun` and `.btn-royal` are gone. Royal was a second name for the
+  /* `.btn-sun` and `.btn-accent` are gone. Accent was a second name for the
      primary, and sun was a second filled colour competing with it for the
      same "press this" job — a button is the one place the identity bands
      may not go. Both now resolve to the primary. */
@@ -497,16 +524,16 @@ body.is-embed.has-custom-cursor * {
  *  outline, so pills stay pills and cards stay cards.
  * ------------------------------------------------------------------- */
 :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline: 2px solid var(--color-royal);
+  outline: 2px solid var(--color-accent-ink);
   outline-offset: 3px;
 }
 
-/* On the dark sections royal sits at 3.4:1 against the ink — passing, but
-   only just. Violet clears 5.4:1 there, so the ring swaps rather than
-   straining. */
+/* On the dark slabs the bright accent is the legible one — 8.41:1 against
+   the ink, where the text-safe teal manages only 3.89:1. The ring swaps
+   between the accent's two forms; it never leaves the accent. */
 :where(.bg-ink, .bg-black, footer)
   :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline-color: var(--color-violet);
+  outline-color: var(--color-accent);
 }
 
 /* The custom cursor is hidden for pointer users, but a keyboard user
@@ -538,25 +565,25 @@ body.is-embed.has-custom-cursor * {
 .cursor-dot.is-visible { opacity: 1; }
 
 /* ------------------------- THE CONVENTION -------------------------- *
- *  ROYAL MEANS ACT — and royal is the ONLY colour on this site that
+ *  ACCENT MEANS ACT — and accent is the ONLY colour on this site that
  *  means anything. Everything else is either structure (the neutrals) or
  *  identity (the eight logo bands, decorative, never semantic). See THE
  *  PALETTE at the top of this file.
  *
- *    filled royal + arrow   you can go here
- *    hollow royal ring      real, but not open yet
+ *    filled accent + arrow   you can go here
+ *    hollow accent ring      real, but not open yet
  *    small ink dot          everything else
  *
  *  The three states differ in FORM, not hue, which is what lets one
- *  accent carry the whole system. The dot is ink rather than royal
- *  precisely because royal has a job now: if the resting pointer were
+ *  accent carry the whole system. The dot is ink rather than accent
+ *  precisely because accent has a job now: if the resting pointer were
  *  also purple, the colour would stop meaning "you can act on this". */
 
 /* GO — filled, with an arrow. The arrow is the whole point: it names the
    action rather than leaving you to infer it from a size change. */
 .cursor-dot.is-visible.cursor-dot--hover {
   width: 38px; height: 38px;
-  background-color: var(--color-royal);
+  background-color: var(--color-accent);
   opacity: 0.92;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
   background-size: 16px 16px;
@@ -564,21 +591,17 @@ body.is-embed.has-custom-cursor * {
   background-repeat: no-repeat;
 }
 
-/* GO, on the dark slabs. Royal sits at 3.4:1 against the ink; violet is
-   the same hue further up and clears 5.4:1, so the accent lightens rather
-   than changes. */
-.cursor-dot.is-visible.cursor-dot--hover.cursor-dot--dark {
-  background-color: var(--color-violet);
-  opacity: 0.95;
-}
+/* No dark-slab override for the GO disc any more. The old purple sat at
+   3.4:1 against the ink and had to lighten to violet there; teal reaches
+   8.41:1, so one value now covers both grounds and a whole rule goes. */
 
 /* GO, over a surface that already carries the accent — the primary button
-   IS royal, so a royal disc on it would be invisible. Invert: white disc,
-   royal arrow. */
+   IS accent, so a accent disc on it would be invisible. Invert: white disc,
+   accent arrow. */
 .cursor-dot.is-visible.cursor-dot--hover.cursor-dot--invert {
   background-color: var(--color-paper);
   opacity: 1;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c4df6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23178383' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8 7h9v9'/%3E%3C/svg%3E");
 }
 
 /* PRECISION — the cursor must not become the thing you are aiming at. The
@@ -588,7 +611,7 @@ body.is-embed.has-custom-cursor * {
 .cursor-dot.is-visible.cursor-dot--fine {
   width: 20px; height: 20px;
   background-color: transparent;
-  border: 2px solid var(--color-royal);
+  border: 2px solid var(--color-accent);
   opacity: 0.95;
   /* The core is what stops this reading as the hollow "not yet" ring. The
      frond IS interactive — it is the one target you hold rather than
@@ -596,22 +619,22 @@ body.is-embed.has-custom-cursor * {
      enough that you can watch the plant you are growing. */
   background-image: radial-gradient(
     circle at center,
-    var(--color-royal) 0 2.5px,
+    var(--color-accent) 0 2.5px,
     transparent 2.6px
   );
   background-size: auto;
 }
 .cursor-dot.is-visible.cursor-dot--fine.cursor-dot--dark {
-  border-color: var(--color-violet);
+  border-color: var(--color-accent);
   background-image: radial-gradient(
     circle at center,
-    var(--color-violet) 0 2.5px,
+    var(--color-accent) 0 2.5px,
     transparent 2.6px
   );
 }
 
 /* NOT YET — the same accent, hollow. Nothing to travel to, so no arrow.
-   Royal because the thing IS real and is coming; hollow because you
+   Accent because the thing IS real and is coming; hollow because you
    cannot have it yet. The earlier greys and magentas each made this its
    own signal; under the convention it is the GO state with the middle
    taken out, which is a thing you can learn once. */
@@ -619,17 +642,21 @@ body.is-embed.has-custom-cursor * {
   width: 34px; height: 34px;
   background-color: transparent;
   background-image: none;
-  border: 2px solid var(--color-royal);
+  border: 2px solid var(--color-accent);
   opacity: 0.9;
 }
 .cursor-dot.is-visible.cursor-dot--soon.cursor-dot--dark {
-  border-color: var(--color-violet);
+  /* The hollow ring is thin rather than filled, so it does still want the
+     extra weight on black — but from the accent's own darker form, not
+     from a different hue. */
+  border-color: var(--color-accent);
 }
 
 .cursor-dot.cursor-dot--down { width: 9px; height: 9px; }
-/* The default dot is royal; violet is its sibling on the dark slabs, where
-   royal sits at 3.4:1 against the ink and violet clears 5.4:1. */
-.cursor-dot.cursor-dot--dark { background-color: var(--color-violet); }
+/* The resting dot is ink — neutral, because the accent means "act". On the
+   dark slabs ink is invisible, so there it takes the accent's bright form,
+   which is the only place the resting pointer is ever coloured. */
+.cursor-dot.cursor-dot--dark { background-color: var(--color-accent); }
 
 /* --------------------------- scrollbar ----------------------------- */
 

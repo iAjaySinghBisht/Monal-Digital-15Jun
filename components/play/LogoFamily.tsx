@@ -48,7 +48,7 @@ function FamilyTile({
   return (
     <Link
       href={`/play/creature?cr=${member.cr}&ci=${member.ci}`}
-      className="group relative block overflow-hidden rounded-2xl bg-black focus-visible:ring-2 focus-visible:ring-royal focus-visible:ring-offset-2"
+      className="group relative block overflow-hidden rounded-2xl bg-black focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
       style={{ aspectRatio: "1 / 1" }}
     >
       <canvas

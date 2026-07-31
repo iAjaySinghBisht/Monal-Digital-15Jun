@@ -29,15 +29,58 @@ const SOURCES = [...walk("components"), ...walk("app")].filter(
 
 const BANDS = SPECTRUM.map((s) => s.name);
 
-test("the semantic accent is royal, and violet is only its dark sibling", () => {
+/* Tier 1 is two values of one hue, and the pair is load-bearing: the
+   accent must work as a FILL and as TEXT, and no single lightness does
+   both. If they ever drift to different hues, "the accent" stops being a
+   colour and becomes two. */
+test("the accent has both its forms, and they are the same hue", () => {
   const css = read("app/globals.css");
-  const declared = (name: string) =>
-    new RegExp(`--color-${name}:\\s*#[0-9a-fA-F]{6}`).test(css);
-  assert.ok(declared("royal"), "royal must exist — it is the whole of tier 1");
-  /* violet is ALSO one of the eight bands. That overlap is deliberate and
-     is exactly why it is worth pinning: if the two ever drift apart, the
-     dark cursor and the dark button stop matching the light ones. */
-  assert.ok(BANDS.includes("violet"));
+  const grab = (name: string) =>
+    css.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})`))?.[1]?.toLowerCase();
+  const fill = grab("accent");
+  const text = grab("accent-ink");
+  assert.ok(fill, "--color-accent must exist — it is the whole of tier 1");
+  assert.ok(text, "--color-accent-ink must exist — teal cannot hold text on white");
+
+  const hueOf = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    if (max === min) return 0;
+    const d = max - min;
+    const h =
+      max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return (h * 60 + 360) % 360;
+  };
+  const gap = Math.abs(hueOf(fill!) - hueOf(text!));
+  assert.ok(
+    gap < 8,
+    `the accent's two forms are ${gap.toFixed(1)}deg apart — they must be one hue at two lightnesses`
+  );
+});
+
+/* THE ONE SANCTIONED OVERLAP. The accent IS the teal band — tier 1 and
+   tier 2 share a value, deliberately, because the action colour was asked
+   to come from the brand set.
+
+   The cost is real and worth naming: wherever a series walks to teal (one
+   summit, one partner mark, one venture card) that decoration is the exact
+   colour of every button. It is tolerable only because the convention puts
+   the meaning in FORM — a filled disc with an arrow, a pill — and lets
+   colour reinforce rather than carry it.
+
+   The guard is that this stays the ONLY overlap and stays teal. An accent
+   that drifts onto magenta or sun would be an accident, not a decision. */
+test("the accent overlaps exactly one band, and it is teal", () => {
+  const css = read("app/globals.css");
+  const fill = css.match(/--color-accent:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();
+  const matches = SPECTRUM.filter((s) => s.hex.toLowerCase() === fill);
+  assert.equal(matches.length, 1, `--color-accent (${fill}) should match exactly one band`);
+  assert.equal(
+    matches[0].name,
+    "teal",
+    `the accent has moved onto the ${matches[0].name} band — only the teal overlap is intended`
+  );
 });
 
 test("no `-ink` sibling comes back", () => {

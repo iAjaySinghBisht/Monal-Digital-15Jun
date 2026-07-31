@@ -69,16 +69,16 @@ const About = () => {
                 corner marks belong here rather than being decoration. The
                 card keeps its brand purple; only the ornament is borrowed,
                 at an opacity where you notice it second, after the words. */}
-            <article className="card card-hover bg-royal border-transparent text-white p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+            <article className="card card-hover bg-accent border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
               <AipanMark
                 motif="corner"
                 size={38}
-                className="pointer-events-none absolute left-2 top-2 text-white opacity-[0.16]"
+                className="pointer-events-none absolute left-2 top-2 text-ink opacity-[0.16]"
               />
               <AipanMark
                 motif="corner"
                 size={38}
-                className="pointer-events-none absolute right-2 bottom-2 rotate-180 text-white opacity-[0.16]"
+                className="pointer-events-none absolute right-2 bottom-2 rotate-180 text-ink opacity-[0.16]"
               />
               <p className="relative text-lg md:text-xl leading-relaxed font-medium">
                 Monal takes its name from the Himalayan Monal — the vibrant

@@ -25,7 +25,7 @@ const SocialIcon = ({
     aria-label={label}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-11 h-11 rounded-full border border-royal/40 text-royal flex items-center justify-center hover:bg-royal hover:text-white hover:border-royal transition-all"
+    className="w-11 h-11 rounded-full border border-accent/40 text-accent flex items-center justify-center hover:bg-accent hover:text-ink hover:border-accent transition-all"
   >
     {children}
   </a>
@@ -163,7 +163,7 @@ const Footer = () => {
             trace each other, and given a deeper `drop` the nearer it is —
             close valleys read as cut, far ones as hazed over.
 
-            Reading up the frame: deep-purple foothills, royal, violet, and
+            Reading up the frame: deep-purple foothills, accent, violet, and
             snow furthest back. Distance drains colour, which is why the far
             range is the pale one — it is the only one above the snowline.
 

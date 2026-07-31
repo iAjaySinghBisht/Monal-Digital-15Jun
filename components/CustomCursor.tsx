@@ -70,15 +70,15 @@ const CustomCursor = () => {
       const onDark = target.closest(".bg-ink, .bg-black");
       dot.classList.toggle("cursor-dot--dark", Boolean(onDark));
 
-      /* The GO cursor is a royal disc, so it vanishes on a royal button —
+      /* The GO cursor is a accent disc, so it vanishes on a accent button —
          which, under the convention, is every primary CTA on the site.
          Over any surface already carrying the accent, invert: white disc,
-         royal arrow. Checked on the interactive element itself, since
+         accent arrow. Checked on the interactive element itself, since
          that is the thing whose background the cursor sits on.
 
          One filled button colour means one selector to care about, plus
-         the royal card surfaces the cursor can also land on. */
-      const BRAND_FILL = ".btn-primary, .bg-royal";
+         the accent card surfaces the cursor can also land on. */
+      const BRAND_FILL = ".btn-primary, .bg-accent";
       const onBrand =
         interactive &&
         (interactive.closest(BRAND_FILL) || interactive.matches(BRAND_FILL));
