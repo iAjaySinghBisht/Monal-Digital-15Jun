@@ -107,7 +107,7 @@ export default function ServiceDetailBody({
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="sun">
+            <Eyebrow tone="dark">
               {service.number} · {service.eyebrow}
             </Eyebrow>
           </div>
@@ -151,7 +151,7 @@ export default function ServiceDetailBody({
           </div>
 
           <div data-reveal="up" className="mt-14 flex justify-center">
-            <Pill as={Link} href="/#contact" variant="dark">
+            <Pill as={Link} href="/#contact" variant="primary">
               Discuss a project
             </Pill>
           </div>

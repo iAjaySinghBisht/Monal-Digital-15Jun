@@ -56,7 +56,7 @@ function mulberry32(a: number) {
 }
 
 type PaintOpts = {
-  bands: string[];
+  bands: readonly string[];
   species: number;
   depth: number;
   cell: number;
@@ -395,7 +395,7 @@ function kochPoints(depth: number, cx: number, cy: number, r: number) {
 
 function strokeBanded(
   ctx: CanvasRenderingContext2D,
-  bands: string[],
+  bands: readonly string[],
   pts: [number, number][],
   alpha: number,
   width: number,

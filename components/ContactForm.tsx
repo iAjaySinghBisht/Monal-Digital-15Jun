@@ -137,7 +137,7 @@ export default function ContactForm() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="violet">Get in touch</Eyebrow>
+            <Eyebrow tone="dark">Get in touch</Eyebrow>
           </div>
           <h1
             data-split
@@ -167,7 +167,7 @@ export default function ContactForm() {
               <Graphics />
 
               <div className="relative">
-                <Eyebrow tone="dark" dot="sun">Say hello</Eyebrow>
+                <Eyebrow tone="dark">Say hello</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
                   Let&apos;s make something{" "}
                   <span className="text-sun">great</span> together.

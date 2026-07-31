@@ -7,7 +7,6 @@ import Services from "@/components/Services";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
-import AipanBorder from "@/components/AipanBorder";
 
 export default function HomePage() {
   /* The hero poster is the LCP element — fetch it with high priority so it
@@ -29,13 +28,6 @@ export default function HomePage() {
       <Services />
       <Testimonials />
       <Footer />
-      {/* The Aipan band, once, as the last thing on the page. Aipan is laid
-          at the threshold you are about to cross — the doorstep, not the
-          wall — so the closing edge of the page is where it belongs. It
-          also needs something dark to sit against: between two pale
-          sections the ochre read as a stripe interrupting the page rather
-          than a seal closing it. */}
-      <AipanBorder />
     </>
   );
 }

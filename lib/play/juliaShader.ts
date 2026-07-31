@@ -8,10 +8,15 @@
 
 import { INK_RGB, LOGO_C, type Rgb } from "./palettes";
 
-export const MAX_ITERATIONS = 300;
 
 export const VERTEX_SHADER = `attribute vec2 p;
 void main() { gl_Position = vec4(p, 0.0, 1.0); }`;
+
+/* The GLSL loop bound. Must be a compile-time literal in the shader, so
+   it is baked into the source string rather than passed as a uniform;
+   `uIter` then breaks out early at whatever the UI asks for. Not exported
+   — nothing outside this module has any use for it. */
+const MAX_ITERATIONS = 220;
 
 export const FRAGMENT_SHADER = `precision highp float;
 

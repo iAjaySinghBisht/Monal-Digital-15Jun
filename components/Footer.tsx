@@ -9,7 +9,7 @@ import {
   ridgePoints,
 } from "@/lib/himalaya";
 import { SPECTRUM } from "@/lib/palette";
-import AipanMark from "./AipanMark";
+import AipanBorder from "./AipanBorder";
 
 const SocialIcon = ({
   children,
@@ -55,7 +55,7 @@ const Footer = () => {
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col justify-between gap-10">
             <div>
               <div className="mb-6">
-                <Eyebrow tone="dark" dot="violet">Let&apos;s build together</Eyebrow>
+                <Eyebrow tone="dark">Let&apos;s build together</Eyebrow>
               </div>
               <h2 className="font-display text-white text-[clamp(1.8rem,3.5vw,2.6rem)] leading-[1.04]">
                 Building the Future of Childhood?
@@ -67,7 +67,7 @@ const Footer = () => {
               </p>
             </div>
             <div>
-              <Pill as={Link} href="/contact-us" variant="royal">
+              <Pill as={Link} href="/contact-us" variant="primary">
                 Build With Monal
               </Pill>
             </div>
@@ -361,50 +361,24 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Devanagari co-brand. The channels these worlds live on are
-          Hindi-first (Monal Kids Hindi), so the name is set in the script
-          the audience actually reads — not as decoration.
+      {/* The Aipan band, as the last thing before the page signs off.
+          Aipan is laid at the threshold you are about to cross — the
+          doorstep, not the wall — so it belongs at the closing edge, and
+          it needs something dark to sit against, which the footer gives
+          it. It carries the separation the copyright bar used to draw
+          with a hairline, so that rule is gone: two edges 16px apart
+          read as a mistake.
 
-          Padded equally top and bottom: this band is bounded by the hard
-          edge of the foreground ridge above and the bottom bar's rule
-          below, and with no top padding the Devanagari ascenders sit
-          flush against the ridge and read as overlapping it. */}
-      <div className="relative flex flex-col items-center gap-1 pt-10 pb-10">
-        {/* Devanagari flanked by Aipan rules: the script the audience reads
-            and the folk art of the place it is read in, set together. Both
-            are Uttarakhand, and this is where the page signs its name. */}
-        <div className="flex items-center gap-4">
-          <AipanMark
-            motif="rule"
-            size={13}
-            className="hidden text-white/25 sm:block"
-          />
-          <span
-            lang="hi"
-            className="text-[clamp(1.6rem,3.4vw,2.4rem)] leading-none text-white/80"
-            style={{ fontFamily: "var(--font-deva)", fontWeight: 700 }}
-          >
-            मोनाल डिजिटल
-          </span>
-          <AipanMark
-            motif="rule"
-            size={13}
-            className="hidden -scale-x-100 text-white/25 sm:block"
-          />
-        </div>
-        {/* Letter-spacing adds a trailing space after the last glyph, so
-            centred tracked text sits visually left of true centre. The
-            indent puts that space back on the front. */}
-        <span
-          className="text-[11px] uppercase tracking-[0.28em] text-white/35"
-          style={{ textIndent: "0.28em" }}
-        >
-          Monal Digital
-        </span>
-      </div>
+          The margin is doing real work. The foreground range ends in a
+          hard, fully-saturated edge, and with the band flush against it
+          the purple and the ochre read as one two-tone stripe rather than
+          as a landscape above a threshold. The gap is the night between
+          them — it is what the removed co-brand block used to provide
+          incidentally, now stated on purpose. */}
+      <AipanBorder className="mt-9 md:mt-11" />
 
       {/* Bottom bar */}
-      <div className="relative border-t border-white/10">
+      <div className="relative">
         <div className="max-w-325 mx-auto px-6 md:px-12 py-7 flex items-center justify-center text-center">
           <span className="text-[12px] text-white/45">
             © 2026 Monal Digital · Haldwani

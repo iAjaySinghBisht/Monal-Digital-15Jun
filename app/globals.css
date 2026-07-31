@@ -1,11 +1,56 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------ *
- *  Monal Digital — "Bento" minimalist theme
- *  Clean white canvas, soft rounded bento cards, pastel accent tiles
- *  (yellow + purple + soft pastels), black pill buttons, calm motion.
- *  One geometric typeface (Onest) across the whole site.
- * ------------------------------------------------------------------ */
+/* ================================================================== *
+ *  THE PALETTE — three tiers, and a rule for which may mean what.
+ *
+ *  This page once ran five unrelated colour vocabularies at the same
+ *  time: eight logo bands, eight darkened siblings, six pale plates, a
+ *  ninth "signature" purple belonging to no set, and Aipan's own pigment.
+ *  Eighteen hues carried meaning and nothing said which meant what — the
+ *  eyebrow diamond was purple here and yellow there, the venture plates
+ *  cycled three pastels across six cards, and a testimonial wore the
+ *  same purple as the button you were meant to press.
+ *
+ *  ---------------------------------------------------------------- *
+ *  TIER 1 — SEMANTIC. One accent, and the neutrals.
+ *
+ *      --color-royal    YOU CAN ACT ON THIS. Buttons, the GO cursor,
+ *                       the focus ring, links. Nothing else, ever.
+ *      --color-violet   royal's sibling on dark slabs, where royal only
+ *                       reaches 3.4:1 and violet clears 5.4:1. The same
+ *                       meaning at a lightness the ground allows.
+ *      ink / paper / mist / cloud / line / muted — structure.
+ *
+ *  If a thing is not actionable it may not be royal. That single rule
+ *  is what makes the accent legible at all.
+ *
+ *  ---------------------------------------------------------------- *
+ *  TIER 2 — IDENTITY. The eight bands of the wordmark. DECORATIVE ONLY.
+ *
+ *  Used two ways, and no third:
+ *
+ *    SERIES    Anything that comes in a set walks all eight BY INDEX,
+ *              in the wordmark's own order — the summits, the partner
+ *              wall, the venture cards, the team. Never picked by name.
+ *              Picking one band by hand is how six cards ended up with
+ *              six unrelated hues answering to nothing.
+ *
+ *    SIGNATURE One fixed band, --color-sun, for recurring decoration
+ *              that is NOT a series and so has no set to walk: the
+ *              eyebrow diamond, the heading highlight, the pull quotes.
+ *              Same mark, same colour, everywhere.
+ *
+ *  The pale plates (lav, mint, peach, sky, sun-soft) are bands laid
+ *  thinly — tier 2, derived, never independent.
+ *
+ *  ---------------------------------------------------------------- *
+ *  TIER 3 — THE ONE EXCEPTION. Aipan's pigment: #a81f16 brick red and
+ *  #f7f4ef chalk, in components/AipanBorder.tsx. Deliberately outside
+ *  this palette, because it is a real folk art with its own two values
+ *  and redrawing it in brand colours makes it a pattern borrowed from
+ *  Aipan rather than Aipan. It appears exactly once, at the foot of the
+ *  page, which is what it can afford. Not an oversight.
+ * ================================================================== */
 
 @theme {
   --color-ink: #18181b;        /* near-black headings + text           */
@@ -52,26 +97,26 @@
  *  build happens to reference every band.
  * ------------------------------------------------------------------- */
 @theme static {
-  --color-magenta: #ff0185;
-  --color-sun: #ffd23f;        /* spectrum lemon — the signature yellow */
-  --color-leaf: #7ed957;
-  --color-teal: #22c9c9;
-  --color-azure: #3aa0ff;
-  --color-violet: #8c6bff;
-  --color-tangerine: #ff8a3c;
-  --color-blush: #ff5db1;
+  /* In hue order — 329, 24, 46, 102, 180, 209, 253, 291 — so a series
+     that takes its colour from position walks the wheel rather than
+     jumping about. Mirrored in lib/palette.ts; the drift test fails if
+     the two ever part. */
+  --color-magenta: #fc0383;
+  --color-tangerine: #fc7922;  /* derived, fills the 77deg warm gap      */
+  --color-sun: #fdd13e;        /* the signature band — see TIER 2 above  */
+  --color-leaf: #7cd655;
+  --color-teal: #23c6c7;
+  --color-azure: #399ffd;
+  --color-violet: #8b6bfd;
+  --color-orchid: #db22fc;     /* derived, replaces the redundant blush  */
 
-  /* Text-safe siblings — same hue, darkened just past 4.5:1 on white.
-     magenta and blush converge once darkened, so the eight decorative
-     bands are seven distinct text-safe hues. */
-  --color-magenta-ink: #e60078;
-  --color-sun-ink: #947200;
-  --color-leaf-ink: #3e861e;
-  --color-teal-ink: #168383;
-  --color-azure-ink: #0075e3;
-  --color-violet-ink: #7c57ff;
-  --color-tangerine-ink: #c95100;
-  --color-blush-ink: #e60078;
+  /* The eight `-ink` siblings that used to live here are GONE. They were
+     each band darkened past 4.5:1 so it could carry text on white — which
+     only matters if a band is allowed to carry text, and under the rule
+     above no band ever is. They survived as eight tokens serving one
+     caller, then zero. Text takes `ink` or `muted`; the accent takes
+     `royal`. If a band ever genuinely needs to carry copy, that is a sign
+     the band is being used semantically and the fix is upstream. */
 
   /* Pale plates for accent card backgrounds — each one is a spectrum band
      laid thinly over paper, rather than a hand-picked pastel. The previous
@@ -80,10 +125,12 @@
      separate palettes that happened to sit near each other. Deriving them
      means a plate and its band always agree, and changing a band carries
      through. All six hold ink text at ~15:1. */
+  /* A plate is always a band laid thinly — it may never outlive the band
+     it is mixed from, or it becomes an independent colour, which is the
+     thing this palette exists to prevent. */
+  --color-peach: color-mix(in srgb, var(--color-tangerine) 18%, white);
   --color-lav: color-mix(in srgb, var(--color-violet) 14%, white);
   --color-mint: color-mix(in srgb, var(--color-leaf) 22%, white);
-  --color-peach: color-mix(in srgb, var(--color-tangerine) 18%, white);
-  --color-pink: color-mix(in srgb, var(--color-blush) 16%, white);
   --color-sky: color-mix(in srgb, var(--color-azure) 18%, white);
   --color-sun-soft: color-mix(in srgb, var(--color-sun) 35%, white);
 }
@@ -125,18 +172,32 @@
 .font-body { font-family: var(--font-body); }
 .font-heavy { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; }
 
-/* Highlighted heading word — a soft rounded marker behind the text,
-   mirroring the mondly "selected word" look. Two accent flavours. */
-.mark-sun,
-.mark-violet {
+/* Highlighted heading word — a soft rounded marker behind the text.
+   ONE flavour. There were two (`sun` and `violet`) alternating down the
+   page with no rule saying which belonged where, so the same device meant
+   two different things depending on where you met it. A highlight is a
+   singleton — there is no series for it to walk — so it takes the
+   signature band and always looks the same. */
+.mark {
   position: relative;
   display: inline-block;
   padding: 0 0.18em;
   border-radius: 0.28em;
   white-space: nowrap;
 }
-.mark-sun { background: var(--color-sun); color: var(--color-ink); }
-.mark-violet { background: var(--color-royal); color: #fff; }
+.mark { background: var(--color-sun); color: var(--color-ink); }
+
+/* The venture number plate. Its colour is the card's own band from the
+   wordmark's set — laid thinly at rest so the number stays readable, at
+   full strength on hover. Written here rather than as Tailwind utilities
+   because the band arrives as an inline custom property, and a utility
+   class cannot be built from a value the scanner never sees. */
+.venture-plate {
+  background: color-mix(in srgb, var(--band) 16%, white);
+}
+.group:hover .venture-plate {
+  background: var(--band);
+}
 
 /* Partner logo silhouettes. The colour comes from `background` and the
    shape from an alpha-only `-mark.png` applied as a mask, so every logo
@@ -277,41 +338,46 @@
       background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease,
       border-color 0.3s ease;
   }
-  .btn-dark {
-    background: var(--color-ink);
-    color: #fff;
-    box-shadow: 0 16px 34px -16px rgba(24, 24, 27, 0.6);
-  }
-  .btn-dark:hover {
+  /* ---------------------- THE BUTTON CONVENTION ------------------- *
+   *  Same rule as the pointer: ROYAL MEANS ACT. A visitor learns it once
+   *  from the cursor and it holds for every control on the page. There is
+   *  exactly one filled button colour on this site.
+   *
+   *    .btn-primary   royal fill      the one thing to do here
+   *    .btn-outline   hairline        also available, no urgency
+   *    .btn-ghost     white on dark   the primary, on a dark slab
+   *
+   *  The black pill this replaces was the loudest thing on every screen
+   *  and said nothing: black is not a decision, it is the absence of one.
+   *  What replaced it briefly — a green — was a second accent competing
+   *  with royal for the same job, which is the sprawl this palette pass
+   *  exists to end. */
+  .btn-primary {
     background: var(--color-royal);
-    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.65);
+    color: #fff;
+    box-shadow: 0 16px 34px -16px rgba(108, 77, 246, 0.7);
+  }
+  .btn-primary:hover {
+    background: var(--color-violet);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.7);
   }
   .btn-outline {
     background: transparent;
     color: var(--color-ink);
     border: 1.5px solid var(--color-line);
   }
+  /* Promotes to the primary on hover rather than to black, so the two
+     tiers are the same button at two weights. */
   .btn-outline:hover {
-    border-color: var(--color-ink);
-    background: var(--color-ink);
-    color: #fff;
-  }
-  .btn-sun {
-    background: var(--color-sun);
-    color: var(--color-ink);
-    box-shadow: 0 16px 34px -16px rgba(250, 204, 21, 0.7);
-  }
-  .btn-sun:hover { transform: translateY(-2px); }
-  .btn-royal {
+    border-color: var(--color-royal);
     background: var(--color-royal);
     color: #fff;
-    box-shadow: 0 16px 34px -16px rgba(108, 77, 246, 0.7);
   }
-  .btn-royal:hover {
-    background: var(--color-violet);
-    transform: translateY(-2px);
-    box-shadow: 0 22px 46px -18px rgba(108, 77, 246, 0.7);
-  }
+  /* `.btn-sun` and `.btn-royal` are gone. Royal was a second name for the
+     primary, and sun was a second filled colour competing with it for the
+     same "press this" job — a button is the one place the identity bands
+     may not go. Both now resolve to the primary. */
 
   /* Bento card surface — soft, rounded, lifts on hover. */
   .card {
@@ -471,11 +537,22 @@ body.is-embed.has-custom-cursor * {
 }
 .cursor-dot.is-visible { opacity: 1; }
 
-/* The cursor's shape reports whether a thing is OPEN TO YOU. Size alone
-   only said "something is here" — a venture you can visit and one that
-   ships in 2027 looked identical until you clicked. See CustomCursor.tsx.
+/* ------------------------- THE CONVENTION -------------------------- *
+ *  ROYAL MEANS ACT — and royal is the ONLY colour on this site that
+ *  means anything. Everything else is either structure (the neutrals) or
+ *  identity (the eight logo bands, decorative, never semantic). See THE
+ *  PALETTE at the top of this file.
+ *
+ *    filled royal + arrow   you can go here
+ *    hollow royal ring      real, but not open yet
+ *    small ink dot          everything else
+ *
+ *  The three states differ in FORM, not hue, which is what lets one
+ *  accent carry the whole system. The dot is ink rather than royal
+ *  precisely because royal has a job now: if the resting pointer were
+ *  also purple, the colour would stop meaning "you can act on this". */
 
-   OPEN — filled, with an arrow. The arrow is the whole point: it names the
+/* GO — filled, with an arrow. The arrow is the whole point: it names the
    action rather than leaving you to infer it from a size change. */
 .cursor-dot.is-visible.cursor-dot--hover {
   width: 38px; height: 38px;
@@ -487,8 +564,17 @@ body.is-embed.has-custom-cursor * {
   background-repeat: no-repeat;
 }
 
-/* OPEN, over a surface that already carries a brand fill. A purple disc on
-   a purple button is invisible, so invert it: white disc, brand arrow. */
+/* GO, on the dark slabs. Royal sits at 3.4:1 against the ink; violet is
+   the same hue further up and clears 5.4:1, so the accent lightens rather
+   than changes. */
+.cursor-dot.is-visible.cursor-dot--hover.cursor-dot--dark {
+  background-color: var(--color-violet);
+  opacity: 0.95;
+}
+
+/* GO, over a surface that already carries the accent — the primary button
+   IS royal, so a royal disc on it would be invisible. Invert: white disc,
+   royal arrow. */
 .cursor-dot.is-visible.cursor-dot--hover.cursor-dot--invert {
   background-color: var(--color-paper);
   opacity: 1;
@@ -502,30 +588,48 @@ body.is-embed.has-custom-cursor * {
 .cursor-dot.is-visible.cursor-dot--fine {
   width: 20px; height: 20px;
   background-color: transparent;
-  background-image: none;
-  border: 2px solid var(--color-leaf);
-  opacity: 0.9;
+  border: 2px solid var(--color-royal);
+  opacity: 0.95;
+  /* The core is what stops this reading as the hollow "not yet" ring. The
+     frond IS interactive — it is the one target you hold rather than
+     click — so the mark has to say active while staying see-through
+     enough that you can watch the plant you are growing. */
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-royal) 0 2.5px,
+    transparent 2.6px
+  );
+  background-size: auto;
+}
+.cursor-dot.is-visible.cursor-dot--fine.cursor-dot--dark {
+  border-color: var(--color-violet);
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-violet) 0 2.5px,
+    transparent 2.6px
+  );
 }
 
-/* NOT YET — hollow. Nothing to travel to, so no arrow; the ring says the
-   thing is real and deliberate rather than broken or unresponsive. */
+/* NOT YET — the same accent, hollow. Nothing to travel to, so no arrow.
+   Royal because the thing IS real and is coming; hollow because you
+   cannot have it yet. The earlier greys and magentas each made this its
+   own signal; under the convention it is the GO state with the middle
+   taken out, which is a thing you can learn once. */
 .cursor-dot.is-visible.cursor-dot--soon {
   width: 34px; height: 34px;
   background-color: transparent;
-  border: 2px solid var(--color-muted);
-  opacity: 0.75;
+  background-image: none;
+  border: 2px solid var(--color-royal);
+  opacity: 0.9;
 }
 .cursor-dot.is-visible.cursor-dot--soon.cursor-dot--dark {
-  border-color: rgb(255 255 255 / 0.55);
+  border-color: var(--color-violet);
 }
 
 .cursor-dot.cursor-dot--down { width: 9px; height: 9px; }
-/* Brand purple over dark sections so the dot stays visible on black. */
+/* The default dot is royal; violet is its sibling on the dark slabs, where
+   royal sits at 3.4:1 against the ink and violet clears 5.4:1. */
 .cursor-dot.cursor-dot--dark { background-color: var(--color-violet); }
-.cursor-dot.is-visible.cursor-dot--hover.cursor-dot--dark {
-  background-color: var(--color-violet);
-  opacity: 0.5;
-}
 
 /* --------------------------- scrollbar ----------------------------- */
 

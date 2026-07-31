@@ -56,8 +56,10 @@ test("every size in use keeps the same ratio", () => {
 });
 
 test("the inner clears the outer at the smallest size drawn", () => {
-  /* At the 10px eyebrow, outer r=4 and stroke 0.8: the gap between the two
-     outlines must stay wider than a stroke or they merge into one ring. */
+  /* The band is the tightest case: it draws r=4 with a 0.8 stroke at 1:1,
+     where the eyebrow renders the same viewBox at 12px and so scales both
+     up together. The gap between the two outlines must stay wider than a
+     stroke, or they merge into a single thick ring. */
   const gap = (4 - innerRadius(4)) / Math.SQRT2; // perpendicular, not radial
   assert.ok(gap > 0.8, `gap ${gap} must exceed the 0.8 stroke`);
 });

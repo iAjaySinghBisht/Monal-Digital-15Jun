@@ -65,7 +65,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${onest.variable} ${baloo.variable}`}>
-      <body className="min-h-screen bg-paper text-ink font-body overflow-x-clip antialiased">
+      {/* `suppressHydrationWarning` because browser extensions stamp their
+          own attributes onto <body> before React hydrates — ColorZilla adds
+          `cz-shortcut-listen="true"`, Grammarly and password managers add
+          theirs — and React reports the difference as a hydration mismatch
+          the developer cannot fix from the source.
+
+          It is scoped deliberately. The flag suppresses mismatches on THIS
+          element's own attributes and text only; it does not reach the
+          children, so a genuine hydration bug anywhere inside the tree
+          still fails loudly. Putting it on <html> instead would be the
+          careless version of this fix. */}
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-paper text-ink font-body overflow-x-clip antialiased"
+      >
         <CustomCursor />
         <ScrollProgress />
         <ScrollManager />

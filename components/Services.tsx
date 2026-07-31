@@ -4,7 +4,7 @@ import { Eyebrow, ArrowUpRight } from "./Decor";
 import FractalField, { FractalBackdrop } from "./FractalField";
 import GrowingFrond from "./GrowingFrond";
 import AipanMark from "./AipanMark";
-import { SPECTRUM, stop } from "@/lib/palette";
+import { SPECTRUM } from "@/lib/palette";
 
 /* Each partner mark's aspect ratio, measured from the traced silhouette. A
    logo wall looks wrong when every mark is given the same box: an 8:1
@@ -25,13 +25,6 @@ const MARK_ASPECT: Record<string, number> = {
    card's content box — once `contain` starts clipping on width instead,
    the equal-area maths stops holding and wide wordmarks shrink twice. */
 const MARK_K = 74; // a 3:1 mark lands at ~43px tall
-
-/* Per-card pastel tint + hover accent. */
-const TINTS = [
-  { plate: "bg-lav", hover: "group-hover:bg-royal" },
-  { plate: "bg-sun-soft", hover: "group-hover:bg-sun" },
-  { plate: "bg-mint", hover: "group-hover:bg-royal" },
-];
 
 /* ------------------------------------------------------------------ *
  *  One motif per venture — chosen to match what that venture actually
@@ -54,27 +47,35 @@ const TINTS = [
  *  darker `ink` sibling.
  * ------------------------------------------------------------------ */
 const MOTIFS = [
-  { motif: "pythagoras", stop: "magenta", depth: 9, scale: 1, speed: 1 },
+  { motif: "pythagoras", depth: 9, scale: 1, speed: 1 },
   /* The Hilbert traversal sweeps its whole curve in one pass, so at the
      shared rate it reads as a flicker rather than a line being drawn. */
-  { motif: "hilbert", stop: "azure", depth: 5, scale: 0.9, speed: 0.45 },
-  { motif: "sierpinski", stop: "teal", depth: 6, scale: 0.85, speed: 1 },
-  { motif: "fern", stop: "leaf", depth: 30, scale: 0.95, speed: 1 },
-  { motif: "subdiv", stop: "tangerine", depth: 7, scale: 1, speed: 1 },
-  { motif: "dragon", stop: "violet", depth: 12, scale: 0.85, speed: 1 },
+  { motif: "hilbert", depth: 5, scale: 0.9, speed: 0.45 },
+  { motif: "sierpinski", depth: 6, scale: 0.85, speed: 1 },
+  { motif: "fern", depth: 30, scale: 0.95, speed: 1 },
+  { motif: "subdiv", depth: 7, scale: 1, speed: 1 },
+  { motif: "dragon", depth: 12, scale: 0.85, speed: 1 },
 ] as const;
+
+/* NO COLOUR IN THIS TABLE. The shape of a card's motif says something
+   about that venture; its colour does not, and picking one by name here
+   is how the page ended up with six unrelated hues that answered to no
+   system. The band comes from the card's POSITION, exactly as the peaks
+   and the partner wall take theirs — six cards drawing the first six of
+   the wordmark's eight, in the wordmark's own order. */
 
 /* Tinted mist so the cards still read against the section's white canvas —
    the same treatment About gives its story card. */
 const VentureCard = ({
   venture,
   num,
-  tint,
+  band,
   motif,
 }: {
   venture: Venture;
   num: string;
-  tint: { plate: string; hover: string };
+  /** This card's band from the wordmark's set, chosen by position. */
+  band: string;
   motif: (typeof MOTIFS)[number];
 }) => {
   const isExternal = venture.href?.startsWith("http");
@@ -101,12 +102,7 @@ const VentureCard = ({
       >
         <FractalField
           variant={motif.motif}
-          palette={[stop(motif.stop).hex]}
-          /* On hover the motif swaps to the band's darker text-safe
-             sibling, so attention deepens the colour instead of only
-             raising its opacity — the mark goes from watermark to
-             drawing. Same hue, so nothing shifts but the weight. */
-          paletteHover={[stop(motif.stop).ink]}
+          palette={[band]}
           speed={motif.speed}
           depth={motif.depth}
           scale={motif.scale}
@@ -126,7 +122,15 @@ const VentureCard = ({
       />
 
       <div className="relative flex items-start justify-between gap-3">
-        <span className={`grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 ${tint.plate} ${tint.hover} group-hover:text-white`}>
+        {/* The plate is the card's OWN band laid thinly, and the same band
+            at full strength on hover — so the number, the motif behind it
+            and the card all say one colour. The old three-entry TINTS
+            table cycled three arbitrary pastels across six cards, which
+            meant card 1 and card 4 matched for no reason at all. */}
+        <span
+          className="venture-plate grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 group-hover:text-white"
+          style={{ ["--band" as string]: band }}
+        >
           {num}
         </span>
         {/* A venture is either not open yet, or somewhere you can go — never both.
@@ -209,13 +213,13 @@ const Services = ({
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="sun">Our Ecosystem</Eyebrow>
+              <Eyebrow>Our Ecosystem</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              What we&apos;re <span className="mark-sun">building</span>.
+              What we&apos;re <span className="mark">building</span>.
             </h2>
             <p
               data-reveal="up"
@@ -236,7 +240,7 @@ const Services = ({
               key={v.title}
               venture={v}
               num={String(i + 1).padStart(2, "0")}
-              tint={TINTS[i % TINTS.length]}
+              band={SPECTRUM[i % SPECTRUM.length].hex}
               motif={MOTIFS[i % MOTIFS.length]}
             />
           ))}
@@ -260,13 +264,13 @@ const Services = ({
 
           <div className="relative flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
             <div data-reveal="up">
-              <Eyebrow dot="royal">Our Partners</Eyebrow>
+              <Eyebrow>Our Partners</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(1.8rem,5vw,3.6rem)] leading-[0.98] max-w-3xl"
             >
-              Trusted by creators &amp; studios <span className="mark-violet">worldwide</span>.
+              Trusted by creators &amp; studios <span className="mark">worldwide</span>.
             </h2>
           </div>
 

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { LOGO_C, SPECTRUM, SPECTRUM_HEX, stop } from "../lib/palette.ts";
+import { LOGO_C, SPECTRUM, SPECTRUM_HEX } from "../lib/palette.ts";
 
 /* WCAG relative luminance + contrast, so the accessibility claims in
    palette.ts are checked rather than asserted in a comment. */
@@ -28,7 +28,6 @@ test("the spectrum is eight uniquely-named stops", () => {
   assert.equal(new Set(SPECTRUM_HEX).size, 8);
   SPECTRUM.forEach((s) => {
     assert.match(s.hex, /^#[0-9a-f]{6}$/, `${s.name} hex malformed`);
-    assert.match(s.ink, /^#[0-9a-f]{6}$/, `${s.name} ink malformed`);
   });
 });
 
@@ -44,13 +43,12 @@ test("no raw band may carry body text on white", () => {
   });
 });
 
-test("every ink sibling does pass on white", () => {
-  SPECTRUM.forEach((s) => {
-    assert.ok(
-      contrast(s.ink, WHITE) >= 4.5,
-      `${s.name}-ink is ${contrast(s.ink, WHITE).toFixed(2)}:1, below 4.5`,
-    );
-  });
+/* The `ink` siblings are gone — see lib/palette.ts. What replaces that
+   test is the rule they existed to dodge: a band may not carry text, so
+   the accent has to be able to. If royal ever failed this, tier 1 would
+   have nothing that could hold a link. */
+test("royal can carry text on both grounds, since no band may", () => {
+  assert.ok(contrast(ROYAL, WHITE) >= 4.5, "royal must hold copy on paper");
 });
 
 test("every raw band is legible on the near-black, where the logo lives", () => {
@@ -66,12 +64,82 @@ test("royal stays the primary: it is the accent that carries text on white", () 
   assert.ok(contrast(ROYAL, WHITE) >= 4.5);
 });
 
-test("magenta and blush converge once darkened", () => {
-  assert.equal(stop("magenta").ink, stop("blush").ink);
+/* Hue distance, which is what "a distinct band" actually means. Two
+   colours can look different, sit at different lightnesses and still be
+   the SAME hue — which is what `blush` was. It shipped for months as the
+   eighth band while being magenta 0.3 degrees away and merely lighter,
+   and the only symptom anyone noticed was that it and magenta collapsed
+   onto one value whenever something darkened them. */
+const hue = (hex: string): number => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  if (max === min) return 0;
+  const d = max - min;
+  const h =
+    max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return (h * 60 + 360) % 360;
+};
+const hueGap = (a: number, b: number) => {
+  const d = Math.abs(a - b) % 360;
+  return d > 180 ? 360 - d : d;
+};
+
+test("every band is a genuinely distinct hue", () => {
+  const MIN_SEPARATION = 20; // degrees
+  const seen: { name: string; h: number }[] = [];
+  for (const s of SPECTRUM) {
+    const h = hue(s.hex);
+    for (const other of seen) {
+      assert.ok(
+        hueGap(h, other.h) >= MIN_SEPARATION,
+        `${s.name} (${h.toFixed(1)}deg) and ${other.name} (${other.h.toFixed(1)}deg) are ` +
+          `${hueGap(h, other.h).toFixed(1)}deg apart — that is one hue with two names, ` +
+          `which is what blush was before it was replaced`
+      );
+    }
+    seen.push({ name: s.name, h });
+  }
 });
 
-test("stop() throws on an unknown name rather than returning undefined", () => {
-  assert.throws(() => stop("chartreuse"), /unknown spectrum stop/);
+/* The set is walked BY POSITION, so its order is a visible property: the
+   summits run west to east and the partner wall left to right. Hue order
+   makes that walk move around the wheel instead of jumping. */
+test("the bands are stored in hue order, starting at magenta", () => {
+  const hues = SPECTRUM.map((s) => hue(s.hex));
+  assert.equal(SPECTRUM[0].name, "magenta");
+  /* Rotate so the walk starts where the wordmark's dominant band does,
+     then it must ascend without wrapping more than once. */
+  const rotated = hues.map((h) => (h - hues[0] + 360) % 360);
+  for (let i = 1; i < rotated.length; i++) {
+    assert.ok(
+      rotated[i] > rotated[i - 1],
+      `${SPECTRUM[i].name} breaks the hue walk — ${SPECTRUM[i - 1].name} is at ` +
+        `${hues[i - 1].toFixed(0)}deg and it is at ${hues[i].toFixed(0)}deg`
+    );
+  }
+});
+
+/* The baked wordmark carries its own copy of the palette, because
+   LOGO_CELLS indexes into it by position and that order comes from the
+   artwork rather than from the spectrum. A permutation is fine; a
+   DIFFERENT SET is a ninth palette hiding behind a "do not edit"
+   generator header — which is exactly what it was until the bands moved
+   and it silently kept the old ones. */
+test("the baked wordmark uses the brand bands", async () => {
+  const { LOGO_PALETTE } = await import("../lib/play/logoGrid.ts");
+  const { PALETTES } = await import("../lib/play/palettes.ts");
+  assert.deepEqual(
+    [...LOGO_PALETTE].sort(),
+    [...SPECTRUM_HEX].sort(),
+    "LOGO_PALETTE has drifted from the spectrum"
+  );
+  const brand = PALETTES.find((p) => p.id === "logo");
+  assert.deepEqual(
+    [...(brand?.stops ?? [])],
+    [...LOGO_PALETTE],
+    "the toy's Monal palette must match the wordmark's exactly, order included"
+  );
 });
 
 test("the wordmark's Julia constant is the one the painter uses", () => {
@@ -96,10 +164,5 @@ test("globals.css matches the spectrum exactly", () => {
   );
   SPECTRUM.forEach((s) => {
     assert.equal(declared.get(s.name), s.hex, `--color-${s.name} drifted from palette.ts`);
-    assert.equal(
-      declared.get(`${s.name}-ink`),
-      s.ink,
-      `--color-${s.name}-ink drifted from palette.ts`,
-    );
   });
 });

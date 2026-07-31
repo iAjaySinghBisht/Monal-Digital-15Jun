@@ -21,14 +21,14 @@ const About = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
           <div data-reveal="up">
-            <Eyebrow dot="royal">Who We Are</Eyebrow>
+            <Eyebrow>Who We Are</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[1.02] max-w-3xl"
           >
             Artists, storytellers, strategists &amp;{" "}
-            <span className="mark-violet">builders</span>.
+            <span className="mark">builders</span>.
           </h2>
           <p
             data-reveal="up"

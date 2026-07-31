@@ -1,7 +1,12 @@
 import { team, type TeamMember } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
+import { SPECTRUM } from "@/lib/palette";
 
-const PASTELS = ["bg-mint", "bg-peach", "bg-pink", "bg-sky"];
+/* The team is a SERIES, so it walks the wordmark's bands by position —
+   the same rule the peaks, the partner wall and the venture cards follow.
+   It used to cycle four hand-picked pastels, which meant member 1 and
+   member 5 matched for no reason and the set had no relationship to the
+   logo at all. */
 
 const LinkedInIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -9,7 +14,7 @@ const LinkedInIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
+const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
   <a
     href={m.linkedin}
     target="_blank"
@@ -18,8 +23,13 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
     aria-label={`${m.name}, ${m.role}, on LinkedIn`}
     className="group card card-hover overflow-hidden p-3 block"
   >
-    {/* Portrait on a pastel plate (initials fallback when no photo yet) */}
-    <div className={`relative overflow-hidden rounded-[20px] aspect-square ${pastel}`}>
+    {/* Portrait on this member's band, laid thinly (initials fallback when
+        no photo yet). Same 16% mix the venture plates use, so a plate is a
+        plate wherever you meet one. */}
+    <div
+      className="relative overflow-hidden rounded-[20px] aspect-square"
+      style={{ background: `color-mix(in srgb, ${band} 16%, white)` }}
+    >
       {m.img ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -87,13 +97,13 @@ const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="royal">The Collective</Eyebrow>
+              <Eyebrow>The Collective</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              Meet the <span className="mark-violet">team</span>.
+              Meet the <span className="mark">team</span>.
             </h2>
             <p
               data-reveal="up"
@@ -108,7 +118,7 @@ const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
 
         <div data-reveal-group="up" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {team.map((m, i) => (
-            <TeamCard key={i} m={m} pastel={PASTELS[i % PASTELS.length]} />
+            <TeamCard key={i} m={m} band={SPECTRUM[i % SPECTRUM.length].hex} />
           ))}
         </div>
       </div>

@@ -70,15 +70,18 @@ const CustomCursor = () => {
       const onDark = target.closest(".bg-ink, .bg-black");
       dot.classList.toggle("cursor-dot--dark", Boolean(onDark));
 
-      /* A purple cursor over a PURPLE button is invisible — the "Build
-         With Monal" CTA swallowed it whole. Over any surface already
-         carrying a brand fill, invert: white disc, brand-coloured arrow.
-         Checked on the interactive element itself, since that is the
-         thing whose background the cursor sits on. */
+      /* The GO cursor is a royal disc, so it vanishes on a royal button —
+         which, under the convention, is every primary CTA on the site.
+         Over any surface already carrying the accent, invert: white disc,
+         royal arrow. Checked on the interactive element itself, since
+         that is the thing whose background the cursor sits on.
+
+         One filled button colour means one selector to care about, plus
+         the royal card surfaces the cursor can also land on. */
+      const BRAND_FILL = ".btn-primary, .bg-royal";
       const onBrand =
         interactive &&
-        (interactive.closest(".btn-royal, .btn-sun, .bg-royal, .bg-sun") ||
-          interactive.matches(".btn-royal, .btn-sun, .bg-royal, .bg-sun"));
+        (interactive.closest(BRAND_FILL) || interactive.matches(BRAND_FILL));
       dot.classList.toggle("cursor-dot--invert", Boolean(onBrand));
     };
 

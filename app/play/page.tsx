@@ -21,7 +21,7 @@ export default function PlayHubPage() {
   return (
     <div className="grid gap-14 md:gap-20">
       <section>
-        <Eyebrow dot="royal">Fractal playground</Eyebrow>
+        <Eyebrow>Fractal playground</Eyebrow>
         <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.95] tracking-[-0.04em]">
           {PLAY_TAGLINE}
         </h1>
@@ -37,7 +37,7 @@ export default function PlayHubPage() {
           <LivingWordmark intro={hero.intro} aspect={hero.aspect} embedded />
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">
-          <Link href={`/play/${hero.slug}`} className="btn btn-dark">
+          <Link href={`/play/${hero.slug}`} className="btn btn-primary">
             Play with the wordmark
             <ArrowGlyph className="h-4 w-4" />
           </Link>

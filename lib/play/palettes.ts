@@ -20,7 +20,10 @@ export const PALETTES: readonly Palette[] = [
   {
     id: "logo",
     name: "Monal",
-    stops: ["#3aa0ff", "#22c9c9", "#7ed957", "#ffd23f", "#ff8a3c", "#ff0185", "#ff5db1", "#8c6bff"],
+    /* The brand set, in the wordmark's ramp order — kept identical to
+       LOGO_PALETTE so the toy and the logo agree. The palettes below are
+       artwork, not brand, and are deliberately free of this rule. */
+    stops: ["#399ffd", "#23c6c7", "#7cd655", "#fdd13e", "#fc7922", "#fc0383", "#db22fc", "#8b6bfd"],
   },
   {
     id: "sunset",
@@ -49,7 +52,11 @@ export const PALETTES: readonly Palette[] = [
   },
 ];
 
-export const DEFAULT_PALETTE = PALETTES[0];
+
+/* The fallback when a URL carries no palette id, or an unknown one.
+   Not exported: callers go through `paletteById`, which is the only
+   correct way to resolve one. */
+const DEFAULT_PALETTE = PALETTES[0];
 
 export const paletteById = (id: string | null | undefined): Palette =>
   PALETTES.find((p) => p.id === id) ?? DEFAULT_PALETTE;

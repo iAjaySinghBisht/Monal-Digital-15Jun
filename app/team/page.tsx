@@ -41,7 +41,7 @@ export default function TeamPage() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="violet">The Collective</Eyebrow>
+            <Eyebrow tone="dark">The Collective</Eyebrow>
           </div>
           <h1
             data-split
