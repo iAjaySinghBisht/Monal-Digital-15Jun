@@ -54,15 +54,19 @@ const AboutStory = () => {
           {/* Statement card */}
           <article
             data-tilt="3"
-            className="group card card-hover bg-accent border-transparent lg:col-span-7 p-8 md:p-11 flex flex-col justify-center"
+            /* Teal, and ink on it. White on this band is 2.11:1 — under AA
+               at any size — against ink's 8.41:1, so the copy flips with
+               the ground rather than staying white as it was on the pink
+               accent. Matches the namesake card in the About section. */
+            className="group card card-hover bg-teal border-transparent lg:col-span-7 p-8 md:p-11 flex flex-col justify-center"
           >
             <h2
               data-split
-              className="font-display text-white text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05] text-balance"
+              className="font-display text-ink text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05] text-balance"
             >
               Where characters become childhood.
             </h2>
-            <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-xl">
+            <p className="mt-6 text-ink/80 text-lg leading-relaxed max-w-xl">
               Monal Digital is a creative animation studio building original
               characters, stories, and worlds for children everywhere.
             </p>

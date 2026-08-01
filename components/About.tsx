@@ -67,9 +67,18 @@ const About = () => {
             {/* This is the one card on the site whose copy is ABOUT
                 Uttarakhand, and Aipan is Uttarakhand's folk art — so the
                 corner marks belong here rather than being decoration. The
-                card keeps its brand purple; only the ornament is borrowed,
-                at an opacity where you notice it second, after the words. */}
-            <article className="card card-hover bg-accent border-transparent text-white p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+                card keeps a brand band; only the ornament is borrowed, at
+                an opacity where you notice it second, after the words.
+
+                TEAL, AND INK ON IT. The ground is the teal band rather
+                than `accent`, which also settles something that was
+                always slightly off: accent means "you can act on this",
+                and this card is a paragraph you cannot act on at all.
+                The copy is ink because white on teal measures 2.11:1 —
+                under AA even for large text — against ink's 8.41:1. White
+                was right while this card was the pink accent (3.83:1); it
+                is not right here. */}
+            <article className="card card-hover bg-teal border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
               <AipanMark
                 motif="corner"
                 size={38}
