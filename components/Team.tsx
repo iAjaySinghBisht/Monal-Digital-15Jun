@@ -1,7 +1,12 @@
 import { team, type TeamMember } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
+import { SPECTRUM } from "@/lib/palette";
 
-const PASTELS = ["bg-mint", "bg-peach", "bg-pink", "bg-sky"];
+/* The team is a SERIES, so it walks the wordmark's bands by position —
+   the same rule the peaks, the partner wall and the venture cards follow.
+   It used to cycle four hand-picked pastels, which meant member 1 and
+   member 5 matched for no reason and the set had no relationship to the
+   logo at all. */
 
 const LinkedInIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -9,7 +14,7 @@ const LinkedInIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
+const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
   <a
     href={m.linkedin}
     target="_blank"
@@ -18,8 +23,14 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
     aria-label={`${m.name}, ${m.role}, on LinkedIn`}
     className="group card card-hover overflow-hidden p-3 block"
   >
-    {/* Portrait on a pastel plate (initials fallback when no photo yet) */}
-    <div className={`relative overflow-hidden rounded-[20px] aspect-square ${pastel}`}>
+    {/* Portrait on this member's band, laid thinly. `.band-plate` without
+        the `--lift` modifier: no hover flood here, because the photo would
+        hide it and it would show only for members still on the initials
+        fallback. */}
+    <div
+      className="band-plate relative overflow-hidden rounded-[20px] aspect-square"
+      style={{ ["--band" as string]: band }}
+    >
       {m.img ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -51,8 +62,8 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
     <div className="px-3 pt-5 pb-2">
       {/* Role row — turns brand purple on hover */}
       <div className="flex items-center gap-2 mb-2.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-royal transition-transform duration-300 group-hover:scale-125" />
-        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-royal">
+        <span className="w-2.5 h-2.5 rounded-full bg-accent transition-transform duration-300 group-hover:scale-125" />
+        <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-accent-ink">
           {m.role}
         </span>
       </div>
@@ -66,13 +77,13 @@ const TeamCard = ({ m, pastel }: { m: TeamMember; pastel: string }) => (
       {/* Footer — LinkedIn connect */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <LinkedInIcon className="w-4 h-4 text-royal" />
+          <LinkedInIcon className="w-4 h-4 text-accent-ink" />
           <div className="leading-tight">
             <div className="text-sm font-semibold text-ink">Connect</div>
             <div className="text-[11px] text-muted">on LinkedIn</div>
           </div>
         </div>
-        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-royal group-hover:text-white group-hover:border-royal">
+        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:border-accent">
           <ArrowUpRight className="w-4 h-4" />
         </span>
       </div>
@@ -87,13 +98,13 @@ const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="bg-royal">The Collective</Eyebrow>
+              <Eyebrow>The Collective</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              Meet the <span className="mark-violet">team</span>.
+              Meet the <span className="mark">team</span>.
             </h2>
             <p
               data-reveal="up"
@@ -108,7 +119,7 @@ const Team = ({ showHeader = true }: { showHeader?: boolean }) => {
 
         <div data-reveal-group="up" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {team.map((m, i) => (
-            <TeamCard key={i} m={m} pastel={PASTELS[i % PASTELS.length]} />
+            <TeamCard key={i} m={m} band={SPECTRUM[i % SPECTRUM.length].hex} />
           ))}
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { bisectDepths } from "@/lib/stagger";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
@@ -73,13 +74,23 @@ export function useUiAnimations() {
           el.textContent = prefix + end + suffix;
           return;
         }
-        el.textContent = prefix + "0" + suffix;
+        /* The zeroing happens INSIDE onEnter, not here. Written outside, it
+           threw away the server-rendered value the moment the bundle
+           hydrated and left "0B+" on screen until the trigger fired — a
+           beat, or longer on a slow device, in which the hero's proof of
+           scale read zero. The figures are the most credibility-bearing
+           thing above the fold; they should never be seen as 0.
+
+           So the server's "50B+" now holds until the count-up is actually
+           about to run, and the animation is a flourish on top of correct
+           content rather than a prerequisite for it. */
         const proxy = { v: 0 };
         ScrollTrigger.create({
           trigger: el,
           start: "top 92%",
           once: true,
-          onEnter: () =>
+          onEnter: () => {
+            el.textContent = prefix + "0" + suffix;
             gsap.to(proxy, {
               v: end,
               duration: 2,
@@ -87,7 +98,8 @@ export function useUiAnimations() {
               onUpdate: () => {
                 el.textContent = prefix + Math.round(proxy.v) + suffix;
               },
-            }),
+            });
+          },
         });
       });
 
@@ -149,10 +161,26 @@ export function useUiAnimations() {
         const items = gsap.utils.toArray<HTMLElement>(group.children);
         if (!items.length) return;
         gsap.set(items, from);
+
+        /* `data-reveal-order="bisect"` staggers by recursive halving rather
+           than left to right: the middle item lands first, then the middle
+           of each half, then of each quarter. A group assembles by
+           subdivision — the same construction the rest of the page is built
+           on, expressed in time, where it costs nothing to look at.
+
+           GSAP's stagger accepts a function returning each item's delay,
+           which is what makes an arbitrary order possible at all — its
+           built-in `from` only offers start/center/edges/random. */
+        const depths = bisectDepths(items.length);
+        const stagger =
+          group.dataset.revealOrder === "bisect"
+            ? (i: number) => depths[i] * 0.13
+            : 0.12;
+
         gsap.to(items, {
           ...REVEAL_TO,
           duration: 0.95,
-          stagger: 0.12,
+          stagger,
           scrollTrigger: { trigger: group, start: "top 88%", once: true },
         });
       });

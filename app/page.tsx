@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import ContentLibrary from "@/components/ContentLibrary";
 import Services from "@/components/Services";
+import Partners from "@/components/Partners";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
@@ -20,12 +21,15 @@ export default function HomePage() {
     <>
       <UiAnimations />
       <Header />
-      {/* The work comes before the ambition: the shows are the proof that the
-          six ventures are real, so they argue for the ecosystem that follows. */}
+      {/* The ecosystem comes before the work: the six ventures frame what we
+          are building, and the shows that follow are the proof they are real.
+          The partner wall then answers "who with", which only means anything
+          once you have seen the work it refers to. */}
       <Hero />
       <About />
-      <ContentLibrary />
       <Services />
+      <ContentLibrary />
+      <Partners />
       <Testimonials />
       <Footer />
     </>

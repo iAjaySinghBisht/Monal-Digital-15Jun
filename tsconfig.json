@@ -6,6 +6,10 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    /* The tests run on `node --test`, which strips types natively and so
+       requires the real `.ts` extension on relative imports. Safe here
+       because nothing is emitted. */
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",

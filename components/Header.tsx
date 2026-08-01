@@ -85,13 +85,13 @@ const Header = () => {
         }`}
       >
         {/* Logo */}
-        <Link href="/" data-header-item className="flex items-center gap-2.5 shrink-0">
+        <Link href="/" data-header-item className="flex min-h-11 items-center gap-2.5 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/monal-logo-nav.png"
             alt="Monal Digital"
-            width="300"
-            height="64"
+            width="480"
+            height="116"
             loading="eager"
             fetchPriority="high"
             decoding="async"
@@ -114,7 +114,7 @@ const Header = () => {
         {/* CTA + mobile toggle */}
         <div data-header-item className="flex items-center gap-3">
           <div className="hidden lg:block">
-            <Pill as={Link} href="/contact-us" variant="dark" magnetic={false} withArrow={false}>
+            <Pill as={Link} href="/contact-us" variant="primary" magnetic={false} withArrow={false}>
               Get in touch
             </Pill>
           </div>
@@ -159,7 +159,7 @@ const Header = () => {
           <Pill
             as={Link}
             href="/contact-us"
-            variant="royal"
+            variant="primary"
             magnetic={false}
             withArrow={false}
             onClick={() => setOpen(false)}

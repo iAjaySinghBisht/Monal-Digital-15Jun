@@ -52,7 +52,7 @@ const Field = ({
 );
 
 const inputClass =
-  "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-royal focus:ring-2 focus:ring-royal/15";
+  "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent-ink/15";
 
 // Reads a File into a bare base64 string (no data-URL prefix).
 const toBase64 = (file: File) =>
@@ -73,7 +73,7 @@ const Graphics = () => (
       <circle cx="100" cy="100" r="66" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-sun shadow-[0_10px_30px_-8px_rgba(250,204,21,0.7)]" />
+    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-teal shadow-[0_10px_30px_-8px_rgba(35,198,199,0.7)]" />
     <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-mint rotate-12" />
     <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/35" />
   </div>
@@ -175,7 +175,7 @@ export default function CareerForm() {
 
         <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-16 md:pb-24 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="bg-violet">Careers</Eyebrow>
+            <Eyebrow tone="dark">Careers</Eyebrow>
           </div>
           <h1
             data-split
@@ -200,13 +200,15 @@ export default function CareerForm() {
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
-            {/* Left — blue half with graphics */}
-            <div className="relative bg-linear-to-br from-royal to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
+            {/* Left — accent half with graphics. The ramp starts at the
+                text-safe teal, not the bright one: this panel carries white
+                copy, and bright teal under white is 2.11:1. */}
+            <div className="relative bg-linear-to-br from-accent-ink to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
               <Graphics />
               <div className="relative">
-                <Eyebrow tone="dark" dot="bg-sun">Apply now</Eyebrow>
+                <Eyebrow tone="dark">Apply now</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
-                  Tell us about <span className="text-sun">yourself</span>.
+                  Tell us about <span className="text-teal">yourself</span>.
                 </h2>
                 <p className="mt-5 text-white/75 leading-relaxed max-w-sm">
                   Share your details and attach your résumé. If there&apos;s a fit,
@@ -238,7 +240,7 @@ export default function CareerForm() {
                   <button
                     type="button"
                     onClick={() => setStatus("idle")}
-                    className="mt-2 text-sm font-semibold text-royal hover:underline"
+                    className="mt-2 text-sm font-semibold text-accent-ink hover:underline"
                   >
                     Submit another application
                   </button>
@@ -308,7 +310,7 @@ export default function CareerForm() {
                       <button
                         type="button"
                         onClick={() => fileRef.current?.click()}
-                        className="shrink-0 rounded-2xl border border-line bg-paper px-4 py-3 text-sm font-semibold text-ink hover:border-royal transition-colors"
+                        className="shrink-0 rounded-2xl border border-line bg-paper px-4 py-3 text-sm font-semibold text-ink hover:border-accent transition-colors"
                       >
                         Choose file
                       </button>
@@ -345,7 +347,7 @@ export default function CareerForm() {
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink text-paper px-7 py-3.5 font-semibold transition-all hover:bg-royal disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink text-paper px-7 py-3.5 font-semibold transition-all hover:bg-accent disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {status === "sending" ? "Submitting…" : "Submit application"}
                     {status !== "sending" && (

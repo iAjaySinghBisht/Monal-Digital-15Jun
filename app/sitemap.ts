@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { getPosts } from "@/lib/posts";
 import { services } from "@/data/constants";
+import { TOYS } from "@/data/play";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -15,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/work",
     "/services",
     "/blog",
+    "/play",
+    ...TOYS.map((t) => `/play/${t.slug}`),
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,

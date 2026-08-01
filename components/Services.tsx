@@ -1,33 +1,139 @@
 import Link from "next/link";
-import { ventures, brands, type Venture } from "@/data/constants";
+import { ventures, type Venture } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
+import FractalField, { FractalBackdrop } from "./FractalField";
+import AipanMark from "./AipanMark";
+import { SPECTRUM, motifTone } from "@/lib/palette";
 
-/* Per-card pastel tint + hover accent. */
-const TINTS = [
-  { plate: "bg-lav", hover: "group-hover:bg-royal" },
-  { plate: "bg-sun-soft", hover: "group-hover:bg-sun" },
-  { plate: "bg-mint", hover: "group-hover:bg-royal" },
-];
+/* The partner wall used to trail this section; it is components/Partners
+   now, and the mark-sizing table went with it. */
+
+/* ------------------------------------------------------------------ *
+ *  One motif per venture — chosen to match what that venture actually
+ *  is, rather than applied uniformly:
+ *
+ *    Kids        pythagoras  a story tree — "where every story begins"
+ *    AI          hilbert     a circuit trace — computation
+ *    Games       sierpinski  board/puzzle geometry — play
+ *    Preschool   fern        the one that says "inspired by nature"
+ *    Academy     subdiv      recursive frames — storyboards, animation
+ *    Consultancy dragon      one route folding out to reach everywhere
+ *
+ *  All six are fractals, so the section keeps a single logic while each
+ *  card still says something specific about its venture.
+ *
+ *  Six of the wordmark's eight bands, one per venture, so no two cards
+ *  repeat and the row walks the logo's own spectrum. Canvas needs real
+ *  hex (see lib/palette.ts) — these are decorative fills behind copy,
+ *  never text.
+ *
+ *  The motif draws its band through motifTone(), which deepens it until
+ *  it survives the mist card; the light half of the spectrum was landing
+ *  near 1.2:1 and reading as an empty card. That is a uniform rule over
+ *  all eight, not a per-card choice — see MOTIF TONE in lib/palette.ts.
+ *  The number plate below still takes the RAW band, because a pale
+ *  ground holding ink text is exactly what it is for.
+ * ------------------------------------------------------------------ */
+/* `drift` = animates on its own, rather than waiting for a pointer.
+   Every card is still by default and wakes on hover, which is what keeps
+   six canvases on one screen from costing anything while you are reading
+   past them. Games is the exception: a card about play that only moves
+   once you touch it is the wrong way round, and its gasket is the one
+   motif whose motion is a continuous travelling wave rather than a
+   gesture with a beginning and an end. One always-on canvas is a cost
+   worth naming; six would not be. Reduced-motion still overrides it. */
+const MOTIFS = [
+  { motif: "pythagoras", depth: 9, scale: 1, speed: 1, drift: false },
+  /* The Hilbert traversal sweeps its whole curve in one pass, so at the
+     shared rate it reads as a flicker rather than a line being drawn. */
+  { motif: "hilbert", depth: 5, scale: 0.9, speed: 0.45, drift: false },
+  { motif: "sierpinski", depth: 6, scale: 0.85, speed: 0.55, drift: true },
+  { motif: "fern", depth: 30, scale: 0.95, speed: 1, drift: false },
+  { motif: "subdiv", depth: 7, scale: 1, speed: 1, drift: false },
+  { motif: "dragon", depth: 12, scale: 0.85, speed: 1, drift: false },
+] as const;
+
+/* NO COLOUR IN THIS TABLE. The shape of a card's motif says something
+   about that venture; its colour does not, and picking one by name here
+   is how the page ended up with six unrelated hues that answered to no
+   system. The band comes from the card's POSITION, exactly as the peaks
+   and the partner wall take theirs — six cards drawing the first six of
+   the wordmark's eight, in the wordmark's own order. */
 
 /* Tinted mist so the cards still read against the section's white canvas —
    the same treatment About gives its story card. */
 const VentureCard = ({
   venture,
   num,
-  tint,
+  band,
+  motif,
 }: {
   venture: Venture;
   num: string;
-  tint: { plate: string; hover: string };
+  /** This card's band from the wordmark's set, chosen by position. */
+  band: string;
+  motif: (typeof MOTIFS)[number];
 }) => {
   const isExternal = venture.href?.startsWith("http");
+  /* `relative overflow-hidden` so the motif can be absolutely placed and
+     clipped to the card's rounded corners. */
   const surface =
-    "group card card-hover bg-mist border-transparent flex flex-col p-7 md:p-8";
+    "group card card-hover bg-mist border-transparent flex flex-col p-7 md:p-8 relative overflow-hidden";
 
   const body = (
     <>
-      <div className="flex items-start justify-between gap-3">
-        <span className={`grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 ${tint.plate} ${tint.hover} group-hover:text-white`}>
+      {/* This venture's own motif, in its own tone — see MOTIFS above. The
+          radial mask dissolves it into the card so the copy always wins. */}
+      <span
+        aria-hidden="true"
+        /* 0.62 was tuned for Monal Test's dark cards, where the lines read as
+           a faint watermark. On this light mist the same value crosses the
+           body copy, so it sits lower here and only lifts on hover. The mask
+           is also pulled tighter into the corner for the same reason. */
+        className="pointer-events-none absolute -right-10 -bottom-8 h-60 w-60 opacity-[0.42] transition-opacity duration-500 group-hover:opacity-90"
+        style={{
+          maskImage: "radial-gradient(80% 80% at 74% 82%, #000 30%, transparent)",
+          WebkitMaskImage: "radial-gradient(80% 80% at 74% 82%, #000 30%, transparent)",
+        }}
+      >
+        <FractalField
+          variant={motif.motif}
+          /* The band at a value that survives the mist card. The light
+             half of the spectrum — sun above all, at 1.15:1 raw — drew a
+             motif nobody could see. See MOTIF TONE in lib/palette.ts. */
+          palette={[motifTone(band)]}
+          speed={motif.speed}
+          depth={motif.depth}
+          scale={motif.scale}
+          /* A drifting card still takes `activateOn`: hover cannot add
+             amplitude it already has, but it still resolves one level
+             deeper, so the card answers a pointer either way. */
+          drift={motif.drift}
+          activateOn=".group"
+        />
+      </span>
+
+      {/* Aipan corner, top-left only — the fractal motif already owns the
+          bottom-right, and the two would fight for the same corner. Kept
+          at 5%: this mark repeats down the whole grid, and repetition is
+          exactly what turned the dividers into wallpaper. Here it should
+          register as texture on the card, never as an ornament on it. */}
+      <AipanMark
+        motif="corner"
+        size={30}
+        className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.05]"
+      />
+
+      <div className="relative flex items-start justify-between gap-3">
+        {/* The plate is the card's OWN band laid thinly, and the same band
+            at full strength on hover — so the number, the motif behind it
+            and the card all say one colour. The old three-entry TINTS
+            table cycled three arbitrary pastels across six cards, which
+            meant card 1 and card 4 matched for no reason at all. */}
+        <span
+          className="band-plate band-plate--lift grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 group-hover:text-white"
+          style={{ ["--band" as string]: band }}
+        >
           {num}
         </span>
         {/* A venture is either not open yet, or somewhere you can go — never both.
@@ -46,17 +152,19 @@ const VentureCard = ({
         ) : null}
       </div>
 
-      <h3 className="mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
+      <h3 className="relative mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
         {venture.title}
       </h3>
-      <p className="mt-1.5 text-royal font-medium">{venture.tagline}</p>
-      <p className="mt-4 text-muted leading-relaxed">{venture.desc}</p>
+      <p className="relative mt-1.5 text-accent-ink font-medium">{venture.tagline}</p>
+      <p className="relative mt-4 text-muted leading-relaxed">{venture.desc}</p>
     </>
   );
 
   if (!venture.href) {
+    /* Real, but not open yet — the cursor reads `soon` here and shows a
+       hollow ring instead of the filled "you can go here" dot. */
     return (
-      <div data-tilt="4" className={surface}>
+      <div data-tilt="4" data-cursor="soon" className={surface}>
         {body}
       </div>
     );
@@ -84,27 +192,31 @@ const VentureCard = ({
   );
 };
 
-const Services = ({
-  showPartners = true,
-  showHeader = true,
-}: {
-  showPartners?: boolean;
-  showHeader?: boolean;
-}) => {
+const Services = ({ showHeader = true }: { showHeader?: boolean }) => {
   return (
-    <section id="services" className="relative bg-paper py-24 md:py-32 border-t border-line">
+    <section
+      id="services"
+      className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden"
+    >
+      {/* Section-wide fern, rising from the bottom edge and fading out well
+          before the copy — the quiet bed the six card motifs sit on. */}
+      <FractalBackdrop
+        variant="fern"
+        opacity={0.14}
+        mask="radial-gradient(95% 100% at 50% 100%, #000 0%, transparent 82%)"
+      />
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow dot="bg-sun">Our Ecosystem</Eyebrow>
+              <Eyebrow>What we&apos;re building</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              What we&apos;re <span className="mark-sun">building</span>.
+              Our <span className="mark">Ecosystem</span>.
             </h2>
             <p
               data-reveal="up"
@@ -125,72 +237,35 @@ const Services = ({
               key={v.title}
               venture={v}
               num={String(i + 1).padStart(2, "0")}
-              tint={TINTS[i % TINTS.length]}
+              band={SPECTRUM[i % SPECTRUM.length].hex}
+              motif={MOTIFS[i % MOTIFS.length]}
             />
           ))}
         </div>
 
-        {/* Partners */}
-        {showPartners && (
-        <div className="mt-24 md:mt-32 pt-16 md:pt-20 border-t border-line">
-          <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
-            <div data-reveal="up">
-              <Eyebrow dot="bg-royal">Our Partners</Eyebrow>
-            </div>
-            <h2
-              data-split
-              className="font-display text-ink text-[clamp(1.8rem,5vw,3.6rem)] leading-[0.98] max-w-3xl"
-            >
-              Trusted by creators &amp; studios <span className="mark-violet">worldwide</span>.
-            </h2>
-          </div>
+        {/* The section's only way out. Six ventures, three of them not open
+            yet, and until now nothing to do about any of them — a reader
+            crossed this section and the testimonials, roughly 3,500px and
+            more than a third of the page, with no way to act between "View
+            All Our Work" and the footer.
 
-          <div
-            data-reveal-group="up"
-            className="flex flex-wrap justify-center gap-4 md:gap-5"
-          >
-            {brands.map((b, i) => {
-              /* Per-logo scale: named tweaks first, then a slight shrink for
-                 everything past the first row of three. */
-              const scale =
-                b.name === "Adruto"
-                  ? "scale-[1.35] group-hover:scale-[1.45]"
-                  : b.name === "Lunar-X" || b.name === "Tata Play"
-                    ? "scale-[1.15] group-hover:scale-[1.22]"
-                    : b.name === "Lenny's Studios"
-                      ? "scale-[0.78] group-hover:scale-[0.83] rounded-xl"
-                      : i >= 3
-                        ? "scale-[0.9] group-hover:scale-[0.95]"
-                        : "group-hover:scale-105";
-              return (
-                <div
-                  key={b.name}
-                  data-tilt="4"
-                  className={`group card card-hover min-h-44 flex items-center justify-center w-full sm:w-[calc(33.333%-0.667rem)] md:w-[calc(33.333%-0.834rem)] ${
-                    b.color ? "p-4" : "p-8"
-                  }`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={b.logo}
-                    alt={b.name}
-                    loading="lazy"
-                    className={`w-auto object-contain transition-all duration-500 ${
-                      b.color
-                        ? "max-h-32 md:max-h-40 max-w-full"
-                        : "max-h-14 md:max-h-16 max-w-[70%]"
-                    } ${
-                      b.color || b.noTint
-                        ? ""
-                        : "brightness-0 opacity-80 group-hover:opacity-100"
-                    } ${scale}`}
-                  />
-                </div>
-              );
-            })}
-          </div>
+            Placed after the grid rather than before it: the ask only makes
+            sense once you have seen what is being offered. The copy names
+            the not-yet ventures on purpose, because a card marked
+            "Coming 2027" otherwise reads as a dead end rather than an
+            invitation. */}
+        <div className="mt-14 md:mt-16 flex flex-col items-center gap-3 text-center">
+          <p className="text-muted max-w-lg">
+            Building something for kids — a show, a game, a learning tool?
+            Several of these worlds are still taking shape, and the best
+            time to talk is now.
+          </p>
+          <Link href="/contact-us" data-magnetic="0.25" className="btn btn-primary group">
+            Talk to us about a venture
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
-        )}
+
       </div>
     </section>
   );

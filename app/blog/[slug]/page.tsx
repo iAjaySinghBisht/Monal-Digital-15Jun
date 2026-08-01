@@ -90,7 +90,7 @@ export default async function BlogPostPage({
 
         <div className="relative max-w-3xl mx-auto px-6 md:px-12 pt-40 md:pt-48 pb-14 md:pb-20 text-center">
           <div data-reveal="up" className="mb-6 flex justify-center">
-            <Eyebrow tone="dark" dot="bg-sun">{post.category}</Eyebrow>
+            <Eyebrow tone="dark">{post.category}</Eyebrow>
           </div>
           <h1
             data-reveal="up"
@@ -148,7 +148,7 @@ export default async function BlogPostPage({
               <span className="inline-block rotate-180">→</span>
               More articles
             </Link>
-            <Link href="/#contact" className="btn btn-dark">
+            <Link href="/#contact" className="btn btn-primary">
               Work with us
             </Link>
           </div>
@@ -165,7 +165,7 @@ export default async function BlogPostPage({
               </h2>
               <Link
                 href="/blog"
-                className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-royal transition-colors"
+                className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-ink hover:text-accent-ink transition-colors"
               >
                 View all
                 <ArrowUpRight className="w-4 h-4" />
@@ -199,7 +199,7 @@ export default async function BlogPostPage({
                     </h3>
                     <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-semibold text-ink">
                       Read article
-                      <ArrowUpRight className="w-4 h-4 text-royal transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight className="w-4 h-4 text-accent-ink transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </Link>

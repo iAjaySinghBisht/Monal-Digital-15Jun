@@ -34,7 +34,7 @@ const Tile = ({ p }: { p: Project }) => (
 );
 
 const ViewAllBtn = () => (
-  <Link href="/work" data-magnetic="0.25" className="btn btn-dark group">
+  <Link href="/work" data-magnetic="0.25" className="btn btn-primary group">
     View All Our Work
     <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
   </Link>
@@ -42,18 +42,18 @@ const ViewAllBtn = () => (
 
 const ContentLibrary = () => {
   return (
-    <section id="work" className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden">
+    <section id="work" className="relative bg-paper py-24 md:py-32 border-t border-line overflow-hidden">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
           <div data-reveal="up">
-            <Eyebrow dot="bg-sun">Our Worlds</Eyebrow>
+            <Eyebrow>Our Worlds</Eyebrow>
           </div>
           <h2
             data-split
             className="font-display text-ink text-[clamp(2.2rem,6.5vw,5rem)] leading-none max-w-3xl"
           >
-            Characters kids <span className="mark-sun">grow up</span> with.
+            Characters kids <span className="mark">grow up</span> with.
           </h2>
           <p
             data-reveal="up"

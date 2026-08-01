@@ -78,7 +78,7 @@ const Hero = () => {
         <div className="absolute inset-x-0 bottom-0 z-10 px-6 md:px-11 pb-6 md:pb-9">
           <div className="max-w-4xl pr-6">
             <div data-reveal="up" className="mb-4 md:mb-5">
-              <Eyebrow tone="dark" dot="bg-sun">From the Himalayas. For the World.</Eyebrow>
+              <Eyebrow tone="dark">From the Himalayas. For the World.</Eyebrow>
             </div>
             <h1
               data-reveal="up"
