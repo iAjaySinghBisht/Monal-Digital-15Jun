@@ -31,7 +31,7 @@ const ScrollProgress = () => {
     >
       <div
         ref={barRef}
-        className="h-full w-full origin-left scale-x-0 bg-linear-to-r from-ink via-accent to-sun"
+        className="h-full w-full origin-left scale-x-0 bg-linear-to-r from-ink via-accent to-teal"
         /* The Cantor set — remove the middle third, then the middle third
            of what is left — is the canonical fractal of one dimension, and
            a 3px progress bar has exactly one dimension to be fractal in.

@@ -41,7 +41,7 @@ const PullQuote = ({
      side by side, which put the ACTION colour on something you cannot
      act on — accent now means "you can press this" and a quote is not a
      button. Both pull quotes take the signature band. */
-  const skin = { surface: "bg-sun text-ink", role: "text-ink/55", ring: "ring-ink/15" };
+  const skin = { surface: "bg-teal text-ink", role: "text-ink/55", ring: "ring-ink/15" };
   return (
     <div
       data-tilt="5"
@@ -127,7 +127,7 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="relative bg-mist py-24 md:py-32 border-t border-line">
+    <section id="testimonials" className="relative bg-paper py-24 md:py-32 border-t border-line">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-16">
           <div data-reveal="up">

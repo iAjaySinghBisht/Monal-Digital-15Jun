@@ -78,7 +78,7 @@ export function Choice<T extends string>({
               onClick={() => onChange(o.value)}
               className={`min-h-11 rounded-full border px-4 text-[14px] font-medium transition-colors ${
                 active
-                  ? "border-accent bg-accent text-ink"
+                  ? "border-accent bg-accent text-white"
                   : "border-line bg-paper text-ink hover:border-ink/30"
               }`}
             >

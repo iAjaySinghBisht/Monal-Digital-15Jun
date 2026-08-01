@@ -187,7 +187,7 @@ export default function CreatureMaker({
         <button
           type="button"
           onClick={surprise}
-          className="min-h-11 rounded-full bg-sun px-5 text-[14px] font-semibold text-ink transition-transform hover:-translate-y-0.5"
+          className="min-h-11 rounded-full bg-teal px-5 text-[14px] font-semibold text-ink transition-transform hover:-translate-y-0.5"
         >
           Surprise me
         </button>

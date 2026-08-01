@@ -35,7 +35,7 @@ const Caption = ({ children }: { children: React.ReactNode }) => (
     <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-transparent" />
     <div className="absolute bottom-0 inset-x-0 p-5 md:p-6">
       <span className="inline-flex items-center gap-2 text-white font-display text-base md:text-lg drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
-        <span className="w-1.5 h-1.5 rounded-full bg-sun" />
+        <span className="w-1.5 h-1.5 rounded-full bg-teal" />
         {children}
       </span>
     </div>
@@ -60,7 +60,7 @@ const AboutStory = () => {
               data-split
               className="font-display text-white text-[clamp(2rem,4.5vw,3.4rem)] leading-[1.05] text-balance"
             >
-              Where characters become <span className="text-sun">childhood</span>.
+              Where characters become childhood.
             </h2>
             <p className="mt-6 text-white/80 text-lg leading-relaxed max-w-xl">
               Monal Digital is a creative animation studio building original
@@ -163,7 +163,7 @@ const AboutStory = () => {
             </span>
             <p className="relative font-display text-[clamp(1.6rem,2.4vw,2.2rem)] leading-[1.1]">
               We create entertainment that helps children{" "}
-              <span className="text-sun">learn, imagine, and grow</span>, with
+              <span className="text-teal">learn, imagine, and grow</span>, with
               stories worth watching again and again.
             </p>
           </article>
@@ -185,7 +185,7 @@ const AboutStory = () => {
                   key={f.title}
                   className="group/item flex items-start gap-4 rounded-2xl bg-paper border border-line px-4 py-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_18px_40px_-30px_rgba(24,24,27,0.5)]"
                 >
-                  <span className="grid place-items-center w-9 h-9 rounded-xl bg-mint text-ink shrink-0 transition-colors duration-300 group-hover/item:bg-accent group-hover/item:text-ink">
+                  <span className="grid place-items-center w-9 h-9 rounded-xl bg-mint text-ink shrink-0 transition-colors duration-300 group-hover/item:bg-accent group-hover/item:text-white">
                     <CheckIcon className="w-4 h-4" />
                   </span>
                   <p className="leading-snug">
@@ -208,7 +208,7 @@ const AboutStory = () => {
 
             <div className="relative mt-auto h-44">
               <div className="absolute right-3 bottom-0 w-44 h-40 rounded-3xl bg-lav" />
-              <span className="absolute left-0 bottom-8 -rotate-6 rounded-2xl bg-sun text-ink font-display text-sm px-4 py-3 leading-none shadow-[0_14px_30px_-12px_rgba(250,204,21,0.9)] z-10">
+              <span className="absolute left-0 bottom-8 -rotate-6 rounded-2xl bg-teal text-ink font-display text-sm px-4 py-3 leading-none shadow-[0_14px_30px_-12px_rgba(35, 198, 199,0.9)] z-10">
                 Original<br />IP
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}

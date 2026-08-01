@@ -51,7 +51,7 @@ const DisciplineRow = ({
       <span
         className={`shrink-0 grid place-items-center w-11 h-11 md:w-12 md:h-12 rounded-full border transition-all duration-300 ${
           isOpen
-            ? "bg-sun border-sun text-ink rotate-45"
+            ? "bg-teal border-teal text-ink rotate-45"
             : "border-line text-ink group-hover:border-ink"
         }`}
         aria-hidden="true"
@@ -165,7 +165,7 @@ export default function ServiceDetailBody({
             href={`/services/${prev.slug}`}
             className="group relative overflow-hidden flex flex-col justify-center gap-4 px-6 md:px-12 py-12 md:py-16 border-b sm:border-b-0 sm:border-r border-white/10 transition-colors hover:bg-white/[0.03]"
           >
-            <span className="relative flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45 group-hover:text-sun transition-colors">
+            <span className="relative flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45 group-hover:text-teal transition-colors">
               <ArrowGlyph className="w-4 h-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-1.5" />
               Previous
             </span>
@@ -173,7 +173,7 @@ export default function ServiceDetailBody({
               <span className="font-display text-xl md:text-2xl tabular-nums text-white/25">
                 {prev.number}
               </span>
-              <span className="font-display text-3xl md:text-[2.4rem] leading-none tracking-tight group-hover:text-sun transition-colors">
+              <span className="font-display text-3xl md:text-[2.4rem] leading-none tracking-tight group-hover:text-teal transition-colors">
                 {prev.eyebrow}
               </span>
             </span>
@@ -183,12 +183,12 @@ export default function ServiceDetailBody({
             href={`/services/${next.slug}`}
             className="group relative overflow-hidden flex flex-col justify-center items-end text-right gap-4 px-6 md:px-12 py-12 md:py-16 transition-colors hover:bg-white/[0.03]"
           >
-            <span className="relative flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45 group-hover:text-sun transition-colors">
+            <span className="relative flex items-center gap-2.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45 group-hover:text-teal transition-colors">
               Next
               <ArrowGlyph className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
             </span>
             <span className="relative flex items-baseline gap-4">
-              <span className="font-display text-3xl md:text-[2.4rem] leading-none tracking-tight group-hover:text-sun transition-colors">
+              <span className="font-display text-3xl md:text-[2.4rem] leading-none tracking-tight group-hover:text-teal transition-colors">
                 {next.eyebrow}
               </span>
               <span className="font-display text-xl md:text-2xl tabular-nums text-white/25">

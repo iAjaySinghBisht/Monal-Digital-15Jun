@@ -40,7 +40,7 @@ test("the accent has both its forms, and they are the same hue", () => {
   const fill = grab("accent");
   const text = grab("accent-ink");
   assert.ok(fill, "--color-accent must exist — it is the whole of tier 1");
-  assert.ok(text, "--color-accent-ink must exist — teal cannot hold text on white");
+  assert.ok(text, "--color-accent-ink must exist — magenta cannot hold text on white");
 
   const hueOf = (hex: string) => {
     const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
@@ -59,27 +59,51 @@ test("the accent has both its forms, and they are the same hue", () => {
   );
 });
 
-/* THE ONE SANCTIONED OVERLAP. The accent IS the teal band — tier 1 and
+/* THE ONE SANCTIONED OVERLAP. The accent IS the magenta band — tier 1 and
    tier 2 share a value, deliberately, because the action colour was asked
-   to come from the brand set.
+   to come from the brand set, and magenta is the band the wordmark is
+   mostly made of.
 
-   The cost is real and worth naming: wherever a series walks to teal (one
-   summit, one partner mark, one venture card) that decoration is the exact
-   colour of every button. It is tolerable only because the convention puts
-   the meaning in FORM — a filled disc with an arrow, a pill — and lets
-   colour reinforce rather than carry it.
+   The cost is real and worth naming: wherever a series walks to magenta
+   (one summit, one partner mark, one venture card) that decoration is the
+   exact colour of every button. It is tolerable only because the
+   convention puts the meaning in FORM — a filled disc with an arrow, a
+   pill — and lets colour reinforce rather than carry it.
 
-   The guard is that this stays the ONLY overlap and stays teal. An accent
-   that drifts onto magenta or sun would be an accident, not a decision. */
-test("the accent overlaps exactly one band, and it is teal", () => {
+   The guard is that this stays the ONLY overlap and stays magenta. An
+   accent that drifts onto teal or sun would be an accident, not a
+   decision. */
+test("the accent overlaps exactly one band, and it is magenta", () => {
   const css = read("app/globals.css");
   const fill = css.match(/--color-accent:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();
   const matches = SPECTRUM.filter((s) => s.hex.toLowerCase() === fill);
   assert.equal(matches.length, 1, `--color-accent (${fill}) should match exactly one band`);
   assert.equal(
     matches[0].name,
-    "teal",
-    `the accent has moved onto the ${matches[0].name} band — only the teal overlap is intended`
+    "magenta",
+    `the accent has moved onto the ${matches[0].name} band — only the magenta overlap is intended`
+  );
+});
+
+/* The signature band and the accent must stay different bands. The
+   signature is a fixed decoration (the eyebrow diamond, the heading
+   highlight, the pull quotes); the accent means "you can act on this". If
+   the two ever land on one band, a highlight is indistinguishable from a
+   button and the accent stops carrying meaning. This caught nothing when
+   written — the point is that it fails the day someone moves one of them
+   onto the other. */
+test("the signature band is not the accent band", () => {
+  const css = read("app/globals.css");
+  const accent = css.match(/--color-accent:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();
+  const mark = css.match(/^\.mark \{ background: var\(--color-([a-z-]+)\)/m)?.[1];
+  assert.ok(mark, ".mark must take its background from a band token");
+  const signature = SPECTRUM.find((s) => s.name === mark);
+  assert.ok(signature, `.mark uses --color-${mark}, which is not one of the eight bands`);
+  assert.notEqual(
+    signature!.hex.toLowerCase(),
+    accent,
+    `the signature band (${mark}) is now the accent colour — a highlight and a ` +
+      `button would be the same colour, which is the one thing the tiers exist to prevent`
   );
 });
 
@@ -151,7 +175,7 @@ test("the heading highlight has exactly one flavour", () => {
   const css = read("app/globals.css");
   assert.ok(/^\.mark \{/m.test(css), ".mark should exist");
   assert.ok(
-    !/\.mark-(sun|violet|royal)/.test(css),
+    !/\.mark-(sun|teal|violet|royal)/.test(css),
     "the .mark-* variants are back — a highlight is a singleton and takes " +
       "the signature band, not whichever hue suited that heading"
   );

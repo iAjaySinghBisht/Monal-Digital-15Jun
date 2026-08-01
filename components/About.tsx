@@ -69,7 +69,7 @@ const About = () => {
                 corner marks belong here rather than being decoration. The
                 card keeps its brand purple; only the ornament is borrowed,
                 at an opacity where you notice it second, after the words. */}
-            <article className="card card-hover bg-accent border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+            <article className="card card-hover bg-accent border-transparent text-white p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
               <AipanMark
                 motif="corner"
                 size={38}

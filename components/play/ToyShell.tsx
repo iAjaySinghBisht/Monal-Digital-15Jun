@@ -26,7 +26,7 @@ function ActionButton({
       disabled={disabled}
       className={`min-h-11 rounded-full px-5 text-[14px] font-semibold transition-colors disabled:opacity-40 ${
         tone === "loud"
-          ? "bg-ink text-white hover:bg-accent hover:text-ink"
+          ? "bg-ink text-white hover:bg-accent hover:text-white"
           : "border border-line bg-paper text-ink hover:border-ink/30"
       }`}
     >

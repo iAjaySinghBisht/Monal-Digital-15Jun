@@ -25,7 +25,7 @@ const SocialIcon = ({
     aria-label={label}
     target="_blank"
     rel="noopener noreferrer"
-    className="w-11 h-11 rounded-full border border-accent/40 text-accent flex items-center justify-center hover:bg-accent hover:text-ink hover:border-accent transition-all"
+    className="w-11 h-11 rounded-full border border-accent/40 text-accent flex items-center justify-center hover:bg-accent hover:text-white hover:border-accent transition-all"
   >
     {children}
   </a>
@@ -146,6 +146,13 @@ const Footer = () => {
                     <rect x="3" y="3" width="18" height="18" rx="5" />
                     <circle cx="12" cy="12" r="4" />
                     <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                  </svg>
+                </SocialIcon>
+                {/* Monal Kids Hindi — the channel the shows actually live on,
+                    so this is the one social link that leads to the work. */}
+                <SocialIcon href="https://www.youtube.com/@MonalKidsHindi" label="YouTube">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M23 12s0-3.4-.4-5.1a2.9 2.9 0 0 0-2-2C18.6 4.5 12 4.5 12 4.5s-6.6 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8.6 1 12 1 12s0 3.4.4 5.1c.2 1 1 1.8 2 2 1.9.4 8.5.4 8.5.4s6.6 0 8.5-.4c1-.2 1.8-1 2-2 .4-1.7.4-5.1.4-5.1zM9.9 15.4V8.6l5.6 3.4-5.6 3.4z" />
                   </svg>
                 </SocialIcon>
               </div>
@@ -296,7 +303,15 @@ const Footer = () => {
             crest nor label can drift off the summit it belongs to. The snow
             range is the one labelled: it is the only one drawn in true
             west-to-east order, the ranges in front are rotations. */}
-        <div className="peak-layer absolute inset-x-0 bottom-0 z-10 w-full h-[140%]">
+        {/* `pointer-events-none` on the LAYER, `auto` on the pins. This box
+            is h-[140%] anchored to the bottom, so it reaches 40% of its own
+            height ABOVE this section — straight over the socials row and
+            the foot of the link columns sitting above it. At z-10, and
+            transparent, it was still an event target across that whole
+            area: every social icon and several footer links were
+            unclickable, with nothing visible to explain why. Only the 56px
+            pins need to be hit. */}
+        <div className="peak-layer pointer-events-none absolute inset-x-0 bottom-0 z-10 w-full h-[140%]">
           {/* Same viewBox and preserveAspectRatio as the ranges, so the lit
               crest inherits the identical stretch and lies exactly on the
               ridge rather than beside it. */}

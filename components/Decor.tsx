@@ -104,7 +104,7 @@ export const Eyebrow = ({
           beside 12px caps; at 12 the diamond's width equals the cap height,
           so the mark and the letters share one measure. Same figure and
           same proportions as the band, drawn a little larger. */}
-      <Diamond className="text-sun" />
+      <Diamond className="text-teal" />
       {children}
     </span>
   );

@@ -1,30 +1,12 @@
 import Link from "next/link";
-import { ventures, brands, type Venture } from "@/data/constants";
+import { ventures, type Venture } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
 import FractalField, { FractalBackdrop } from "./FractalField";
-import GrowingFrond from "./GrowingFrond";
 import AipanMark from "./AipanMark";
-import { SPECTRUM } from "@/lib/palette";
+import { SPECTRUM, motifTone } from "@/lib/palette";
 
-/* Each partner mark's aspect ratio, measured from the traced silhouette. A
-   logo wall looks wrong when every mark is given the same box: an 8:1
-   wordmark fills it while a 1.7:1 roundel shrinks to nothing. Sizing by
-   height = K / sqrt(aspect) keeps the rendered AREA roughly equal, so a
-   wide wordmark and a square badge carry the same visual weight. */
-const MARK_ASPECT: Record<string, number> = {
-  "adruto": 4.58,
-  "freebird-animation": 2.33,
-  "lenny-studio": 2.71,
-  "lunar-x": 2.46,
-  "shemaroo": 2.39,
-  "tata-play": 8.47,
-  "the-boldeye": 3.42,
-  "vaibhav-studios": 1.72,
-};
-/* Tuned so even the widest mark (8.5:1) stays HEIGHT-bound inside the
-   card's content box — once `contain` starts clipping on width instead,
-   the equal-area maths stops holding and wide wordmarks shrink twice. */
-const MARK_K = 74; // a 3:1 mark lands at ~43px tall
+/* The partner wall used to trail this section; it is components/Partners
+   now, and the mark-sizing table went with it. */
 
 /* ------------------------------------------------------------------ *
  *  One motif per venture — chosen to match what that venture actually
@@ -43,18 +25,32 @@ const MARK_K = 74; // a 3:1 mark lands at ~43px tall
  *  Six of the wordmark's eight bands, one per venture, so no two cards
  *  repeat and the row walks the logo's own spectrum. Canvas needs real
  *  hex (see lib/palette.ts) — these are decorative fills behind copy,
- *  never text, which is why the raw band is right here and not its
- *  darker `ink` sibling.
+ *  never text.
+ *
+ *  The motif draws its band through motifTone(), which deepens it until
+ *  it survives the mist card; the light half of the spectrum was landing
+ *  near 1.2:1 and reading as an empty card. That is a uniform rule over
+ *  all eight, not a per-card choice — see MOTIF TONE in lib/palette.ts.
+ *  The number plate below still takes the RAW band, because a pale
+ *  ground holding ink text is exactly what it is for.
  * ------------------------------------------------------------------ */
+/* `drift` = animates on its own, rather than waiting for a pointer.
+   Every card is still by default and wakes on hover, which is what keeps
+   six canvases on one screen from costing anything while you are reading
+   past them. Games is the exception: a card about play that only moves
+   once you touch it is the wrong way round, and its gasket is the one
+   motif whose motion is a continuous travelling wave rather than a
+   gesture with a beginning and an end. One always-on canvas is a cost
+   worth naming; six would not be. Reduced-motion still overrides it. */
 const MOTIFS = [
-  { motif: "pythagoras", depth: 9, scale: 1, speed: 1 },
+  { motif: "pythagoras", depth: 9, scale: 1, speed: 1, drift: false },
   /* The Hilbert traversal sweeps its whole curve in one pass, so at the
      shared rate it reads as a flicker rather than a line being drawn. */
-  { motif: "hilbert", depth: 5, scale: 0.9, speed: 0.45 },
-  { motif: "sierpinski", depth: 6, scale: 0.85, speed: 1 },
-  { motif: "fern", depth: 30, scale: 0.95, speed: 1 },
-  { motif: "subdiv", depth: 7, scale: 1, speed: 1 },
-  { motif: "dragon", depth: 12, scale: 0.85, speed: 1 },
+  { motif: "hilbert", depth: 5, scale: 0.9, speed: 0.45, drift: false },
+  { motif: "sierpinski", depth: 6, scale: 0.85, speed: 0.55, drift: true },
+  { motif: "fern", depth: 30, scale: 0.95, speed: 1, drift: false },
+  { motif: "subdiv", depth: 7, scale: 1, speed: 1, drift: false },
+  { motif: "dragon", depth: 12, scale: 0.85, speed: 1, drift: false },
 ] as const;
 
 /* NO COLOUR IN THIS TABLE. The shape of a card's motif says something
@@ -102,10 +98,17 @@ const VentureCard = ({
       >
         <FractalField
           variant={motif.motif}
-          palette={[band]}
+          /* The band at a value that survives the mist card. The light
+             half of the spectrum — sun above all, at 1.15:1 raw — drew a
+             motif nobody could see. See MOTIF TONE in lib/palette.ts. */
+          palette={[motifTone(band)]}
           speed={motif.speed}
           depth={motif.depth}
           scale={motif.scale}
+          /* A drifting card still takes `activateOn`: hover cannot add
+             amplitude it already has, but it still resolves one level
+             deeper, so the card answers a pointer either way. */
+          drift={motif.drift}
           activateOn=".group"
         />
       </span>
@@ -189,17 +192,11 @@ const VentureCard = ({
   );
 };
 
-const Services = ({
-  showPartners = true,
-  showHeader = true,
-}: {
-  showPartners?: boolean;
-  showHeader?: boolean;
-}) => {
+const Services = ({ showHeader = true }: { showHeader?: boolean }) => {
   return (
     <section
       id="services"
-      className="relative bg-paper py-24 md:py-32 border-t border-line overflow-hidden"
+      className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden"
     >
       {/* Section-wide fern, rising from the bottom edge and fading out well
           before the copy — the quiet bed the six card motifs sit on. */}
@@ -213,13 +210,13 @@ const Services = ({
         {showHeader && (
           <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">
             <div data-reveal="up">
-              <Eyebrow>Our Ecosystem</Eyebrow>
+              <Eyebrow>What we&apos;re building</Eyebrow>
             </div>
             <h2
               data-split
               className="font-display text-ink text-[clamp(2rem,6vw,4.5rem)] leading-[0.98] max-w-3xl"
             >
-              What we&apos;re <span className="mark">building</span>.
+              Our <span className="mark">Ecosystem</span>.
             </h2>
             <p
               data-reveal="up"
@@ -269,109 +266,6 @@ const Services = ({
           </Link>
         </div>
 
-        {/* Partners */}
-        {showPartners && (
-        <div className="relative mt-24 md:mt-32 pt-16 md:pt-20 border-t border-line">
-
-          {/* THE FIELD. Circles packed inside circles, each generation
-              smaller and fainter — many distinct things sharing one space
-              without overlapping, which is the argument the section makes
-              in words. Masked to fade out well before the logos so the wall
-              stays the subject. */}
-          <FractalBackdrop
-            variant="circles"
-            depth={4}
-            opacity={0.1}
-            mask="radial-gradient(70% 80% at 50% 45%, #000 0%, transparent 78%)"
-          />
-
-          <div className="relative flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
-            <div data-reveal="up">
-              <Eyebrow>Our Partners</Eyebrow>
-            </div>
-            <h2
-              data-split
-              className="font-display text-ink text-[clamp(1.8rem,5vw,3.6rem)] leading-[0.98] max-w-3xl"
-            >
-              Trusted by creators &amp; studios <span className="mark">worldwide</span>.
-            </h2>
-          </div>
-
-          <div
-            data-reveal-group="up"
-            /* THE REVEAL, in time rather than in ink. `bisect` orders the
-               cards by recursive halving — the middle first, then the
-               quarters, then the eighths — instead of left to right. The
-               wall assembles by subdivision, which is the same construction
-               as everything else on the page, and it adds nothing to look
-               at. See hooks/useUiAnimations.ts. */
-            data-reveal-order="bisect"
-            className="relative flex flex-wrap justify-center gap-4 md:gap-5"
-          >
-            {brands.map((b, i) => {
-              /* Every partner is drawn as a flat silhouette in one of the
-                 palette tones. The source files were a mess — four had a
-                 baked-in white background, one a black one, three were
-                 already transparent — so per-logo scale hacks and
-                 brightness filters were being used to hide the difference
-                 and the wall read as mixed shapes.
-
-                 The `-mark` assets are alpha-only silhouettes traced from
-                 each original, applied here as a CSS mask so the colour
-                 comes from `background`, not from the file. That makes
-                 every logo behave identically regardless of how it
-                 arrived. Trade-off: partner brand colours are dropped in
-                 favour of a consistent wall, which is the usual treatment
-                 for a "trusted by" row. */
-              const slug = b.logo
-                .split("/")
-                .pop()!
-                .replace(/\.(png|jpg|jpeg|webp)$/i, "");
-              const mark = `/assets/brands/${slug}-mark.png`;
-              const aspect = MARK_ASPECT[slug] ?? 3;
-              const markH = Math.round(MARK_K / Math.sqrt(aspect));
-              return (
-                <div
-                  key={b.name}
-                  data-tilt="4"
-                  /* Four across, because there are eight partners: three
-                     columns left an orphan row of two hanging off centre. */
-                  className="group card card-hover min-h-32 flex items-center justify-center w-[calc(50%-0.5rem)] md:w-[calc(25%-0.94rem)] px-5 py-6"
-                >
-                  <span
-                    role="img"
-                    aria-label={b.name}
-                    className="v-mark block w-full transition-transform duration-500 group-hover:scale-105"
-                    style={{
-                      height: markH,
-                      /* Eight partners, eight spectrum bands — the wall
-                         walks the logo's set exactly once, so no two
-                         marks share a colour. */
-                      background: SPECTRUM[i % SPECTRUM.length].hex,
-                      maskImage: `url(${mark})`,
-                      WebkitMaskImage: `url(${mark})`,
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* The one thing on this page a child can actually do. Tapping
-              adds a level of branching — the same small shape repeated
-              inside itself, which is the idea the whole site is built on.
-              It sits after the partner wall so the section ends on
-              something to play with rather than on a list of names. */}
-          <div
-            data-reveal="up"
-            data-reveal-delay="0.15"
-            className="mt-16 md:mt-20 flex justify-center"
-          >
-            {/* Green, because it is a growing plant. */}
-            <GrowingFrond tone="var(--color-leaf)" />
-          </div>
-        </div>
-        )}
       </div>
     </section>
   );

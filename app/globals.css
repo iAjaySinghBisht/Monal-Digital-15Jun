@@ -14,13 +14,14 @@
  *  ---------------------------------------------------------------- *
  *  TIER 1 — SEMANTIC. One accent, and the neutrals.
  *
- *      --color-accent      YOU CAN ACT ON THIS. Teal. Buttons, the GO
- *                          cursor, the focus ring, links. Nothing else.
- *      --color-accent-ink  the same teal taken down until it clears
+ *      --color-accent      YOU CAN ACT ON THIS. Magenta — the logo's own
+ *                          dominant band. Buttons, the GO cursor, the
+ *                          focus ring, links. Nothing else.
+ *      --color-accent-ink  the same magenta taken down until it clears
  *                          4.5:1 on white. The accent has to be both a
  *                          FILL and TEXT, and no single value does both:
- *                          bright teal is 8.41:1 behind ink and 8.41:1
- *                          on the dark slabs, but only 2.11:1 as text on
+ *                          bright magenta is 4.62:1 behind ink and 4.62:1
+ *                          on the dark slabs, but only 3.83:1 as text on
  *                          white. Fills and dark-ground text take the
  *                          bright form; text on pale grounds takes this.
  *      ink / paper / mist / cloud / line / muted — structure.
@@ -43,22 +44,30 @@
  *              Picking one band by hand is how six cards ended up with
  *              six unrelated hues answering to nothing.
  *
- *    SIGNATURE One fixed band, --color-sun, for recurring decoration
+ *    SIGNATURE One fixed band, --color-teal, for recurring decoration
  *              that is NOT a series and so has no set to walk: the
  *              eyebrow diamond, the heading highlight, the pull quotes.
  *              Same mark, same colour, everywhere.
  *
- *  The pale plates (lav, mint, peach, sky, sun-soft) are bands laid
+ *  The pale plates (lav, mint, peach, sky, teal-soft) are bands laid
  *  thinly — tier 2, derived, never independent.
  *
- *  ONE SANCTIONED OVERLAP. --color-accent IS the teal band. Tier 1 and
+ *  ONE SANCTIONED OVERLAP. --color-accent IS the magenta band. Tier 1 and
  *  tier 2 share that one value on purpose, because the action colour was
- *  asked to come from the brand set. The cost: wherever a series walks to
- *  teal — one summit, one partner mark, one venture card — that
+ *  asked to come from the brand set — and magenta is the band the
+ *  wordmark is mostly made of, so the thing you can press is the colour
+ *  the logo already leads with. The cost: wherever a series walks to
+ *  magenta — one summit, one partner mark, one venture card — that
  *  decoration is the exact colour of every button. It is tolerable
  *  because the convention puts the meaning in FORM (a filled disc with an
  *  arrow, a pill) and lets colour reinforce rather than carry it. A test
  *  fails if the accent ever drifts onto a different band.
+ *
+ *  THE SIGNATURE AND THE ACCENT MAY NOT BE THE SAME BAND. The signature
+ *  was sun while the accent was teal; the accent is magenta now and the
+ *  signature is teal, so the two still name different bands. If they ever
+ *  collapse onto one, a highlight becomes indistinguishable from a button
+ *  and "you can act on this" stops meaning anything.
  *
  *  ---------------------------------------------------------------- *
  *  TIER 3 — THE ONE EXCEPTION. Aipan's pigment: #a81f16 brick red and
@@ -86,20 +95,20 @@
      colour on the site that means anything. (The claim that used to sit
      here, that eyebrow dots come from the accent, stopped being true the
      day they became the signature band.) */
-  --color-accent: #23c6c7;      /* teal — the one colour that means "act" */
-  /* Teal is a LIGHT value: 2.11:1 on white, so it cannot carry text there
-     the way the old purple could at 5.21:1. This is the same hue taken
-     down until it clears 4.5:1 (4.55:1) — for links, taglines and markers
-     on pale grounds. The bright value is for FILLS, and for text on the
-     dark slabs, where it reaches 8.41:1.
+  --color-accent: #fc0383;      /* magenta — the one colour that means "act" */
+  /* Magenta is a MID value: 3.83:1 on white, so it still cannot carry
+     small text there. This is the same hue taken down until it clears
+     4.5:1 (5.24:1 on white, 4.85:1 on mist) — for links, taglines and
+     markers on pale grounds. The bright value is for FILLS, and for text
+     on the dark slabs, where it reaches 4.62:1.
 
      Two values, both load-bearing — unlike the eight `-ink` band siblings
      that were removed, which existed so decoration could pretend it was
      text. An accent genuinely has to do both jobs. */
-  /* Also retuned against mist: two thirds of the accent's text uses sit
-     on the tinted card grounds, where #178383 managed only 4.22:1. Same
-     hue as the fill to within 0.4deg, which a test enforces. */
-  --color-accent-ink: #167c7c;
+  /* Measured against mist, not white: two thirds of the accent's text
+     uses sit on the tinted card grounds. Same hue as the fill to within
+     0.02deg, which a test enforces. */
+  --color-accent-ink: #d3036e;
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;
@@ -125,9 +134,9 @@
      the two ever part. */
   --color-magenta: #fc0383;
   --color-tangerine: #fc7922;  /* derived, fills the 77deg warm gap      */
-  --color-sun: #fdd13e;        /* the signature band — see TIER 2 above  */
+  --color-sun: #fdd13e;
   --color-leaf: #7cd655;
-  --color-teal: #23c6c7;
+  --color-teal: #23c6c7;       /* the signature band — see TIER 2 above  */
   --color-azure: #399ffd;
   --color-violet: #8b6bfd;
   --color-orchid: #db22fc;     /* derived, replaces the redundant blush  */
@@ -154,7 +163,7 @@
   --color-lav: color-mix(in srgb, var(--color-violet) 14%, white);
   --color-mint: color-mix(in srgb, var(--color-leaf) 22%, white);
   --color-sky: color-mix(in srgb, var(--color-azure) 18%, white);
-  --color-sun-soft: color-mix(in srgb, var(--color-sun) 35%, white);
+  --color-teal-soft: color-mix(in srgb, var(--color-teal) 35%, white);
 }
 
 @layer base {
@@ -183,7 +192,7 @@
   }
 
   ::selection {
-    background: var(--color-sun);
+    background: var(--color-teal);
     color: var(--color-ink);
   }
 }
@@ -207,7 +216,7 @@
   border-radius: 0.28em;
   white-space: nowrap;
 }
-.mark { background: var(--color-sun); color: var(--color-ink); }
+.mark { background: var(--color-teal); color: var(--color-ink); }
 
 /* A BAND LAID THINLY — the one way to do it. Two places wanted this (the
    venture number plate and the team portrait ground) and each had grown
@@ -229,17 +238,13 @@
   background: var(--band);
 }
 
-/* Partner logo silhouettes. The colour comes from `background` and the
-   shape from an alpha-only `-mark.png` applied as a mask, so every logo
-   behaves identically no matter how its source file arrived — some had a
-   baked-in white background, one a black one, some were transparent. */
+/* Partner logos. These were alpha-only silhouettes masked to a spectrum
+   band, and the mask rules that made that work lived here; the wall shows
+   each partner's REAL mark now, so all that is left is the resting dim
+   and its lift on hover. Every logo still behaves the same regardless of
+   how its source arrived, because the backgrounds were stripped from the
+   assets themselves rather than hidden with CSS. */
 .v-mark {
-  mask-repeat: no-repeat;
-  mask-position: center;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: contain;
   opacity: 0.85;
   transition: opacity 0.4s ease, transform 0.5s ease;
 }
@@ -254,6 +259,10 @@
   height: 56px;
   margin: -28px 0 0 -28px; /* centre the hit area on the summit */
   border-radius: 9999px;
+  /* The layer above is pointer-events:none so it stops covering the
+     socials and links it overlaps; the pins opt back in, so these 56px
+     circles are the only part of it that can be hit. */
+  pointer-events: auto;
 }
 
 /* THE CUE — the skyline itself, lit. A short stretch of ridge either side
@@ -319,7 +328,7 @@
   font-size: 12.5px;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: var(--peak, var(--color-sun));
+  color: var(--peak, var(--color-teal));
 }
 .peak-alt {
   font-family: var(--font-body);
@@ -382,14 +391,17 @@
    *  What replaced it briefly — a green — was a second accent competing
    *  with accent for the same job, which is the sprawl this palette pass
    *  exists to end. */
-  /* INK on the accent, not white. Teal is a light value — white text on
-     it sits at 2.11:1, ink at 8.41:1. Hover DEEPENS to the text-safe teal
-     and the label flips to white, so the press reads as the button
+  /* WHITE on the accent — a brand call, made knowingly against the
+     numbers. White is 3.83:1 on magenta and ink is 4.62:1, so ink is the
+     more legible of the two; white clears the 3:1 large-text bar but not
+     the 4.5:1 one for small copy. Chosen anyway because white is what the
+     pink is meant to read as. Hover DEEPENS to the text-safe magenta,
+     where the same white reaches 5.24:1, so the press reads as the button
      getting heavier rather than merely moving. */
   .btn-primary {
     background: var(--color-accent);
-    color: var(--color-ink);
-    box-shadow: 0 16px 34px -16px rgba(35, 198, 199, 0.75);
+    color: #fff;
+    box-shadow: 0 16px 34px -16px rgba(252, 3, 131, 0.75);
   }
   .btn-primary:hover {
     background: var(--color-accent-ink);

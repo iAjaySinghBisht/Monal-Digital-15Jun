@@ -83,7 +83,7 @@ const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
             <div className="text-[11px] text-muted">on LinkedIn</div>
           </div>
         </div>
-        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-accent group-hover:text-ink group-hover:border-accent">
+        <span className="shrink-0 grid place-items-center w-10 h-10 rounded-full border border-line text-ink transition-all duration-300 group-hover:bg-accent group-hover:text-white group-hover:border-accent">
           <ArrowUpRight className="w-4 h-4" />
         </span>
       </div>

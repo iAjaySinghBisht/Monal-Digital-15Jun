@@ -193,13 +193,53 @@ function paintSierpinski(
     if (d <= 0) {
       const idx = n++;
       ctx.fillStyle = o.bands[idx % o.bands.length];
-      /* Phase by leaf index, so the shimmer travels across the frieze
-         instead of every triangle pulsing in unison. */
-      ctx.globalAlpha = 0.5 * (1 + Math.sin(o.t * 1.9 + idx * 0.4) * 0.4 * o.amp);
+      const gx = (ax + bx + cx) / 3;
+      const gy = (ay + by + cy) / 3;
+
+      /* THE GASKET HAS TO MOVE, NOT JUST BLINK. Every other painter in
+         this file animates its GEOMETRY — pythagoras sways, the dragon
+         folds, hilbert draws itself in, the fern bends — and this one
+         only pulsed its alpha, which on a pale card is indistinguishable
+         from standing still.
+
+         THE WAVE TRAVELS BY POSITION, NOT BY LEAF INDEX. Index order is
+         depth-first through the recursion, so consecutive leaves land
+         all over the frame and a phase keyed to `idx` scatters into
+         noise — every triangle twinkling on its own, which reads as
+         static rather than as movement. Keying off the centroid sends
+         ONE ripple sweeping across the frieze. Slightly diagonal,
+         because a purely horizontal sweep reads as a wipe. Normalised by
+         W and H, so the wavelength is the same at any card size or DPR.
+
+         The result is pieces lifting and settling across a board in
+         sequence, which is the one thing a games card should look like —
+         and the reason this venture was given the gasket in the first
+         place. */
+      const flow = o.t * 1.5 - (gx / W) * 6.2 - (gy / H) * 1.6;
+
+      /* Brightness and size ride the same wave a quarter-turn apart (sin
+         against cos), so a triangle brightens as it swells instead of
+         doing both at the same instant. That offset is most of what
+         makes it read as flow rather than as a blink.
+
+         The alpha base was 0.5, which halved the band a SECOND time
+         after the card's own 42% — the gasket reached the page at about
+         a fifth strength and read as an empty card whatever colour it
+         was given. The other painters sit between 0.2 and 0.72 and ramp
+         by depth; this one has no depth ramp to lean on, so it carries
+         its weight in the base.
+
+         Both terms collapse when amp is 0 — alpha to a flat 0.82 and `k`
+         to exactly 1 — so a field at rest still renders byte-identical
+         to a still frame. That is the contract every t-driven term in
+         this file keeps (see PaintOpts). */
+      ctx.globalAlpha = 0.82 * (1 + Math.sin(flow) * 0.2 * o.amp);
+      const k = 1 - 0.2 * o.amp * (0.5 - 0.5 * Math.cos(flow));
+
       ctx.beginPath();
-      ctx.moveTo(ax, ay);
-      ctx.lineTo(bx, by);
-      ctx.lineTo(cx, cy);
+      ctx.moveTo(gx + (ax - gx) * k, gy + (ay - gy) * k);
+      ctx.lineTo(gx + (bx - gx) * k, gy + (by - gy) * k);
+      ctx.lineTo(gx + (cx - gx) * k, gy + (cy - gy) * k);
       ctx.closePath();
       ctx.fill();
       ctx.globalAlpha = 1;
@@ -924,8 +964,17 @@ export default function FractalField({
       paint();
     };
 
-    const loop = () => {
-      t += 0.0015;
+    /* The ambient loop, for a field that animates without being touched.
+       Delta-timed and speed-aware exactly like the hover loop below, so a
+       drifting field and a hovered one move at a comparable rate and
+       `speed` means the same thing in both. What this replaces advanced a
+       flat `t += 0.0015` PER FRAME, which ran at double rate on a 120Hz
+       display and ignored `speed` altogether. Nothing was passing `drift`
+       when this changed, so the fix could not disturb anything. */
+    const loop = (now: number) => {
+      const dt = Math.min(64, now - last);
+      last = now;
+      t += dt * 0.0016 * speed;
       paint();
       raf = requestAnimationFrame(loop);
     };
@@ -980,7 +1029,10 @@ export default function FractalField({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
     resize();
-    if (drift && !reduced) raf = requestAnimationFrame(loop);
+    if (drift && !reduced) {
+      last = performance.now();
+      raf = requestAnimationFrame(loop);
+    }
 
     return () => {
       ro.disconnect();

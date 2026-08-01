@@ -73,7 +73,7 @@ const Graphics = () => (
       <circle cx="100" cy="100" r="66" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-sun shadow-[0_10px_30px_-8px_rgba(250,204,21,0.7)]" />
+    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-teal shadow-[0_10px_30px_-8px_rgba(35,198,199,0.7)]" />
     <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-mint rotate-12" />
     <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/35" />
   </div>
@@ -208,7 +208,7 @@ export default function CareerForm() {
               <div className="relative">
                 <Eyebrow tone="dark">Apply now</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
-                  Tell us about <span className="text-sun">yourself</span>.
+                  Tell us about <span className="text-teal">yourself</span>.
                 </h2>
                 <p className="mt-5 text-white/75 leading-relaxed max-w-sm">
                   Share your details and attach your résumé. If there&apos;s a fit,

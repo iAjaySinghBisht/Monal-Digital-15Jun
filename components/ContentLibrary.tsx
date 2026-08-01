@@ -42,7 +42,7 @@ const ViewAllBtn = () => (
 
 const ContentLibrary = () => {
   return (
-    <section id="work" className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden">
+    <section id="work" className="relative bg-paper py-24 md:py-32 border-t border-line overflow-hidden">
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-14 md:mb-20">

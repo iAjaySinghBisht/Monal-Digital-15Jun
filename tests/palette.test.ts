@@ -1,7 +1,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { LOGO_C, SPECTRUM, SPECTRUM_HEX } from "../lib/palette.ts";
+import {
+  LOGO_C,
+  SPECTRUM,
+  SPECTRUM_HEX,
+  motifTone,
+  CARD_GROUND,
+  MOTIF_ALPHA,
+  MOTIF_MIN_CONTRAST,
+} from "../lib/palette.ts";
 
 /* WCAG relative luminance + contrast, so the accessibility claims in
    palette.ts are checked rather than asserted in a comment. */
@@ -148,6 +156,76 @@ test("the wordmark's Julia constant is the one the painter uses", () => {
   assert.ok(
     painter.includes("LOGO_C"),
     "FractalField should import the constant, not restate it",
+  );
+});
+
+/* ------------------------------------------------------------------ *
+ *  MOTIF TONE. The venture cards were drawing the light half of the
+ *  spectrum at around 1.2:1 on their own card — sun worst at 1.15:1 —
+ *  so half the row looked like artwork had failed to load. These pin the
+ *  two properties that make the fix a RULE rather than a hand-tweak:
+ *  every band clears the bar, and no band changes hue getting there.
+ * ------------------------------------------------------------------ */
+
+const composite = (fg: string, bg: string, alpha: number) => {
+  const ch = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  return (
+    "#" +
+    ch(fg)
+      .map((c, i) => Math.round(c * alpha + ch(bg)[i] * (1 - alpha)))
+      .map((v) => v.toString(16).padStart(2, "0"))
+      .join("")
+  );
+};
+
+test("every band's motif tone is actually visible on the card", () => {
+  for (const s of SPECTRUM) {
+    const seen = composite(motifTone(s.hex), CARD_GROUND, MOTIF_ALPHA);
+    const c = contrast(seen, CARD_GROUND);
+    assert.ok(
+      c >= MOTIF_MIN_CONTRAST - 0.01,
+      `${s.name} renders at ${c.toFixed(2)}:1 on the card, under the ${MOTIF_MIN_CONTRAST}:1 ` +
+        `floor — that is the invisible-motif bug coming back`,
+    );
+  }
+});
+
+/* The whole defence of motifTone is that it is not a recolour: a card
+   still shows ITS band, only deeper. Scaling all three channels by one
+   factor is what guarantees that, and this is what would catch someone
+   "improving" it into a blend toward a fixed dark, which would drag every
+   band toward one hue and undo the walk. */
+test("a motif tone is the same hue as the band it came from", () => {
+  for (const s of SPECTRUM) {
+    const toned = motifTone(s.hex);
+    if (toned === s.hex) continue;
+    assert.ok(
+      hueGap(hue(toned), hue(s.hex)) < 2,
+      `${s.name} shifts hue when toned (${hue(s.hex).toFixed(1)}deg -> ` +
+        `${hue(toned).toFixed(1)}deg) — the tone must move lightness only`,
+    );
+    assert.ok(lum(toned) < lum(s.hex), `${s.name}'s tone must be darker, not lighter`);
+  }
+});
+
+/* Both constants are copies of a value that lives somewhere else — the
+   card's ground is a CSS variable and the alpha is a Tailwind class — so
+   each needs the same drift guard the spectrum gets. */
+test("the motif's ground and alpha match what the card actually renders", () => {
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+  const mist = css.match(/--color-mist:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();
+  assert.equal(
+    CARD_GROUND.toLowerCase(),
+    mist,
+    "CARD_GROUND has drifted from --color-mist, so the tone is tuned for a ground that no longer exists",
+  );
+
+  const services = readFileSync(new URL("../components/Services.tsx", import.meta.url), "utf8");
+  const alpha = services.match(/opacity-\[([0-9.]+)\]/)?.[1];
+  assert.equal(
+    Number(alpha),
+    MOTIF_ALPHA,
+    "the motif span's resting opacity no longer matches MOTIF_ALPHA — the tone is being computed for the wrong blend",
   );
 });
 
