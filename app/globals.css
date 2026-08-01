@@ -164,6 +164,19 @@
   --color-mint: color-mix(in srgb, var(--color-leaf) 22%, white);
   --color-sky: color-mix(in srgb, var(--color-azure) 18%, white);
   --color-teal-soft: color-mix(in srgb, var(--color-teal) 35%, white);
+
+  /* A plate laid the other way: the same band mixed toward INK rather than
+     white, for the one case a band has to sit UNDER white copy — the split
+     panels on the contact and careers pages. The raw band is 2.11:1 behind
+     white and unusable there; at 55% it reaches 5.22:1, which is where the
+     magenta it replaces already sat (5.24:1), so those panels keep the
+     legibility they had.
+
+     Not an `-ink` sibling returning: those were bands darkened so they
+     could pretend to be TEXT, and a test still forbids them. This is a
+     GROUND, derived from the band by the same rule as the pale plates, and
+     it may never carry copy itself. */
+  --color-teal-deep: color-mix(in srgb, var(--color-teal) 55%, var(--color-ink));
 }
 
 @layer base {

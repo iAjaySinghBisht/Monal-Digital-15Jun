@@ -162,10 +162,12 @@ export default function ContactForm() {
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
-            {/* Left — accent half with graphics. The ramp starts at the
-                text-safe teal, not the bright one: this panel carries white
-                copy, and bright teal under white is 2.11:1. */}
-            <div className="relative bg-linear-to-br from-accent-ink to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[560px]">
+            {/* Left — brand half with graphics. The ramp starts at the DEEP
+                teal, not the bright band: this panel carries white copy,
+                and bright teal under white is 2.11:1 against the deep
+                tone's 5.22:1. Kept identical to the careers panel — the two
+                are the same device on two pages. */}
+            <div className="relative bg-linear-to-br from-teal-deep to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[560px]">
               <Graphics />
 
               <div className="relative">
