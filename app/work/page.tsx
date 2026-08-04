@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
 import { Eyebrow, ArrowGlyph, ArrowUpRight } from "@/components/Decor";
+import WorkShowcase from "@/components/WorkShowcase";
 import { projects } from "@/data/constants";
 
 export const metadata: Metadata = {
@@ -60,41 +61,28 @@ export default function WorkPage() {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="relative bg-paper py-16 md:py-24">
-        <div className="max-w-325 mx-auto px-6 md:px-12">
-          <div
-            data-reveal-group="up"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+      {/* The catalogue, one title per full-bleed band. See the note at the
+          top of components/WorkShowcase.tsx for why this is not a grid. */}
+      <WorkShowcase projects={projects} />
+
+      {/* The way out. The showcase ends on a light band, so this closes on
+          the same surface rather than starting a new one. */}
+      <section className="relative bg-paper border-t border-line py-16 md:py-24">
+        <div className="mx-auto max-w-325 px-6 md:px-12 flex flex-col items-center gap-5 text-center">
+          <p data-reveal="up" className="text-muted max-w-lg leading-relaxed">
+            Building something for kids — a show, a game, a learning tool? We
+            would like to hear about it.
+          </p>
+          <Link
+            href="/contact-us"
+            data-magnetic="0.25"
+            data-reveal="up"
+            data-reveal-delay="0.1"
+            className="btn btn-primary group"
           >
-            {projects.map((p, i) => (
-              <article key={p.title} data-tilt="5" className="group cursor-pointer">
-                <div className="relative aspect-2/3 rounded-[24px] overflow-hidden border border-line bg-ink">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={p.img}
-                    alt={p.title}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/15 to-transparent" />
-
-                  <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-paper text-ink flex items-center justify-center text-[10px] font-bold z-10">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-
-                  <div className="absolute bottom-0 inset-x-0 p-5 text-paper z-10 flex items-end justify-between gap-3">
-                    <h3 className="font-display text-[clamp(1.5rem,4vw,2.6rem)] leading-[1.05] tracking-tight">
-                      {p.title}
-                    </h3>
-                    <span className="shrink-0 w-9 h-9 grid place-items-center rounded-full bg-paper text-ink translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+            Start a project
+            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
       </section>
 
