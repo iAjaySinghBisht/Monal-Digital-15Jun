@@ -159,15 +159,22 @@ const AboutStory = () => {
             <Caption>Premiere day</Caption>
           </figure>
 
-          {/* Dark mission accent */}
-          <article className="lg:col-span-4 min-h-[420px] md:min-h-[560px] rounded-3xl bg-ink text-paper p-8 md:p-10 flex flex-col justify-between overflow-hidden relative">
-            <div className="absolute inset-0 bg-dots-light opacity-30 pointer-events-none [mask-image:radial-gradient(70%_60%_at_80%_0%,#000,transparent)]" />
-            <span className="relative text-[12px] font-semibold uppercase tracking-[0.22em] text-white/45">
+          {/* Mission card, on the teal band. It was a near-black slab with
+              white copy and a teal highlight; the ground and the highlight
+              have swapped, so the copy is ink and the lifted phrase is
+              white.
+
+              The dot texture flipped with it: `bg-dots-light` is white
+              dots, drawn for a dark ground, and on teal it read as haze.
+              `bg-dots` is the ink version and gives the same texture. */}
+          <article className="lg:col-span-4 min-h-[420px] md:min-h-[560px] rounded-3xl bg-teal text-ink p-8 md:p-10 flex flex-col justify-between overflow-hidden relative">
+            <div className="absolute inset-0 bg-dots opacity-40 pointer-events-none [mask-image:radial-gradient(70%_60%_at_80%_0%,#000,transparent)]" />
+            <span className="relative text-[12px] font-semibold uppercase tracking-[0.22em] text-ink/55">
               Our Mission
             </span>
             <p className="relative font-display text-[clamp(1.6rem,2.4vw,2.2rem)] leading-[1.1]">
               We create entertainment that helps children{" "}
-              <span className="text-teal">learn, imagine, and grow</span>, with
+              <span className="text-white">learn, imagine, and grow</span>, with
               stories worth watching again and again.
             </p>
           </article>

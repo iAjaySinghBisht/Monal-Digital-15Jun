@@ -5,7 +5,50 @@
    `noTint` keeps its own colours at the standard size. Others render as
    black marks. */
 export type Brand = { name: string; logo: string; color?: boolean; noTint?: boolean };
-export type Project = { title: string; img: string; imgSq?: string };
+/* `img` is the 1600w WebP and `small` the 800w one, offered together as a
+   srcset so a card in the four-across row does not download the same file
+   the feature does. `imgSq` is gone: it was declared for months and read
+   by nothing. */
+export type Project = {
+  title: string;
+  /* TWO CROPS, NOT ONE IMAGE AT TWO SIZES. `img`/`small` are the wide
+     establishing shots that fill a full-bleed band on /work; `card`/
+     `cardSmall` are tighter framings that survive being drawn 300px wide
+     in the homepage grid. Sources live in Portfolio/ and
+     Portfolio/Dashboard/ respectively; `npm run images` builds both. */
+  img: string;
+  small: string;
+  card: string;
+  cardSmall: string;
+  /* ---- Both optional, and both are SLOTS AWAITING ARTWORK. ----------
+     The /work page is built to carry them and renders correctly without
+     them, so they can be filled in one at a time rather than all at once.
+
+     `logo`   the show's own wordmark, transparent PNG or SVG, drawn over
+              its key art. Until one exists the art is left clean — the
+              title is already set below it, and a placeholder would only
+              be a second thing to remove later.
+
+     `channels` where the show can be watched. `logo` per channel is
+              optional too: a channel with a name and no logo sets its
+              name; one with both shows the mark. NOTHING here is
+              invented — the array is empty until real distribution is
+              supplied, because a fabricated broadcaster on a portfolio
+              page is a claim about the business, not a placeholder. */
+  logo?: string;
+  channels?: Channel[];
+  /* The two places you can go and listen or watch. These are the only
+     LINKS on a band — the `channels` list beside them is a statement of
+     where a show is distributed, not a set of destinations. */
+  links?: { youtube?: string; spotify?: string };
+};
+
+/* A platform a show streams on. `logo` and `href` are both optional and
+   both fill in later: a channel with neither renders as its name, one
+   with a logo shows the mark, one with an href becomes a link. Nothing
+   here is guessed — a URL that goes to the wrong place is worse than a
+   name that goes nowhere, so only links we actually know are set. */
+export type Channel = { name: string; logo?: string; href?: string };
 export type ServiceDetailItem = { name: string; desc: string };
 export type Service = {
   slug: string;
@@ -92,36 +135,98 @@ export const brands: Brand[] = [
   },
 ];
 
+/* THE ORDER IS THE LAYOUT. ContentLibrary reads this array by position:
+   [0] is the feature, [1] and [2] fill the column beside it, and [3..6]
+   run four across underneath. Reordering here reorders the section, so
+   the flagship title belongs first. */
+const shot = (slug: string) => ({
+  img: `/assets/projects/showcase/${slug}-1600.webp`,
+  small: `/assets/projects/showcase/${slug}-800.webp`,
+  card: `/assets/projects/showcase/${slug}-card-1600.webp`,
+  cardSmall: `/assets/projects/showcase/${slug}-card-800.webp`,
+});
+
+/* All seven shows have a wordmark now. `npm run images` builds each from
+   Portfolio/Logos/ — trimmed, fitted to a box and converted. */
+const logo = (slug: string) => `/assets/projects/showcase/${slug}-logo.webp`;
+
+/* Named once so a platform cannot end up spelled two ways across seven
+   shows, and so adding its logo or link is a single edit rather than a
+   hunt through the array. */
+/* Tata Play already has a real, background-stripped mark on this site —
+   it is one of the partners on the homepage wall — so it is the one
+   non-YouTube platform that can show artwork rather than its name. */
+const TATA_PLAY: Channel = { name: "Tata Play", logo: "/assets/brands/tata-play-logo.png" };
+const PRIME_VIDEO: Channel = { name: "Amazon Prime Video" };
+const AMAZON: Channel = { name: "Amazon" };
+const ROKU: Channel = { name: "Roku" };
+
 export const projects: Project[] = [
   {
-    title: "Zappy Toons",
-    img: "/assets/projects/zappy-toons.webp",
-    imgSq: "/assets/projects/zappy-toons-sq.webp",
-  },
-  {
-    title: "Zappy Zoo",
-    img: "/assets/projects/zappy-zoo.webp",
-    imgSq: "/assets/projects/zappy-zoo-sq.webp",
+    title: "Monal Kids",
+    ...shot("monal-kids"),
+    logo: logo("monal-kids"),
+    links: {
+      youtube: "https://www.youtube.com/@MonalKidsHindi",
+      spotify: "https://open.spotify.com/artist/2oEWxoTZOcDMxF2Dhwpuwk",
+    },
   },
   {
     title: "Wands And Wings",
-    img: "/assets/projects/wands-and-wings.webp",
-    imgSq: "/assets/projects/wands-and-wings-sq.webp",
+    ...shot("wands-and-wings"),
+    logo: logo("wands-and-wings"),
+    links: {
+      youtube: "https://www.youtube.com/@wandsandwings",
+      spotify: "https://open.spotify.com/artist/6xIRu1LP8SWPWGcXyEVY72",
+    },
+    channels: [PRIME_VIDEO],
+  },
+  {
+    title: "Zappy Toons",
+    ...shot("zappy-toons"),
+    logo: logo("zappy-toons"),
+    links: {
+      youtube: "https://www.youtube.com/@zappytoons",
+      spotify: "https://open.spotify.com/artist/0pQbu3dqsmMiHhrSIXxzER",
+    },
+    channels: [TATA_PLAY],
+  },
+  {
+    title: "Zappy Zoo",
+    ...shot("zappy-zoo"),
+    logo: logo("zappy-zoo"),
+    links: {
+      youtube: "https://www.youtube.com/@zappyzoo",
+      spotify: "https://open.spotify.com/artist/0bGItc2gKpPNPjITfx9WsS",
+    },
   },
   {
     title: "Wands And Wings Junior",
-    img: "/assets/projects/wands-and-wings-jr.webp",
-    imgSq: "/assets/projects/wands-and-wings-jr-sq.webp",
+    ...shot("wands-and-wings-jr"),
+    logo: logo("wands-and-wings-jr"),
+    links: {
+      youtube: "https://www.youtube.com/@WandsandWingsJunior",
+      spotify: "https://open.spotify.com/artist/2YBem7fhYh4O4GMwzuv4aj",
+    },
   },
   {
     title: "Groovy The Martian",
-    img: "/assets/projects/groovy-the-martian.webp",
-    imgSq: "/assets/projects/groovy-the-martian-sq.webp",
+    ...shot("groovy-the-martian"),
+    logo: logo("groovy-the-martian"),
+    links: {
+      youtube: "https://www.youtube.com/@GroovyTheMartian",
+      spotify: "https://open.spotify.com/artist/6BrD3d9Eqa7buSKXUwSKIf",
+    },
   },
   {
-    title: "Gigglebellies",
-    img: "/assets/projects/gigglebellies.webp",
-    imgSq: "/assets/projects/gigglebellies-sq.webp",
+    title: "The GiggleBellies",
+    ...shot("gigglebellies"),
+    logo: logo("gigglebellies"),
+    links: {
+      youtube: "https://www.youtube.com/channel/UCotX63w9fF1eTCjda7Ux3Rw",
+      spotify: "https://open.spotify.com/artist/5jahGHlIOiusgm19oJJujD",
+    },
+    channels: [AMAZON, ROKU],
   },
 ];
 

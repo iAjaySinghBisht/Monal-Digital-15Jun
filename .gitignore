@@ -38,3 +38,18 @@ next-env.d.ts
 .env
 .env.*
 !.env.example
+
+# Source art masters. ~47MB of full-resolution PNG/JPG delivered by the
+# animation team; the site ships the optimised WebPs derived from them in
+# public/assets/projects/showcase/, which ARE committed. Binaries this size
+# can never be removed from git history once pushed, so they stay out —
+# keep the masters in shared storage, or move them to Git LFS if they
+# genuinely belong in the repo.
+/public/assets/projects/Portfolio/
+/public/assets/projects/Gigglebellies/
+/public/assets/projects/Groovy-Martian/
+/public/assets/projects/Monal-Kids/
+/public/assets/projects/WnW/
+/public/assets/projects/WnW-Jr/
+/public/assets/projects/Zappy-Toons/
+/public/assets/projects/Zappy-Zoo/

@@ -250,16 +250,11 @@ const Services = ({ showHeader = true }: { showHeader?: boolean }) => {
             All Our Work" and the footer.
 
             Placed after the grid rather than before it: the ask only makes
-            sense once you have seen what is being offered. The copy names
-            the not-yet ventures on purpose, because a card marked
-            "Coming 2027" otherwise reads as a dead end rather than an
-            invitation. */}
-        <div className="mt-14 md:mt-16 flex flex-col items-center gap-3 text-center">
-          <p className="text-muted max-w-lg">
-            Building something for kids — a show, a game, a learning tool?
-            Several of these worlds are still taking shape, and the best
-            time to talk is now.
-          </p>
+            sense once you have seen what is being offered. The lead-in
+            paragraph that used to sit above the button is gone; the button
+            names its own destination, and the cards above have already
+            made the case. */}
+        <div className="mt-14 md:mt-16 flex justify-center">
           <Link href="/contact-us" data-magnetic="0.25" className="btn btn-primary group">
             Talk to us about a venture
             <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
