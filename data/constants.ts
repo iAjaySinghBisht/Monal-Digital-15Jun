@@ -164,7 +164,7 @@ const logo = (slug: string) => `/assets/projects/showcase/${slug}-logo.webp`;
 /* Tata Play already has a real, background-stripped mark on this site —
    it is one of the partners on the homepage wall — so it is the one
    non-YouTube platform that can show artwork rather than its name. */
-const TATA_PLAY: Channel = { name: "Tata Play", logo: "/assets/brands/tata-play-logo.png" };
+const TATA_PLAY: Channel = { name: "Tata Play", logo: "/assets/brands/tata-play-logo.webp" };
 const PRIME_VIDEO: Channel = { name: "Amazon Prime Video" };
 const AMAZON: Channel = { name: "Amazon" };
 

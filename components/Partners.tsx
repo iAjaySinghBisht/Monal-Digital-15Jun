@@ -102,7 +102,7 @@ const Partners = () => {
               .split("/")
               .pop()!
               .replace(/\.(png|jpg|jpeg|webp)$/i, "");
-            const logo = `/assets/brands/${slug}-logo.png`;
+            const logo = `/assets/brands/${slug}-logo.webp`;
             const aspect = MARK_ASPECT[slug] ?? 3;
             const markH = Math.round(MARK_K / Math.sqrt(aspect));
             return (
