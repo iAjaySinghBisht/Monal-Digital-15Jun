@@ -4,11 +4,11 @@ import AipanMark from "./AipanMark";
 /* Partner testimonials. */
 const TESTIMONIALS = [
   {
-    name: "Lucas Kollmann",
-    role: "Lunar-X",
-    img: "/assets/testimonials/lucas-kollmann.jpg",
+    name: "Tobias Hoss",
+    role: "30 Dishes",
+    img: "/assets/testimonials/tobias-hoss.jpg",
     quote:
-      "Monal Digital has done a fantastic job on Lunar Kids. They took the series from rough concept to polished episodes at a scale we simply couldn't reach on our own, and the animation quality lifted the whole channel. Watch time and subscriber growth have climbed steadily ever since.",
+      "Monal brings an unusual combination of depth, breadth, sincerity, and vision. They understand both the creative and commercial sides of the business, think long term, and approach every project with genuine care. Their ambition is big, but their way of working remains grounded and professional.",
   },
   {
     name: "Mohit Pachwari",
@@ -154,7 +154,11 @@ const Testimonials = () => {
         <div data-reveal-group="up" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           <PullQuote
             t={TESTIMONIALS[0]}
-            line="A scale we simply couldn’t reach on our own."
+            /* Lifted verbatim from the quote below it — the old line came
+               from the Lunar-X testimonial this replaced, so it had to
+               move with it or the callout would quote words that are no
+               longer on the page. */
+            line="An unusual combination of depth, breadth, sincerity, and vision."
           />
           <QuoteCard t={TESTIMONIALS[1]} />
           <QuoteCard t={TESTIMONIALS[2]} />
