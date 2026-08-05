@@ -159,7 +159,6 @@ const logo = (slug: string) => `/assets/projects/showcase/${slug}-logo.webp`;
 const TATA_PLAY: Channel = { name: "Tata Play", logo: "/assets/brands/tata-play-logo.png" };
 const PRIME_VIDEO: Channel = { name: "Amazon Prime Video" };
 const AMAZON: Channel = { name: "Amazon" };
-const ROKU: Channel = { name: "Roku" };
 
 export const projects: Project[] = [
   {
@@ -226,7 +225,7 @@ export const projects: Project[] = [
       youtube: "https://www.youtube.com/channel/UCotX63w9fF1eTCjda7Ux3Rw",
       spotify: "https://open.spotify.com/artist/5jahGHlIOiusgm19oJJujD",
     },
-    channels: [AMAZON, ROKU],
+    channels: [AMAZON],
   },
 ];
 
