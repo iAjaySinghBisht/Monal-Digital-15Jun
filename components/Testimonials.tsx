@@ -18,11 +18,11 @@ const TESTIMONIALS = [
       "What impressed us most was the reliability. Monal handled scripting, animation, and delivery end to end, always on schedule and always on brief. They understood our young audience better than we did, and the engagement on every release proves it.",
   },
   {
-    name: "Mayank Pachwari",
-    role: "The Boldeye",
-    img: "/assets/testimonials/mayank-pachwari.jpg",
+    name: "Lucas Kollmann",
+    role: "Lunar X",
+    img: "/assets/testimonials/lucas-kollmann.jpg",
     quote:
-      "Monal didn't just produce content for us, they helped shape original characters and stories our viewers genuinely love. Their instinct for what keeps kids watching is rare, and partnering with them has been one of the best decisions we've made.",
+      "Monal combines a deep understanding of kids’ content with expertise in YouTube analytics, retention, and production. They connect the dots quickly and turn early ideas into polished, engaging content. Sometimes, we wonder whether they already have access to AGI.",
   },
 ];
 
@@ -163,9 +163,16 @@ const Testimonials = () => {
           <QuoteCard t={TESTIMONIALS[1]} />
           <QuoteCard t={TESTIMONIALS[2]} />
           <QuoteCard t={TESTIMONIALS[0]} className="md:col-span-2" />
+          {/* [2], not [1] — the line is Lucas's and the card prints the
+              speaker beneath it, so pointing this at Mohit would have put
+              his name and photo under someone else's words.
+
+              He gives up the callout rather than sharing it: two pull
+              quotes, three testimonials. His words still run in full in
+              the QuoteCard above. */}
           <PullQuote
-            t={TESTIMONIALS[1]}
-            line="Always on schedule. Always on brief."
+            t={TESTIMONIALS[2]}
+            line="Sometimes, we wonder whether they already have access to AGI."
           />
         </div>
       </div>

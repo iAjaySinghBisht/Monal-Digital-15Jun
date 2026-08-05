@@ -108,8 +108,8 @@ export const brands: Brand[] = [
     noTint: true,
   },
   {
-    name: "Shemaroo",
-    logo: "/assets/brands/shemaroo.png",
+    name: "Hera",
+    logo: "/assets/brands/hera.png",
     color: true,
   },
   {
@@ -123,8 +123,9 @@ export const brands: Brand[] = [
     color: true,
   },
   {
-    name: "Adruto",
-    logo: "/assets/brands/adruto.png",
+    name: "Economics Explained",
+    logo: "/assets/brands/economics-explained.png",
+    color: true,
   },
   {
     name: "The Boldeye",

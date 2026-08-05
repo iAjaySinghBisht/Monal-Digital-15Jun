@@ -11,11 +11,11 @@ import GrowingFrond from "./GrowingFrond";
    height = K / sqrt(aspect) keeps the rendered AREA roughly equal, so a
    wide wordmark and a square badge carry the same visual weight. */
 const MARK_ASPECT: Record<string, number> = {
-  "adruto": 4.17,
+  "economics-explained": 2.29,
   "freebird-animation": 1.98,
+  "hera": 3.41,
   "lenny-studio": 2.7,
   "lunar-x": 2.42,
-  "shemaroo": 1.94,
   "tata-play": 8.47,
   "the-boldeye": 3.34,
   "vaibhav-studios": 1.73,
