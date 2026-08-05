@@ -32,16 +32,29 @@ import { type Project, type Channel } from "@/data/constants";
  *  bands sit at their natural positions, fully legible.
  * ------------------------------------------------------------------ */
 
-const PARALLAX = 90;
+/* Total travel is 2x this — the layer runs from -110 to +110 across the
+   band's pass through the viewport. Raised from 90: at the old value the
+   drift was easy to miss on a phone, where the whole band crosses the
+   screen in far less scrolling than on a desktop. The overhang below is
+   128px, which covers it; raise this past that and an edge shows. */
+const PARALLAX = 110;
+/* Deliberately a fraction of the art's travel, not a match — the gap
+   between the two is the depth. It stays small so the mark never drifts
+   out of its corner while the band is on screen. */
+const LOGO_PARALLAX = 30;
 
 const ArtBand = ({ p, index }: { p: Project; index: number }) => (
   <section
     aria-labelledby={`work-${index}`}
-    className="relative w-full overflow-hidden bg-ink h-[62vh] min-h-[380px] md:h-[86vh] md:min-h-[560px]"
+    /* A tall band on every screen, so the drift has room to read. Phones
+       get 56vh rather than the desktop 86vh: enough height for the
+       parallax to be worth having, while trimming less of a 16:9 frame
+       than a full-height band would. */
+    className="relative w-full overflow-hidden bg-ink h-[56vh] min-h-[340px] md:h-[86vh] md:min-h-[560px]"
   >
-    {/* The overhang described above. `object-cover` on a 16:9 source in a
-        taller-than-16:9 frame crops the sides, not the cast, because the
-        cast sits centre-frame in every one of these. */}
+    {/* The overhang must cover the travel at BOTH ends or an edge drags
+        into frame — 128px against PARALLAX's 110. Change one and check
+        the other. */}
     <div data-parallax={PARALLAX} className="absolute -inset-y-32 inset-x-0">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -75,20 +88,37 @@ const ArtBand = ({ p, index }: { p: Project; index: number }) => (
         same wordmark sits on the homepage cards, so the two pages agree.
         `alt` is set rather than empty: unlike the cards, nothing else in
         this band names the show above the fold. */}
+    {/* TWO SPEEDS MAKE DEPTH. The art drifts at 110 and the wordmark at
+        30, so they separate as the band passes rather than sliding as one
+        flat picture — the thing that turns a moving image into layers.
+        The parallax lives on this wrapper because `data-reveal` on the
+        image already owns its transform, and two GSAP tweens fighting
+        over the same property is how one of them silently loses. */}
     {p.logo ? (
-      /* eslint-disable-next-line @next/next/no-img-element */
+      <div
+        data-parallax={LOGO_PARALLAX}
+        className="pointer-events-none absolute right-5 top-8 md:right-10 md:top-12 z-10"
+      >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         data-reveal="zoom"
         src={p.logo}
         alt={p.title}
         loading={index === 0 ? "eager" : "lazy"}
-        /* Capped on BOTH axes, and generously, because the set spans 1.2:1
-           to 3.2:1. Height alone left the near-square Zappy Zoo mark
-           looking undersized against a full-bleed band while the wide
-           GiggleBellies one filled it; width alone would invert that.
-           Whichever cap binds first, the marks stay comparable. */
-        className="absolute right-6 top-6 md:right-10 md:top-10 z-10 w-auto max-h-20 max-w-56 md:max-h-32 md:max-w-96 object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)]"
+        /* Capped on BOTH axes, because the set spans 1.2:1 to 3.2:1:
+           height alone leaves the near-square marks undersized against a
+           full-bleed band, width alone inverts that. Whichever cap binds
+           first, the marks stay comparable.
+
+           `--ls` scales the caps per show (see `logoScale` in
+           data/constants.ts) — the squarer wordmarks are height-bound and
+           need a bigger box to carry the same weight. It multiplies the
+           CAP rather than transforming the image, because `data-reveal`
+           owns this element's transform. */
+        style={{ ["--ls" as string]: p.logoScale ?? 1 }}
+        className="w-auto object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.55)] max-h-[calc(4rem*var(--ls))] max-w-[calc(11rem*var(--ls))] md:max-h-[calc(8rem*var(--ls))] md:max-w-[calc(24rem*var(--ls))]"
       />
+      </div>
     ) : null}
   </section>
 );

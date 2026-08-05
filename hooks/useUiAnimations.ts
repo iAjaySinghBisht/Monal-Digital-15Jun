@@ -185,7 +185,21 @@ export function useUiAnimations() {
         });
       });
 
-      /* ---- Scroll parallax ---- */
+      /* ---- Scroll parallax ----
+         EVERY SCREEN, at full travel. This briefly ran at reduced travel
+         on phones, and then not at all, to stop a tall band's overhang
+         cropping the art — but the drift is the effect, and losing it on
+         the screen most people use costs more than the crop does. The
+         art is centre-weighted, so what a narrow frame trims is
+         background rather than cast.
+
+         `scrub: 0.8` rather than `true`. True binds the tween to the
+         scroll position exactly, so the layer stops dead the instant a
+         finger does and every jitter in the scroll shows up in the art.
+         Easing the catch-up over 0.8s lets it glide to rest instead —
+         the single change that makes this read as smooth rather than
+         merely present, and it matters most on touch, where scrolling is
+         flick-and-settle rather than a steady wheel. */
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const amount = parseFloat(el.dataset.parallax || "") || 60;
         gsap.fromTo(
@@ -198,7 +212,7 @@ export function useUiAnimations() {
               trigger: el.closest("section") || el,
               start: "top bottom",
               end: "bottom top",
-              scrub: true,
+              scrub: 0.8,
             },
           }
         );

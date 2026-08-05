@@ -36,6 +36,13 @@ export type Project = {
               supplied, because a fabricated broadcaster on a portfolio
               page is a claim about the business, not a placeholder. */
   logo?: string;
+  /* Nudge for a wordmark that reads small at the shared cap. The marks
+     span 1.2:1 to 3.2:1, and a box cap is bound by HEIGHT on the squarer
+     ones — so Zappy Zoo and Groovy end up with far less area than the
+     wide GiggleBellies lockup at the identical cap. This scales the cap
+     itself rather than transforming the image, because `data-reveal`
+     already animates its transform. Default 1. */
+  logoScale?: number;
   channels?: Channel[];
   /* The two places you can go and listen or watch. These are the only
      LINKS on a band — the `channels` list beside them is a statement of
@@ -174,6 +181,7 @@ export const projects: Project[] = [
     title: "Wands And Wings",
     ...shot("wands-and-wings"),
     logo: logo("wands-and-wings"),
+    logoScale: 1.25,
     links: {
       youtube: "https://www.youtube.com/@wandsandwings",
       spotify: "https://open.spotify.com/artist/6xIRu1LP8SWPWGcXyEVY72",
@@ -194,6 +202,7 @@ export const projects: Project[] = [
     title: "Zappy Zoo",
     ...shot("zappy-zoo"),
     logo: logo("zappy-zoo"),
+    logoScale: 1.25,
     links: {
       youtube: "https://www.youtube.com/@zappyzoo",
       spotify: "https://open.spotify.com/artist/0bGItc2gKpPNPjITfx9WsS",
@@ -203,6 +212,7 @@ export const projects: Project[] = [
     title: "Wands And Wings Junior",
     ...shot("wands-and-wings-jr"),
     logo: logo("wands-and-wings-jr"),
+    logoScale: 1.25,
     links: {
       youtube: "https://www.youtube.com/@WandsandWingsJunior",
       spotify: "https://open.spotify.com/artist/2YBem7fhYh4O4GMwzuv4aj",
@@ -212,6 +222,7 @@ export const projects: Project[] = [
     title: "Groovy The Martian",
     ...shot("groovy-the-martian"),
     logo: logo("groovy-the-martian"),
+    logoScale: 1.25,
     links: {
       youtube: "https://www.youtube.com/@GroovyTheMartian",
       spotify: "https://open.spotify.com/artist/6BrD3d9Eqa7buSKXUwSKIf",

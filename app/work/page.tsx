@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
-import { Eyebrow, ArrowGlyph, ArrowUpRight } from "@/components/Decor";
+import { Eyebrow, ArrowGlyph } from "@/components/Decor";
 import WorkShowcase from "@/components/WorkShowcase";
 import { projects } from "@/data/constants";
 
@@ -65,27 +65,10 @@ export default function WorkPage() {
           top of components/WorkShowcase.tsx for why this is not a grid. */}
       <WorkShowcase projects={projects} />
 
-      {/* The way out. The showcase ends on a light band, so this closes on
-          the same surface rather than starting a new one. */}
-      <section className="relative bg-paper border-t border-line py-16 md:py-24">
-        <div className="mx-auto max-w-325 px-6 md:px-12 flex flex-col items-center gap-5 text-center">
-          <p data-reveal="up" className="text-muted max-w-lg leading-relaxed">
-            Building something for kids — a show, a game, a learning tool? We
-            would like to hear about it.
-          </p>
-          <Link
-            href="/contact-us"
-            data-magnetic="0.25"
-            data-reveal="up"
-            data-reveal-delay="0.1"
-            className="btn btn-primary group"
-          >
-            Start a project
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </div>
-      </section>
-
+      {/* The showcase runs straight into the footer, which carries the
+          page's ask. The closing "Start a project" block that used to sit
+          here has gone: it repeated the footer's own CTA a screen above
+          it. */}
       <Footer />
     </>
   );
