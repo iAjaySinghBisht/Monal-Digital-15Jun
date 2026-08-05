@@ -92,8 +92,8 @@ const Footer = () => {
               <a href="mailto:hello@monaldigital.com" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors break-all">
                 hello@monaldigital.com
               </a>
-              <a href="tel:+917017820679" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors">
-                +91 70178 20679
+              <a href="tel:+918200696551" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors">
+                +91 82006 96551
               </a>
             </div>
             <p className="text-white/45 leading-relaxed mt-auto">
