@@ -11,11 +11,11 @@ const TESTIMONIALS = [
       "Monal brings an unusual combination of depth, breadth, sincerity, and vision. They understand both the creative and commercial sides of the business, think long term, and approach every project with genuine care. Their ambition is big, but their way of working remains grounded and professional.",
   },
   {
-    name: "Mohit Pachwari",
-    role: "Adruto",
-    img: "/assets/testimonials/mohit-pachwari.jpg",
+    name: "Vaibhav Kumaresh",
+    role: "Vaibhav Studios",
+    img: "/assets/testimonials/vaibhav-kumaresh.jpg",
     quote:
-      "What impressed us most was the reliability. Monal handled scripting, animation, and delivery end to end, always on schedule and always on brief. They understood our young audience better than we did, and the engagement on every release proves it.",
+      "In a short span, team Monal Kids has created a loveable little world dedicated to local audiences. Their commitment towards giving high quality content to its audiences is rare and commendable. We are glad to be a part of their journey and I wish them all the very best!",
   },
   {
     name: "Lucas Kollmann",
