@@ -9,6 +9,7 @@ import {
   ridgePoints,
 } from "@/lib/himalaya";
 import { SPECTRUM } from "@/lib/palette";
+import { services } from "@/data/constants";
 import AipanBorder from "./AipanBorder";
 
 const SocialIcon = ({
@@ -57,7 +58,13 @@ const Footer = () => {
 
       {/* Top — three cards */}
       <div className="relative max-w-325 mx-auto px-6 md:px-12 pt-24 md:pt-28 pb-12">
-        <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr_1fr]">
+        {/* The link card carries three columns now, not two, so it takes
+            width from the other two: at the old 1.4/1/1 each link column
+            was 82px and "Pre-Production" broke mid-word. At 1.1/0.9/1.4
+            they land near 128px, which clears it at the current text size.
+            The CTA card lost the most because it is the one holding plain
+            prose, which reflows; a link label cannot. */}
+        <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr_1.4fr]">
           {/* Ready to start / CTA card */}
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col justify-between gap-10">
             <div>
@@ -105,14 +112,16 @@ const Footer = () => {
 
           {/* Explore + Socials */}
           <div className="rounded-[28px] bg-white/[0.04] border border-white/10 p-8 flex flex-col">
-            <div className="grid grid-cols-2 gap-6">
+            {/* Three across. `gap-x-4` rather than 6: the two saved pixels
+                per gap go to the labels, which is where they are needed —
+                nothing here is close to touching its neighbour. */}
+            <div className="grid grid-cols-3 gap-x-4">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
                   Explore
                 </div>
                 <ul className="space-y-1 text-base">
                   <FooterLink href="/work">Portfolio</FooterLink>
-                  <FooterLink href="/services">Services</FooterLink>
                   <FooterLink href="/play">Play</FooterLink>
                   <FooterLink href="/team">Team</FooterLink>
                   <FooterLink href="/blog">Blog</FooterLink>
@@ -127,6 +136,24 @@ const Footer = () => {
                   <FooterLink href="/about-us">About</FooterLink>
                   <FooterLink href="/contact-us">Contact</FooterLink>
                   <FooterLink href="/career">Careers</FooterLink>
+                </ul>
+              </div>
+
+              {/* Driven from the `services` data rather than typed out, so
+                  a renamed service or a changed slug cannot leave a dead
+                  link here. `eyebrow` is the short label — `title` reads
+                  "Pre-Production Services", which would stutter under a
+                  heading already saying Services. */}
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/35 mb-5">
+                  Services
+                </div>
+                <ul className="space-y-1 text-base">
+                  {Object.values(services).map((s) => (
+                    <FooterLink key={s.slug} href={`/services/${s.slug}`}>
+                      {s.eyebrow}
+                    </FooterLink>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -153,6 +180,23 @@ const Footer = () => {
                 <SocialIcon href="https://www.youtube.com/@MonalKidsHindi" label="YouTube">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M23 12s0-3.4-.4-5.1a2.9 2.9 0 0 0-2-2C18.6 4.5 12 4.5 12 4.5s-6.6 0-8.5.4a2.9 2.9 0 0 0-2 2C1 8.6 1 12 1 12s0 3.4.4 5.1c.2 1 1 1.8 2 2 1.9.4 8.5.4 8.5.4s6.6 0 8.5-.4c1-.2 1.8-1 2-2 .4-1.7.4-5.1.4-5.1zM9.9 15.4V8.6l5.6 3.4-5.6 3.4z" />
+                  </svg>
+                </SocialIcon>
+                {/* Monal Kids on Spotify — the same catalogue as the YouTube
+                    channel beside it, which is why they sit together.
+
+                    ONE PATH, not a disc with the arcs stroked over it: the
+                    arcs are counters in the same fill, so they knock out and
+                    the mark inherits `currentColor` like its neighbours —
+                    accent at rest, white on the accent fill at hover. A
+                    stroked version would need to know the background colour
+                    and would break the moment that changed. */}
+                <SocialIcon
+                  href="https://open.spotify.com/artist/2oEWxoTZOcDMxF2Dhwpuwk"
+                  label="Spotify"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.59 14.42a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.33-1.46c4.57-1.04 8.5-.59 11.66 1.34.35.22.46.68.25 1.03zm1.23-2.75a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.96-1.4a.94.94 0 1 1-.55-1.79c4.35-1.32 9.77-.68 13.48 1.6.44.27.58.85.32 1.28zm.11-2.86C14.05 8.51 7.9 8.3 4.2 9.43a1.12 1.12 0 1 1-.65-2.15C7.8 5.99 14.6 6.23 18.99 8.84a1.12 1.12 0 1 1-1.15 1.93z" />
                   </svg>
                 </SocialIcon>
               </div>
