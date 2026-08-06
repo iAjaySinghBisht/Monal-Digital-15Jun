@@ -435,13 +435,14 @@ const Footer = () => {
           with a hairline, so that rule is gone: two edges 16px apart
           read as a mistake.
 
-          The margin is doing real work. The foreground range ends in a
-          hard, fully-saturated edge, and with the band flush against it
-          the purple and the ochre read as one two-tone stripe rather than
-          as a landscape above a threshold. The gap is the night between
-          them — it is what the removed co-brand block used to provide
-          incidentally, now stated on purpose. */}
-      <AipanBorder className="mt-9 md:mt-11" />
+          FLUSH, ON PURPOSE. There used to be a margin here, argued for on
+          the grounds that the ridge's hard saturated edge and the band's
+          ochre would otherwise read as one two-tone stripe rather than as
+          a landscape above a threshold. In practice the gap read as a
+          strip of dead page between two finished things — and aipan is
+          laid ON the threshold, touching it, not hovering above it.
+          Flush is also the truer nod: the paste meets the earth. */}
+      <AipanBorder />
 
       {/* Bottom bar */}
       <div className="relative">

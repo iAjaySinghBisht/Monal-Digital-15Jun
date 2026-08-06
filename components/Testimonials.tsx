@@ -40,8 +40,16 @@ const PullQuote = ({
   /* One skin, not two. These were a accent card and a sun card sitting
      side by side, which put the ACTION colour on something you cannot
      act on — accent now means "you can press this" and a quote is not a
-     button. Both pull quotes take the signature band. */
-  const skin = { surface: "bg-teal text-ink", role: "text-ink/55", ring: "ring-ink/15" };
+     button. Both pull quotes take the signature band.
+
+     THE ROLE LINE IS FULL INK, not a dimmed one. Ink on violet is
+     4.74:1 — it clears AA with nothing to spare, so ANY opacity below
+     100% drops it under (ink/55 lands at 2.45:1). It was already under
+     on the teal this replaced, at 3.15:1; violet just makes a failure
+     that was already there impossible to ignore. Hierarchy comes from
+     the size, weight and tracking instead, which were doing most of the
+     work anyway. */
+  const skin = { surface: "bg-violet text-ink", role: "text-ink", ring: "ring-ink/15" };
   return (
     <div
       data-tilt="5"
@@ -103,11 +111,32 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
       size={28}
       className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.045]"
     />
-    <span className="relative font-display text-accent-ink text-5xl leading-none select-none mb-4" aria-hidden="true">
+    {/* THE MARGIN HERE IS NEGATIVE, AND IT HAS TO BE. A &rdquo; is a
+        high mark: measured against this font at 48px its ink runs from
+        36px down to 25px above the baseline, so more than half the glyph's
+        own advance is empty space underneath it. At `leading-none` with
+        `mb-4` that stacked into a 52px hole between the mark and the first
+        line of the quote, and the card opened on a band of nothing.
+
+        Two levers, because one is not enough. `leading-[0.45]` sizes the
+        line box to the ink instead of the em, and the negative margin
+        absorbs the dead space below the ink that shrinking the box cannot
+        reach — the baseline rises with the box, so the gap only closes by
+        half otherwise. Net result is ~19px of real space. */}
+    <span
+      className="relative block font-display text-accent-ink text-5xl leading-[0.45] select-none -mb-1"
+      aria-hidden="true"
+    >
       &rdquo;
     </span>
-    <p className="text-ink/80 leading-relaxed">{t.quote}</p>
-    <div className="mt-auto pt-6 flex items-center gap-3 border-t border-line mt-6">
+    {/* The rule's breathing room lives HERE, not on the footer. The footer
+        needs `mt-auto` to sit at the bottom of a stretched card, and an
+        auto margin cannot also be a fixed one — the `mt-6` that used to
+        sit beside it computed to 0 and the divider hugged the last line of
+        text. Spacing the paragraph instead gives 24px above the rule to
+        match the 24px `pt-6` below it. */}
+    <p className="text-ink/80 leading-relaxed mb-6">{t.quote}</p>
+    <div className="mt-auto pt-6 flex items-center gap-3 border-t border-line">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={t.img}
@@ -150,26 +179,26 @@ const Testimonials = () => {
 
         {/* Each pull-quote sits directly above the full quote it's lifted
             from, so it reads as a callout into the detail. No CTA here —
-            the page's single ask lives in the footer. */}
+            the page's single ask lives in the footer.
+
+            Every `line` is lifted verbatim from the quote it points at —
+            the card prints the speaker beneath the callout, so a line that
+            drifts from its source puts words in someone's mouth. */}
         <div data-reveal-group="up" className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           <PullQuote
             t={TESTIMONIALS[0]}
-            /* Lifted verbatim from the quote below it — the old line came
-               from the Lunar-X testimonial this replaced, so it had to
-               move with it or the callout would quote words that are no
-               longer on the page. */
             line="An unusual combination of depth, breadth, sincerity, and vision."
           />
           <QuoteCard t={TESTIMONIALS[1]} />
           <QuoteCard t={TESTIMONIALS[2]} />
           <QuoteCard t={TESTIMONIALS[0]} className="md:col-span-2" />
           {/* [2], not [1] — the line is Lucas's and the card prints the
-              speaker beneath it, so pointing this at Mohit would have put
+              speaker beneath it, so pointing this at Vaibhav would have put
               his name and photo under someone else's words.
 
               He gives up the callout rather than sharing it: two pull
-              quotes, three testimonials. His words still run in full in
-              the QuoteCard above. */}
+              quotes, three testimonials. His words still run in full in the
+              QuoteCard above. */}
           <PullQuote
             t={TESTIMONIALS[2]}
             line="Sometimes, we wonder whether they already have access to AGI."

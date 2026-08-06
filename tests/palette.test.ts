@@ -28,7 +28,24 @@ const contrast = (a: string, b: string) => {
 
 const WHITE = "#ffffff";
 const INK = "#18181b";
-const ROYAL = "#6c4df6";
+const MIST = "#f6f6f7";
+
+/* READ THE TOKEN, DO NOT RESTATE IT. This was `const ROYAL = "#6c4df6"`,
+   a purple hardcoded here from a palette two accents ago — the CSS moved
+   to magenta and then to teal without it ever changing, and because every
+   assertion below compared ROYAL against white rather than against the
+   real token, all of them passed the whole time while testing a colour
+   the site had not used in months. A test that keeps its own copy of the
+   value it is guarding is not guarding anything. */
+const cssToken = (name: string): string => {
+  const css = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
+  const m = css.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})`));
+  if (!m) throw new Error(`--color-${name} not found in globals.css`);
+  return m[1].toLowerCase();
+};
+const ACCENT = cssToken("accent");
+const ACCENT_INK = cssToken("accent-ink");
+const ACCENT_2 = cssToken("accent-2");
 
 test("the spectrum is eight uniquely-named stops", () => {
   assert.equal(SPECTRUM.length, 8);
@@ -52,11 +69,64 @@ test("no raw band may carry body text on white", () => {
 });
 
 /* The `ink` siblings are gone — see lib/palette.ts. What replaces that
-   test is the rule they existed to dodge: a band may not carry text, so
-   the accent has to be able to. If royal ever failed this, tier 1 would
-   have nothing that could hold a link. */
-test("royal can carry text on both grounds, since no band may", () => {
-  assert.ok(contrast(ROYAL, WHITE) >= 4.5, "royal must hold copy on paper");
+   test is the rule they existed to dodge: a band may not carry text, and
+   the accent IS a band, so the darkened form has to carry it instead. If
+   this failed, tier 1 would have nothing that could hold a link. */
+test("the accent's dark form carries text, since the band cannot", () => {
+  assert.ok(
+    contrast(ACCENT_INK, WHITE) >= 4.5,
+    `accent-ink ${ACCENT_INK} is ${contrast(ACCENT_INK, WHITE).toFixed(2)}:1 on paper`,
+  );
+  assert.ok(
+    contrast(ACCENT_INK, MIST) >= 4.5,
+    `accent-ink ${ACCENT_INK} is ${contrast(ACCENT_INK, MIST).toFixed(2)}:1 on mist, ` +
+      `which is the ground most of the accent's text actually lands on`,
+  );
+});
+
+/* THE BUTTON'S TYPE COLOUR IS LOAD-BEARING. On magenta this shipped white
+   at 3.83:1, knowingly under AA. The accent is a LIGHT band now, so white
+   would be 2.11:1 — worse, and indefensible. Ink is what makes a bright
+   fill work, and both states have to hold it, not just the resting one. */
+test("ink clears AA on both button states", () => {
+  assert.ok(
+    contrast(ACCENT, INK) >= 4.5,
+    `ink on the resting button is only ${contrast(ACCENT, INK).toFixed(2)}:1`,
+  );
+  assert.ok(
+    contrast(ACCENT_2, INK) >= 4.5,
+    `ink on the pressed button is only ${contrast(ACCENT_2, INK).toFixed(2)}:1`,
+  );
+  assert.ok(
+    contrast(ACCENT, WHITE) < 4.5,
+    `white now passes on the accent (${contrast(ACCENT, WHITE).toFixed(2)}:1) — if the ` +
+      `accent got dark enough for white type, the ink-on-bright-band rule needs revisiting`,
+  );
+});
+
+/* accent-ink is the accent DARKENED, not a second colour that happens to
+   look related. Hue is what makes it read as the same teal. */
+test("the accent's two forms are one hue, and -ink is the darker", () => {
+  assert.ok(
+    hueGap(hue(ACCENT), hue(ACCENT_INK)) <= 1,
+    `the accent's two forms are ${hueGap(hue(ACCENT), hue(ACCENT_INK)).toFixed(1)}deg apart`,
+  );
+  assert.ok(
+    lum(ACCENT_INK) < lum(ACCENT),
+    "accent-ink must be darker than the band it is derived from",
+  );
+});
+
+/* THE SIGNATURE AND THE ACCENT MAY NOT BE THE SAME BAND — the rule stated
+   at the top of globals.css, which nothing enforced until now. A pull
+   quote wearing the button's colour is how "you can act on this" stops
+   meaning anything. */
+test("the signature is not the accent's band", () => {
+  const violet = SPECTRUM.find((s) => s.name === "violet")!.hex;
+  assert.ok(
+    hueGap(hue(violet), hue(ACCENT)) >= 20,
+    "the signature band and the accent have collapsed onto one hue",
+  );
 });
 
 test("every raw band is legible on the near-black, where the logo lives", () => {
@@ -68,9 +138,8 @@ test("every raw band is legible on the near-black, where the logo lives", () => 
   });
 });
 
-test("royal stays the primary: it is the accent that carries text on white", () => {
-  assert.ok(contrast(ROYAL, WHITE) >= 4.5);
-});
+/* This was a second copy of the assertion above, against the same stale
+   constant. Removed rather than rewritten — one guard per rule. */
 
 /* Hue distance, which is what "a distinct band" actually means. Two
    colours can look different, sit at different lightnesses and still be
@@ -220,12 +289,19 @@ test("the motif's ground and alpha match what the card actually renders", () => 
     "CARD_GROUND has drifted from --color-mist, so the tone is tuned for a ground that no longer exists",
   );
 
+  /* Read from CARD_TUNING, which is where the number actually lives now.
+     It used to be a Tailwind class on the motif span, and the pattern for
+     it had already slipped once onto a different element's opacity — a
+     regex over JSX was never the right anchor for a value that has a
+     name. */
   const services = readFileSync(new URL("../components/Services.tsx", import.meta.url), "utf8");
-  const alpha = services.match(/opacity-\[([0-9.]+)\]/)?.[1];
+  const tuning = services.match(/export const CARD_TUNING: CardTuning = \{([\s\S]*?)\}/)?.[1];
+  const opacity = tuning?.match(/opacity:\s*([0-9.]+)/)?.[1];
+  assert.ok(opacity, "could not find CARD_TUNING.opacity in Services.tsx");
   assert.equal(
-    Number(alpha),
+    Number(opacity),
     MOTIF_ALPHA,
-    "the motif span's resting opacity no longer matches MOTIF_ALPHA — the tone is being computed for the wrong blend",
+    "the motif's resting opacity no longer matches MOTIF_ALPHA — the tone is being computed for the wrong blend",
   );
 });
 

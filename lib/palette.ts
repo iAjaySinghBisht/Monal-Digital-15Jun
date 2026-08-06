@@ -119,7 +119,11 @@ export const SPECTRUM_HEX: readonly string[] = SPECTRUM.map((s) => s.hex);
  *  text, and darkening it would break the thing it is for.
  * ------------------------------------------------------------------ */
 
-/** Mirrors --color-mist in globals.css — the venture cards' ground. */
+/**
+ * Mirrors --color-mist in globals.css — the venture card's own ground.
+ * The motif is drawn straight onto the card again, behind the copy,
+ * rather than into a panel of its own.
+ */
 export const CARD_GROUND = "#f6f6f7";
 /** Mirrors the motif span's resting opacity in components/Services.tsx. */
 export const MOTIF_ALPHA = 0.42;

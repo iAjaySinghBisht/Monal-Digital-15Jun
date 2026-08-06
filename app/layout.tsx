@@ -53,8 +53,12 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
   },
+  /* summary_large_image, not summary. `app/opengraph-image.jpg` gives
+     both graphs a 1200x630 card; on a `summary` card X crops that to a
+     small square thumbnail, which throws away the reason for having an
+     image on a studio's site at all. */
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Monal Digital | Creative Animation Studio",
     description: DEFAULT_DESCRIPTION,
   },

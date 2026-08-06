@@ -26,6 +26,8 @@ export default function WorkPage() {
       <UiAnimations />
       <Header />
 
+
+      <main id="main-content">
       {/* Hero */}
       <section className="relative bg-black text-paper overflow-hidden">
         <div className="absolute inset-0 bg-dots-light opacity-50 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
@@ -69,6 +71,8 @@ export default function WorkPage() {
           page's ask. The closing "Start a project" block that used to sit
           here has gone: it repeated the footer's own CTA a screen above
           it. */}
+      </main>
+
       <Footer />
     </>
   );
