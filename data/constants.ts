@@ -296,6 +296,7 @@ export const services: Record<string, Service> = {
     intro:
       "This is where the blueprint comes alive. Frame by frame, our production team animates, builds, and choreographs every shot, turning designs and storyboards into fully realized motion.",
     features: [
+      "Full and Partial Production Services",
       "2D Traditional Animation",
       "3D / CGI Animation",
       "Motion Graphics",
@@ -304,6 +305,14 @@ export const services: Record<string, Service> = {
       "Visual Effects (VFX)",
     ],
     detail: [
+      /* First on purpose: this one frames how the six below can be
+         bought — whole pipeline or single stage — so it reads as the
+         answer to "what can I hire you for" before the list of what
+         those stages are. */
+      {
+        name: "Full and Partial Production Services",
+        desc: "Whether you need a complete production partner or support for a specific stage of your pipeline, our team scales to fit. We take on full productions from concept through final delivery, as well as targeted support across development, storyboarding, design, 2D and 3D animation, compositing, editing, and post-production. It's the same team and the same pipeline behind our own original worlds — working to your brief, your style, and your schedule.",
+      },
       {
         name: "2D Traditional Animation",
         desc: "Hand-drawn, frame-by-frame animation where every drawing is crafted in sequence, the timeless craft that gives motion its weight, warmth, and expressive character.",
@@ -455,7 +464,7 @@ export const team: TeamMember[] = [
   },
   {
     name: "Pratistha Saraf",
-    role: "Digital Marketing Executive",
+    role: "Digital Marketer",
     bio: "Growing our audience and brand presence across every channel.",
     img: "/assets/team/pratistha-saraf.webp",
     linkedin: "https://www.linkedin.com/in/pratisthasaraf26",

@@ -151,7 +151,13 @@ export default function ServiceDetailBody({
           </div>
 
           <div data-reveal="up" className="mt-14 flex justify-center">
-            <Pill as={Link} href="/#contact" variant="primary">
+            {/* The contact PAGE, not the homepage's footer anchor. This
+                pointed at `/#contact`, which sent a reader off the service
+                they were reading about, back to the top of the homepage,
+                and then jumped them to its footer — three surprises for
+                one click, and on a page whose own footer already carries
+                the same block. */}
+            <Pill as={Link} href="/contact-us" variant="primary">
               Discuss a project
             </Pill>
           </div>
