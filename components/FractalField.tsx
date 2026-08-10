@@ -41,7 +41,10 @@ export type Variant =
   | "dragon"
   | "hilbert"
   | "subdiv"
-  | "fern";
+  | "fern"
+  | "seedhead"
+  | "bifurcation"
+  | "htree";
 
 /* Small deterministic PRNG so a given variant always draws the same
    shape — no hydration flicker, no re-randomising on resize. */
@@ -215,26 +218,11 @@ function paintSierpinski(
          sequence, which is the one thing a games card should look like —
          and the reason this venture was given the gasket in the first
          place. */
-      const flow = o.t * 1.5 - (gx / W) * 6.2 - (gy / H) * 1.6;
-
-      /* Brightness and size ride the same wave a quarter-turn apart (sin
-         against cos), so a triangle brightens as it swells instead of
-         doing both at the same instant. That offset is most of what
-         makes it read as flow rather than as a blink.
-
-         The alpha base was 0.5, which halved the band a SECOND time
-         after the card's own 42% — the gasket reached the page at about
-         a fifth strength and read as an empty card whatever colour it
-         was given. The other painters sit between 0.2 and 0.72 and ramp
-         by depth; this one has no depth ramp to lean on, so it carries
-         its weight in the base.
-
-         Both terms collapse when amp is 0 — alpha to a flat 0.82 and `k`
-         to exactly 1 — so a field at rest still renders byte-identical
-         to a still frame. That is the contract every t-driven term in
-         this file keeps (see PaintOpts). */
-      ctx.globalAlpha = 0.82 * (1 + Math.sin(flow) * 0.2 * o.amp);
-      const k = 1 - 0.2 * o.amp * (0.5 - 0.5 * Math.cos(flow));
+      /* The leaves hold still now — the motion moved to the holes, where
+         it can say something about the construction instead of merely
+         rippling across the frame. */
+      ctx.globalAlpha = 0.82;
+      const k = 1;
 
       ctx.beginPath();
       ctx.moveTo(gx + (ax - gx) * k, gy + (ay - gy) * k);
@@ -251,6 +239,35 @@ function paintSierpinski(
     const bcy = (by + cy) / 2;
     const cax = (cx + ax) / 2;
     const cay = (cy + ay) / 2;
+
+    /* DRAW THE HOLE, NOT JUST WHAT IS LEFT. A gasket is defined by the
+       middle triangle being REMOVED at every level, and drawing only the
+       surviving leaves throws that away — you get a texture of small
+       triangles and none of the nesting that makes the figure worth
+       looking at. Outlining each removed triangle, coloured by the level
+       it was removed at, puts the construction back on the surface. */
+    const lvl = o.depth - d;
+    /* IT BUILDS ITSELF, LEVEL BY LEVEL.
+       The old wave swept the frame by position, which said nothing about
+       a gasket — any texture can ripple. This runs through the
+       CONSTRUCTION instead: a pulse walks the levels from the first,
+       largest removed triangle down to the smallest, so what you watch
+       is the figure being subdivided, again and again. */
+    const gens = o.depth + 2;
+    const phase = (((o.t * 0.5) % gens) + gens) % gens;
+    const pulse = o.amp * Math.max(0, 1 - Math.abs(phase - lvl)) ** 2;
+    ctx.strokeStyle = o.bands[lvl % o.bands.length];
+    ctx.globalAlpha = Math.min(1, (0.62 - lvl * 0.07) * (1 + pulse * 1.6));
+    ctx.lineWidth = Math.max(0.6, 2.6 - lvl * 0.42) + pulse * 2;
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(abx, aby);
+    ctx.lineTo(bcx, bcy);
+    ctx.lineTo(cax, cay);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
     tri(ax, ay, abx, aby, cax, cay, d - 1);
     tri(abx, aby, bx, by, bcx, bcy, d - 1);
     tri(cax, cay, bcx, bcy, cx, cy, d - 1);
@@ -311,8 +328,16 @@ function paintPythagoras(
      tree reaches up and thickens as it settles, which is the part that
      sells it. */
   const REST = Math.SQRT1_2; // the classic 0.7071 ratio, at hRel 0.5
+  /* SIZED AGAINST BOTH EDGES, NOT THE SHORTER ONE.
+     A Pythagoras tree stands about 3.4 base-lengths tall and spreads
+     about 5.6 wide — it is half again wider than it is high. Sizing off
+     min(W, H) means that on a landscape panel the height sets the size
+     and the WIDTH is never consulted, so the same tree that sits neatly
+     on a wide card grows straight through the sides of a narrow one.
+     Each edge now gets its own budget and the tighter one wins, which
+     keeps a margin at every card width. */
   const base =
-    Math.min(W, H) * 0.16 * o.scale * ((1 - ratio) / (1 - REST));
+    Math.min(H * 0.249, W * 0.152) * o.scale * ((1 - ratio) / (1 - REST));
 
   /* Each square is defined by its BASE segment A->B. The square is built
      on the left-normal of that segment, and the two children stand on the
@@ -338,8 +363,14 @@ function paintPythagoras(
     const dxr = ax + px;
     const dyr = ay + py;
 
-    ctx.fillStyle = o.bands[(o.depth - d) % o.bands.length];
-    ctx.globalAlpha = 0.2 + (o.depth - d) * 0.035;
+    const lvl = o.depth - d;
+    ctx.fillStyle = o.bands[lvl % o.bands.length];
+    /* THE TREE BREATHES THROUGH ITS COLOUR. The wave is keyed to the
+       GENERATION, so brightness travels from trunk to canopy and back
+       rather than the whole tree pulsing at once — a tree does not
+       flash, it fills. Collapses to exactly the resting ramp at amp 0. */
+    const breath = 1 + Math.sin(o.t * 0.85 - lvl * 0.55) * 0.38 * o.amp;
+    ctx.globalAlpha = Math.min(1, (0.2 + lvl * 0.035) * breath);
     ctx.beginPath();
     ctx.moveTo(ax, ay);
     ctx.lineTo(bx, by);
@@ -527,7 +558,12 @@ function paintDragon(
      curve is very sensitive to it, and past roughly 0.09 it stops
      reading as the same figure loosening and starts reading as a
      different one. */
-  const fold = 1 - o.amp * 0.05 * (1 - Math.cos(o.t * 0.85));
+  /* THE UNFOLDING IS OFF WHILE IT MOVES. A dragon curve is violently
+     sensitive to its corner angle — that term was re-folding the whole
+     ribbon at the same time as it grew and turned, and three motions at
+     once is what read as thrashing. The curve now holds its finished
+     shape and does exactly two things: it opens out, and it turns. */
+  const fold = 1;
   const cur = walk(fold);
 
   /* Opening the corners spreads the ribbon over more ground. Normalising
@@ -546,13 +582,46 @@ function paintDragon(
   // centre it
   const cx = (cur.minX + cur.maxX) / 2;
   const cy = (cur.minY + cur.maxY) / 2;
+
+  /* IT OPENS WHEN YOU TOUCH IT. At rest the curve sits small and square
+     in the middle of the panel, leaving the card its space; a pointer
+     grows it and starts it turning about its own centre. Both terms are
+     multiplied by amp, so the resting frame is byte-identical to the
+     still one and the whole gesture damps back out on leave. */
+  /* SMOOTHSTEP, NOT RAW AMP.
+     `amp` eases in exponentially, which starts at full speed and only
+     then slows — so the curve leapt on the first frame and settled
+     after, which is exactly the spring that reads as jarring.
+     Smoothstep has zero slope at BOTH ends: the zoom starts from
+     nothing, gets going, and arrives without a bump. The travel is
+     small too — a slight zoom is what this is meant to be, so 0.26 came
+     down to 0.09, with a slow breath on top of it rather than a jump. */
+  const e = o.amp * o.amp * (3 - 2 * o.amp);
+
+  /* THE ANGLE IS DRIVEN BY THE EASE, NOT BY THE CLOCK.
+     `amp * o.t` was the whole problem. `o.t` accumulates for as long as
+     the field has ever run, so the moment amp lifted off zero the
+     product jumped to whatever the elapsed time happened to imply —
+     tens of radians — and the curve snapped to a new orientation in one
+     frame. No amount of smoothing on amp fixes that, because the large
+     number is the other factor.
+     Tying the turn to `e` instead means the rotation IS the gesture: it
+     travels from 0 to about 17 degrees as the ease comes in, holds
+     there, and unwinds the same way on leave. The clock only supplies a
+     small drift on top, bounded so it can never jump. */
+  const grow = 1 + e * 0.1 + e * 0.03 * (1 - Math.cos(o.t * 0.35));
+  const spin = e * 0.3 + e * 0.05 * Math.sin(o.t * 0.3);
+  const cs = Math.cos(spin);
+  const sn = Math.sin(spin);
+
   strokeBanded(
     ctx,
     o.bands,
-    cur.pts.map(
-      ([px, py]) =>
-        [W / 2 + (px - cx) * k, H / 2 + (py - cy) * k] as [number, number],
-    ),
+    cur.pts.map(([px, py]) => {
+      const X = (px - cx) * k * grow;
+      const Y = (py - cy) * k * grow;
+      return [W / 2 + X * cs - Y * sn, H / 2 + X * sn + Y * cs] as [number, number];
+    }),
     0.55,
     1.8,
   );
@@ -781,6 +850,15 @@ function paintFern(
 ) {
   const rnd = mulberry32(2029 + o.seedIndex * 7);
   const points = Math.min(60000, o.depth * 1200);
+  /* WHICH LEAFLET, NOT WHICH HEIGHT. Banding by y sliced the plant into
+     horizontal strips, so a single frond was cut through the middle by a
+     colour change — the one thing a leaf never does.
+     In the chaos game the 85% map walks UP the stem and maps 2 and 3
+     throw a leaflet off it, so the number of stem steps taken since the
+     last throw identifies which leaflet you are standing in. Holding
+     that index colours each mini leaf whole. */
+  let sinceLeaf = 0;
+  let leafBand = 0;
   /* Two incommensurate frequencies rather than one. A single sine is a
      metronome — it repeats exactly, and the eye reads the repeat as a
      mechanism. Summing 0.9 and 1.63 gives a beat that effectively never
@@ -804,6 +882,16 @@ function paintFern(
     const r = rnd();
     let k = 0;
     while (k < sp.probs.length - 1 && r >= sp.probs[k]) k++;
+    /* THE INDEX IS THE LIVE COUNT, NOT A SNAPSHOT OF IT.
+       Applying the 85% map carries the point one leaflet FURTHER UP the
+       stem, so the leaflet you are standing in is the number of
+       consecutive stem steps since the last throw — read now, not
+       captured when the throw happened. Freezing it at the throw meant
+       the band stopped advancing while the point kept climbing, so one
+       frond ended up wearing every shade at once. */
+    if (k === 1) sinceLeaf++;
+    else if (k >= 2) sinceLeaf = 0;
+    leafBand = sinceLeaf % fernPaths.length;
     const [a, b, c, d, e, f] = sp.maps[k];
     /* Only the `b` shear is touched, and the stem far more than the
        leaflets, so the plant bends rather than deforming — it still
@@ -817,13 +905,240 @@ function paintFern(
 
     const px = ox + x * s;
     const py = oy - y * s;
-    // band by which map fired — gives the frond its natural banding
-    fernPaths[(k * 2 + 1) % fernPaths.length].rect(px, py, 1.4, 1.4);
+    fernPaths[leafBand].rect(px, py, 1.4, 1.4);
   }
   ctx.globalAlpha = 0.72;
   for (let b = 0; b < fernPaths.length; b++) {
     ctx.fillStyle = o.bands[b];
     ctx.fill(fernPaths[b]);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ---------------------------- htree ------------------------------- */
+/* The H-tree: draw an H, then a perpendicular H at each of its four
+   tips, at 1/√2 scale so the area halves each generation.
+ *
+ * This is the layout real clock and antenna networks are built on,
+ * because every endpoint ends up the same distance from the source —
+ * which is the distribution promise stated as geometry rather than as a
+ * claim. The motion is a pulse leaving the root and arriving at every
+ * tip together, for the same reason.
+ */
+function paintHtree(
+  ctx: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  o: PaintOpts,
+) {
+  const maxGen = Math.max(1, Math.min(9, o.depth));
+  const segs: [number, number, number, number, number][] = [];
+
+  const build = (x: number, y: number, len: number, d: number, vert: boolean) => {
+    if (d <= 0 || len < 1.5) return;
+    const half = len / 2;
+    const gen = maxGen - d;
+    if (vert) {
+      segs.push([x, y - half, x, y + half, gen]);
+      build(x, y - half, len / Math.SQRT2, d - 1, false);
+      build(x, y + half, len / Math.SQRT2, d - 1, false);
+    } else {
+      segs.push([x - half, y, x + half, y, gen]);
+      build(x - half, y, len / Math.SQRT2, d - 1, true);
+      build(x + half, y, len / Math.SQRT2, d - 1, true);
+    }
+  };
+  build(W / 2, H / 2, Math.min(W, H) * 0.62 * o.scale, maxGen, false);
+
+  /* Butt caps, not round: a trace on a board has square ends, and the
+     rounded version read as calligraphy. */
+  ctx.lineCap = "butt";
+  for (const [x1, y1, x2, y2, gen] of segs) {
+    /* The generation index IS the distance from the source, so one term
+       sends the pulse outward correctly. Cubed, so it reads as a signal
+       passing rather than the whole tree brightening. */
+    const pulse = o.amp * Math.max(0, Math.sin(o.t * 1.5 - gen * 0.9)) ** 3;
+    ctx.strokeStyle = o.bands[gen % o.bands.length];
+    ctx.globalAlpha = 0.3 + (gen / maxGen) * 0.34 + pulse * 0.55;
+    ctx.lineWidth = Math.max(0.7, (maxGen - gen) * 0.42 + 0.7 + pulse * 1.6);
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    /* A pad at each junction. This is the whole difference between "a
+       branching diagram" and "a board": real traces terminate in
+       something, and the eye reads the squares as contacts. Only while
+       they are big enough to be square rather than a speck. */
+    const pad = Math.max(0, 3.4 - gen * 0.42);
+    if (pad > 0.9) {
+      ctx.fillStyle = o.bands[gen % o.bands.length];
+      ctx.globalAlpha = 0.5 + (gen / maxGen) * 0.3 + pulse * 0.5;
+      ctx.fillRect(x1 - pad / 2, y1 - pad / 2, pad, pad);
+      ctx.fillRect(x2 - pad / 2, y2 - pad / 2, pad, pad);
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* --------------------------- seedhead ----------------------------- */
+/* Vogel's spiral. Each seed is placed one GOLDEN ANGLE (137.507°) round
+   from the last, and that single number is the whole reason the arms
+   appear — no spiral is drawn, only points, and the eye assembles the
+   rest.
+ *
+ * Honest note: this is a growth pattern, not a self-similar set. It sits
+ * beside the fractals because it is the same argument — a simple rule
+ * repeated produces structure nobody designed — and because it is the
+ * one figure here that a four-year-old has already held in their hand.
+ */
+function paintSeedhead(
+  ctx: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  o: PaintOpts,
+) {
+  const N = Math.max(120, Math.min(2400, o.depth * 40));
+  const GOLD = Math.PI * (3 - Math.sqrt(5));
+  /* Nudge the angle by a fraction of a degree and the arms reorganise
+     completely — the most persuasive thing this figure can do, and it
+     collapses to exactly the golden angle at rest. */
+  /* A SEED HEAD BREATHES; IT DOES NOT RESHUFFLE. Sweeping the divergence
+     angle is the most dramatic thing this figure can do — every arm
+     reorganises — and at any visible amplitude it reads as agitation,
+     which is the opposite of what this card is for. The angle now moves
+     by about a quarter of what it did, and the motion you actually see
+     is the head swelling and settling on a slow, even cycle: roughly
+     twenty seconds in and twenty back out. */
+  /* TEMPO, MEASURED. The clock advances t by 0.0016 * speed per ms, so
+     at the shared speed of 0.45 it gains about 0.72 a second. A cycle of
+     sin(t * k) therefore lasts 2π / (0.72k) seconds — at k = 0.11 that
+     is seventy-nine seconds, which is not a slow breath, it is a still
+     image. k ≈ 0.95 gives a nine-second cycle: in, and out, at about the
+     rate you would breathe deliberately. */
+  const ang = GOLD + o.amp * Math.sin(o.t * 0.78) * 0.0006;
+  const breath = 1 + o.amp * Math.sin(o.t * 0.95) * 0.045;
+  const R = Math.min(W, H) * 0.46 * o.scale * breath;
+  const k = R / Math.sqrt(N);
+  const ox = W / 2;
+  const oy = H / 2;
+
+  /* One Path2D per band, filled once — same batching as julia and fern. */
+  const paths = o.bands.map(() => new Path2D());
+  for (let n = 1; n <= N; n++) {
+    const r = k * Math.sqrt(n);
+    const a = n * ang;
+    const px = ox + Math.cos(a) * r;
+    const py = oy + Math.sin(a) * r;
+    /* Seeds grow toward the rim, exactly as a real head packs. */
+    const dot = Math.max(1.3, k * 0.66 * (0.5 + 0.5 * (n / N)));
+    const p = paths[Math.floor((r / R) * o.bands.length) % o.bands.length];
+    p.moveTo(px + dot, py);
+    p.arc(px, py, dot, 0, Math.PI * 2);
+  }
+  ctx.globalAlpha = 0.7;
+  for (let b = 0; b < paths.length; b++) {
+    ctx.fillStyle = o.bands[b];
+    ctx.fill(paths[b]);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ------------------------- bifurcation ---------------------------- */
+/* The logistic map's period-doubling cascade: one stable state forking
+   into two, then four, then everything. The self-similarity is exact —
+   every fork contains the whole diagram again.
+ *
+ * DRAWN DOWNWARD, not left to right. The textbook orientation puts the
+ * control parameter on the x-axis, but on a wide card that reads as a
+ * chart. Turned a quarter, the single line enters at the top and splits
+ * as it falls, which is how anyone would actually draw "one thing
+ * becoming many" — and it fills a landscape panel instead of stretching
+ * across it.
+ */
+function paintBifurcation(
+  ctx: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  o: PaintOpts,
+) {
+  /* BLOCKS, NOT DOTS. At a 2px cell this drew as a fine spray, which is
+     a chart. Snapped to a coarse grid with a gap between cells it reads
+     as stacked pieces falling and settling — which is what the card is
+     for. `cell` is the block size; nothing else about the maths moves. */
+  const cell = Math.max(3, Math.round(Math.min(W, H) / 42));
+  const gap = 1;
+  /* Lifted four cells, with four more rows generated to refill the
+     bottom — the densest rows of the cascade were sitting inside the
+     panel's vignette and fading out just where there is most to see. */
+  const lift = cell * 4;
+  const rows = Math.ceil((H + lift) / cell);
+  const cols = Math.max(1, Math.floor(W / cell));
+  const rMin = 2.42;
+  const rMax = 3.99;
+  const plots = 90;
+  /* At rest the attractor is fully settled. As motion rises the warm-up
+     is cut, so transients scatter in and resolve — the system finding
+     its rhythm, which is the thing this card is claiming. */
+  /* Both terms slowed and shortened. Cutting 305 steps of warm-up threw
+     the whole diagram into transient every cycle, which is a seizure,
+     not a breath; 110 lets the lower rows soften and re-settle while the
+     structure stays where it is. */
+  const warm = Math.round(320 - o.amp * (1 - Math.cos(o.t * 0.55)) * 0.5 * 110);
+  const span = W * 0.94 * o.scale;
+  const ox = W / 2 - span / 2;
+  /* The attractor never uses the whole 0..1 interval — it lives roughly
+     between 0.22 and 0.95 — so mapping x straight onto the panel leaves
+     a third of it empty and shoves the stem off to one side. Normalising
+     against the range actually occupied is what centres the stem and
+     lets the cascade fill the width it is given. */
+  const X0 = 0.22;
+  const X1 = 0.95;
+  const norm = (x: number) => (x - X0) / (X1 - X0);
+
+  const paths = o.bands.map(() => new Path2D());
+  /* THE COLOUR FALLS, THE BLOCKS DO NOT.
+     Nothing here actually moves down the panel — the cascade is fixed by
+     the maths. What travels is the colour banding: the stripe a row is
+     assigned slides one step per tick, so a given hue appears further
+     down each frame and the eye reads the whole field as descending.
+     Cheap, and steadier than moving geometry. Zero at rest, so the still
+     frame keeps the plain banding. */
+  const L = o.bands.length;
+  /* One band roughly every two seconds — a drift, not a scroll. */
+  const fall = Math.floor(o.amp * o.t * 0.6);
+  const bandFor = (row: number) => (((row >> 2) - fall) % L + L) % L;
+
+  /* One flag per grid cell, so a column hit forty times is still one
+     block — otherwise the dense lower rows overdraw into a solid slab. */
+  const seen = new Uint8Array(cols * rows);
+  const inset = (W - cols * cell) / 2;
+  for (let row = 0; row < rows; row++) {
+    /* r grows DOWN the panel, so the cascade opens toward the copy. */
+    const r = rMin + ((rMax - rMin) * row) / rows;
+    let x = 0.5;
+    for (let i = 0; i < warm; i++) x = r * x * (1 - x);
+    for (let i = 0; i < plots; i++) {
+      x = r * x * (1 - x);
+      const col = Math.floor(norm(x) * span / cell + (ox - inset) / cell);
+      if (col < 0 || col >= cols) continue;
+      const idx = row * cols + col;
+      if (seen[idx]) continue;
+      seen[idx] = 1;
+      /* Banded by depth down the cascade, so each doubling arrives in a
+         new colour rather than the whole figure being one hue. */
+      paths[bandFor(row)].rect(
+        inset + col * cell,
+        row * cell - lift,
+        cell - gap,
+        cell - gap,
+      );
+    }
+  }
+  ctx.globalAlpha = 0.8;
+  for (let b = 0; b < paths.length; b++) {
+    ctx.fillStyle = o.bands[b];
+    ctx.fill(paths[b]);
   }
   ctx.globalAlpha = 1;
 }
@@ -834,6 +1149,9 @@ const PAINTERS: Record<
 > = {
   subdiv: paintSubdiv,
   fern: paintFern,
+  seedhead: paintSeedhead,
+  bifurcation: paintBifurcation,
+  htree: paintHtree,
   julia: paintJulia,
   quadtree: paintQuadtree,
   sierpinski: paintSierpinski,
@@ -843,6 +1161,10 @@ const PAINTERS: Record<
   dragon: paintDragon,
   hilbert: paintHilbert,
 };
+
+/* Every variant, at runtime — the `Variant` union is compile-time only,
+   and the card tuner needs a list it can put in a <select>. */
+export const VARIANTS = Object.keys(PAINTERS) as Variant[];
 
 /* Sensible per-variant defaults so call sites stay short. */
 const DEFAULTS: Record<Variant, { depth: number; scale: number; cell: number }> = {
@@ -856,12 +1178,16 @@ const DEFAULTS: Record<Variant, { depth: number; scale: number; cell: number }> 
   hilbert: { depth: 5, scale: 1, cell: 0 },
   subdiv: { depth: 7, scale: 1, cell: 0 },
   fern: { depth: 40, scale: 1, cell: 0 },
+  seedhead: { depth: 40, scale: 1, cell: 0 },
+  /* `depth` is a point population here, not a generation count. */
+  bifurcation: { depth: 1, scale: 1, cell: 0 },
+  htree: { depth: 7, scale: 1, cell: 0 },
 };
 
 type Props = {
   variant?: Variant;
   /** Override the eight colour bands — each theme passes its own. */
-  palette?: string[];
+  palette?: readonly string[];
   /**
    * Multiplier on this field's clock. Some variants read much faster than
    * others at the same rate — the Hilbert traversal in particular covers
@@ -927,7 +1253,7 @@ export default function FractalField({
        than a decoration of it. Line variants get the bump; the pixel/area
        ones (julia, quadtree) are already at texture density, where another
        level costs a lot of work and shows almost nothing. */
-    const canDeepen = !["julia", "quadtree"].includes(variant);
+    const canDeepen = !["julia", "quadtree", "seedhead", "bifurcation"].includes(variant);
     let deeper = 0;
     let hovered = false;
 
@@ -986,7 +1312,13 @@ export default function FractalField({
     const frame = (now: number) => {
       const dt = Math.min(64, now - last);
       last = now;
-      amp += (ampTarget - amp) * (1 - Math.exp(-dt / 180));
+      /* 180ms put the entire onset inside a fifth of a second, which is
+         why every hover read as a snap however gently the painter itself
+         was written — the gesture was over before the eye had followed
+         it. 420 spreads it across about half a second, in and out, which
+         is the difference between a card reacting and a card being
+         startled. */
+      amp += (ampTarget - amp) * (1 - Math.exp(-dt / 420));
       /* An exponential never actually reaches zero, so it needs a cutoff.
          0.02 of an already-subtle motion is sub-pixel — but leaving it
          lower just spends another ~300ms nudging antialiasing around. */
@@ -1052,28 +1384,15 @@ export default function FractalField({
   );
 }
 
-/* ------------------------------------------------------------------ *
- *  FractalBackdrop — the field pre-wrapped as a section backdrop:
- *  absolutely positioned, radially masked so it dissolves into the
- *  surface, and dimmed so foreground text always wins.
- *
- *  Each section picks a DIFFERENT variant — see the map in the page
- *  components — so the eye meets new geometry as it travels down.
- * ------------------------------------------------------------------ */
-export function FractalBackdrop({
-  variant = "julia",
-  className = "",
-  opacity = 0.3,
-  mask = "radial-gradient(78% 68% at 50% 0%, #000 0%, transparent 80%)",
-  ...rest
-}: Props & { mask?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}
-      style={{ maskImage: mask, WebkitMaskImage: mask }}
-    >
-      <FractalField variant={variant} opacity={opacity} {...rest} />
-    </div>
-  );
-}
+/* FractalBackdrop LIVED HERE. It wrapped the field as a section-wide
+   backdrop — absolutely positioned, radially masked, dimmed so foreground
+   text won — and About, Services and Partners each ran one at 10-15%.
+   All three were removed: at that opacity it read as a smudge behind the
+   copy rather than as geometry, and in Services it competed with the six
+   per-card motifs that are the same idea rendered properly.
+
+   Deleted rather than left in place. An exported component with no
+   callers is an invitation to reach for it again without knowing why it
+   went. If a section wants a fractal ground, the honest version is a
+   FractalField with its own mask at the call site, where the opacity is
+   visible to whoever is tuning it. */

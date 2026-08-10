@@ -53,3 +53,4 @@ next-env.d.ts
 /public/assets/projects/WnW-Jr/
 /public/assets/projects/Zappy-Toons/
 /public/assets/projects/Zappy-Zoo/
+.env*

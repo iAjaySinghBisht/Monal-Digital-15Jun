@@ -14,17 +14,37 @@
  *  ---------------------------------------------------------------- *
  *  TIER 1 — SEMANTIC. One accent, and the neutrals.
  *
- *      --color-accent      YOU CAN ACT ON THIS. Magenta — the logo's own
- *                          dominant band. Buttons, the GO cursor, the
- *                          focus ring, links. Nothing else.
- *      --color-accent-ink  the same magenta taken down until it clears
- *                          4.5:1 on white. The accent has to be both a
- *                          FILL and TEXT, and no single value does both:
- *                          bright magenta is 4.62:1 behind ink and 4.62:1
- *                          on the dark slabs, but only 3.83:1 as text on
- *                          white. Fills and dark-ground text take the
- *                          bright form; text on pale grounds takes this.
+ *      --color-accent      YOU CAN ACT ON THIS. The teal band itself,
+ *                          #23c6c7. Button fills, the GO cursor, links.
+ *                          Nothing else.
+ *      --color-accent-ink  the same band taken down 40%, for TEXT and for
+ *                          the focus ring — the two jobs the raw band
+ *                          cannot do on a pale ground.
+ *      --color-accent-2    the SECOND state, not a second accent. The
+ *                          violet band. Hover and press only — it never
+ *                          appears on anything at rest, so it cannot
+ *                          start competing for "act".
  *      ink / paper / mist / cloud / line / muted — structure.
+ *
+ *  MAGENTA IS NO LONGER THE ACCENT. It was the logo's dominant band and
+ *  that was the whole argument for it, but the pink read as loud rather
+ *  than as brand, and every accent word on the site sat in it.
+ *
+ *  THE BUTTON FLIPPED TO INK, AND THAT IS THE REAL FIX. On magenta the
+ *  primary shipped WHITE text at 3.83:1 — knowingly under AA, defended as
+ *  a brand call. Teal is a LIGHT band: white on it is 2.11:1, which is not
+ *  a brand call, it is unreadable. Ink on it is 8.41:1. So the button is
+ *  now dark type on a bright band, which is both the most legible control
+ *  on the site by a wide margin and the way the wordmark itself is built —
+ *  ink drawn over colour, never colour over ink.
+ *
+ *  WHY THE TWO FORMS STILL EXIST. A band bright enough to be a surface is
+ *  never dark enough to be a word on one. The raw accent is 1.95:1 as text
+ *  on a card; accent-ink is 4.94:1 there. Fills take the band, words take
+ *  the darkened form. This is the same split magenta needed, kept for the
+ *  same reason, and it is not the deleted `-ink` band siblings returning:
+ *  those were eight decorations pretending to be text, this is one accent
+ *  in the two forms its two jobs actually require.
  *
  *  If a thing is not actionable it may not be the accent. That single
  *  rule is what makes the accent legible at all.
@@ -44,30 +64,52 @@
  *              Picking one band by hand is how six cards ended up with
  *              six unrelated hues answering to nothing.
  *
- *    SIGNATURE One fixed band, --color-teal, for recurring decoration
- *              that is NOT a series and so has no set to walk: the
- *              eyebrow diamond, the heading highlight, the pull quotes.
- *              Same mark, same colour, everywhere.
+ *    SIGNATURE --color-violet, for recurring decoration that is NOT a
+ *              series and so has no set to walk: the eyebrow diamond, the
+ *              pull quotes, the big tinted card surfaces. Same mark, same
+ *              colour, everywhere.
+ *
+ *    HIGHLIGHT --color-sun, and ONLY as a fill behind ink at size: the
+ *              marker behind a heading word, and the selection. This is
+ *              the one band light enough to work like an actual
+ *              highlighter pen (12.12:1 under ink), and the one band that
+ *              can do nothing else.
  *
  *  The pale plates (lav, mint, peach, sky, teal-soft) are bands laid
  *  thinly — tier 2, derived, never independent.
  *
- *  ONE SANCTIONED OVERLAP. --color-accent IS the magenta band. Tier 1 and
- *  tier 2 share that one value on purpose, because the action colour was
- *  asked to come from the brand set — and magenta is the band the
- *  wordmark is mostly made of, so the thing you can press is the colour
- *  the logo already leads with. The cost: wherever a series walks to
- *  magenta — one summit, one partner mark, one venture card — that
- *  decoration is the exact colour of every button. It is tolerable
- *  because the convention puts the meaning in FORM (a filled disc with an
- *  arrow, a pill) and lets colour reinforce rather than carry it. A test
- *  fails if the accent ever drifts onto a different band.
+ *  THE ONE SANCTIONED OVERLAP, AGAIN. --color-accent IS the teal band,
+ *  exactly, as it was once magenta exactly. Tier 1 and tier 2 share that
+ *  one value on purpose: the action colour was asked to come from the
+ *  brand set, so the thing you press wears a colour the wordmark actually
+ *  contains rather than a muted cousin of one.
  *
- *  THE SIGNATURE AND THE ACCENT MAY NOT BE THE SAME BAND. The signature
- *  was sun while the accent was teal; the accent is magenta now and the
- *  signature is teal, so the two still name different bands. If they ever
- *  collapse onto one, a highlight becomes indistinguishable from a button
- *  and "you can act on this" stops meaning anything.
+ *  The cost is the same cost as before and worth naming again: wherever a
+ *  series walks to teal — one summit, one partner mark, one venture card —
+ *  that decoration is the exact fill of every button. It stays tolerable
+ *  only because the convention puts the meaning in FORM (a filled pill, a
+ *  disc with an arrow) and lets colour reinforce rather than carry it.
+ *  A test fails if the accent drifts off the band.
+ *
+ *  THE SIGNATURE AND THE ACCENT MAY NOT BE THE SAME BAND. Teal is the
+ *  accent now, so the signature had to leave teal — otherwise a pull
+ *  quote is the exact colour of a button and "you can act on this" stops
+ *  meaning anything. It went to violet.
+ *
+ *  WHY THE SIGNATURE SPLIT IN TWO. The obvious move was to send the whole
+ *  signature to sun and be done. Sun is 1.46:1 on white — the least
+ *  legible band there is — and the signature's jobs are not all the same
+ *  job. The eyebrow DIAMOND is a small solid glyph on a pale pill, which
+ *  WCAG holds to 3:1 as a non-text mark; in sun it is 1.46:1 and simply
+ *  disappears. (It was teal before, at 2.11:1, and was already failing
+ *  that bar — violet is 3.74:1 and is the first value here that passes.)
+ *  The heading MARKER is the opposite case: a fill behind ink at display
+ *  size, where sun's lightness is the whole point and any deeper band
+ *  makes it look like a redaction rather than a highlighter.
+ *
+ *  So the rule is by GROUND, not by taste: sun where the band sits behind
+ *  ink, violet where the band has to hold its own edge against paper. A
+ *  band never becomes text in either case.
  *
  *  ---------------------------------------------------------------- *
  *  TIER 3 — THE ONE EXCEPTION. Aipan's pigment: #a81f16 brick red and
@@ -95,20 +137,23 @@
      colour on the site that means anything. (The claim that used to sit
      here, that eyebrow dots come from the accent, stopped being true the
      day they became the signature band.) */
-  --color-accent: #fc0383;      /* magenta — the one colour that means "act" */
-  /* Magenta is a MID value: 3.83:1 on white, so it still cannot carry
-     small text there. This is the same hue taken down until it clears
-     4.5:1 (5.24:1 on white, 4.85:1 on mist) — for links, taglines and
-     markers on pale grounds. The bright value is for FILLS, and for text
-     on the dark slabs, where it reaches 4.62:1.
+  --color-accent: #23c6c7;      /* the teal band itself — the colour that means "act" */
+  /* THE FILL CANNOT BE THE TEXT. The accent is the raw teal band, which
+     is 1.95:1 on mist — as a word it is barely there. This is that same
+     band taken down 40% until it clears 4.5:1 (4.94:1 on mist, 5.33:1 on
+     paper), for links, taglines, markers and the focus ring.
 
-     Two values, both load-bearing — unlike the eight `-ink` band siblings
-     that were removed, which existed so decoration could pretend it was
-     text. An accent genuinely has to do both jobs. */
-  /* Measured against mist, not white: two thirds of the accent's text
-     uses sit on the tinted card grounds. Same hue as the fill to within
-     0.02deg, which a test enforces. */
-  --color-accent-ink: #d3036e;
+     This is the same two-form split magenta needed, for the same reason,
+     and it is why the pair exists at all: a band bright enough to be a
+     surface is never dark enough to be a word on one. Same hue as the
+     fill to within 0.02deg, which a test enforces. */
+  --color-accent-ink: #157777;
+  /* THE SECOND STATE, NOT A SECOND ACCENT. The violet band, carrying ink
+     at 4.74:1. It appears on hover and press and nowhere else — a colour
+     that only exists while you are touching something cannot drift into
+     meaning "act" on its own, which is exactly how the green that this
+     palette pass killed got started. */
+  --color-accent-2: #8b6bfd;
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;
@@ -182,6 +227,38 @@
 @layer base {
   * { box-sizing: border-box; }
 
+  /* ------------------------- THE SPECTRUM RIBBON --------------------- *
+   *  All eight bands of the wordmark, left to right, in the array's own
+   *  hue order. This is the one place the whole logo palette is spent at
+   *  once, so it is built as a token rather than written out at the call
+   *  site: a bar that hand-picked its stops would be choosing colours,
+   *  which is exactly what THE PALETTE forbids. It walks the wheel by
+   *  index, same as every other series on the site.
+   *
+   *  The walk closes. Orchid (291deg) lands next to magenta (329deg), so
+   *  the two ends are neighbours and the ribbon reads as one continuous
+   *  turn of the wheel rather than a strip that starts and stops.
+   *
+   *  EVEN SPACING IS THE POINT, NOT AN APPROXIMATION. The stops sit at
+   *  100/7 apart, so each band owns an equal share. Spacing them by their
+   *  real hue distances instead would hand tangerine->sun (22deg) a
+   *  seventh of the bar and leaf->teal (78deg) the same, which reads as a
+   *  mistake at 3px even though it is the truer map.
+   * ------------------------------------------------------------------- */
+  :root {
+    --gradient-spectrum: linear-gradient(
+      to right,
+      var(--color-magenta) 0%,
+      var(--color-tangerine) 14.28%,
+      var(--color-sun) 28.57%,
+      var(--color-leaf) 42.85%,
+      var(--color-teal) 57.14%,
+      var(--color-azure) 71.42%,
+      var(--color-violet) 85.71%,
+      var(--color-orchid) 100%
+    );
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -205,7 +282,7 @@
   }
 
   ::selection {
-    background: var(--color-teal);
+    background: var(--color-sun);
     color: var(--color-ink);
   }
 }
@@ -229,7 +306,7 @@
   border-radius: 0.28em;
   white-space: nowrap;
 }
-.mark { background: var(--color-teal); color: var(--color-ink); }
+.mark { background: var(--color-sun); color: var(--color-ink); }
 
 /* A BAND LAID THINLY — the one way to do it. Two places wanted this (the
    venture number plate and the team portrait ground) and each had grown
@@ -249,6 +326,31 @@
 }
 .group:hover .band-plate--lift {
   background: var(--band);
+}
+
+/* ------------------------ venture card motif ----------------------- *
+ *  The fractal sits in a corner of the card, muted, and comes up to its
+ *  true colours under a pointer. Both ends of that live here rather than
+ *  in Tailwind classes because the resting values are DRIVEN by
+ *  CARD_TUNING in components/Services.tsx — they arrive as inline custom
+ *  properties, and an inline style would beat a utility class on hover.
+ *  Saturation rather than opacity does the muting: dropping opacity
+ *  alone washes the drawing toward the card and loses the linework,
+ *  while desaturating keeps every stroke and only takes the colour out
+ *  of it — so the hover restores the palette instead of revealing a
+ *  shape that was not properly there.
+ * ------------------------------------------------------------------- */
+.venture-motif {
+  opacity: var(--motif-o);
+  filter: saturate(var(--motif-sat));
+  transition: opacity 0.55s ease, filter 0.55s ease;
+}
+.group:hover .venture-motif {
+  opacity: var(--motif-o-hover);
+  filter: saturate(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .venture-motif { transition: none; }
 }
 
 /* Partner logos. These were alpha-only silhouettes masked to a spectrum
@@ -404,23 +506,32 @@
    *  What replaced it briefly — a green — was a second accent competing
    *  with accent for the same job, which is the sprawl this palette pass
    *  exists to end. */
-  /* WHITE on the accent — a brand call, made knowingly against the
-     numbers. White is 3.83:1 on magenta and ink is 4.62:1, so ink is the
-     more legible of the two; white clears the 3:1 large-text bar but not
-     the 4.5:1 one for small copy. Chosen anyway because white is what the
-     pink is meant to read as. Hover DEEPENS to the text-safe magenta,
-     where the same white reaches 5.24:1, so the press reads as the button
-     getting heavier rather than merely moving. */
+  /* INK on the accent, not white. The button carried white type for as
+     long as the accent was magenta, at 3.83:1 — under the 4.5:1 bar for
+     small copy, and defended in this comment as a brand call. The bands
+     end that argument rather than continuing it: white on the teal band
+     is 2.11:1, which no call can defend, and ink on it is 8.41:1.
+
+     So the primary is now dark type on a bright band. That is the most
+     legible control on the site, and it is how the wordmark is drawn —
+     ink over colour, never colour over ink.
+
+     THE PRESS CHANGES HUE, NOT JUST WEIGHT. Magenta could only deepen
+     towards itself. Teal hands off to violet, and because both are logo
+     bands the shift reads as the identity moving rather than as a second
+     colour arriving. Ink holds at 4.74:1 there, so the pressed state
+     stays over the bar too — the floor across both states, not the
+     ceiling of one. */
   .btn-primary {
     background: var(--color-accent);
-    color: #fff;
-    box-shadow: 0 16px 34px -16px rgba(252, 3, 131, 0.75);
+    color: var(--color-ink);
+    box-shadow: 0 16px 34px -16px rgba(35, 198, 199, 0.75);
   }
   .btn-primary:hover {
-    background: var(--color-accent-ink);
-    color: #fff;
+    background: var(--color-accent-2);
+    color: var(--color-ink);
     transform: translateY(-2px);
-    box-shadow: 0 22px 46px -18px rgba(23, 131, 131, 0.7);
+    box-shadow: 0 22px 46px -18px rgba(139, 107, 253, 0.7);
   }
   .btn-outline {
     background: transparent;
@@ -430,9 +541,9 @@
   /* Promotes to the primary on hover rather than to black, so the two
      tiers are the same button at two weights. */
   .btn-outline:hover {
-    border-color: var(--color-accent-ink);
-    background: var(--color-accent-ink);
-    color: #fff;
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-ink);
   }
   /* `.btn-sun` and `.btn-accent` are gone. Accent was a second name for the
      primary, and sun was a second filled colour competing with it for the
@@ -559,6 +670,48 @@ body.is-embed.has-custom-cursor * {
 :where(a, button, summary, [role="button"], [tabindex]:not([tabindex="-1"])):focus-visible {
   outline: 2px solid var(--color-accent-ink);
   outline-offset: 3px;
+}
+
+/* ------------------------- THE SKIP LINK --------------------------- *
+ *  Every page opens with a fixed navbar, so a keyboard user arriving at
+ *  the top had to tab the entire nav — and on the homepage the six
+ *  ventures and seven show cards after it — before reaching anything
+ *  they came for. This is the standard escape hatch and the site had
+ *  none.
+ *
+ *  It is NOT `display: none` or `visibility: hidden` while resting:
+ *  either would take it out of the focus order and it would never be
+ *  reachable at all, which is the classic way to ship a skip link that
+ *  does nothing. It stays rendered and focusable, translated out of
+ *  sight, and comes back on :focus-visible.
+ *
+ *  z-index clears the navbar's z-100, or it would slide up and land
+ *  behind the very bar it exists to skip.
+ * ------------------------------------------------------------------- */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 1rem;
+  z-index: 200;
+  transform: translateY(-150%);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: transform 0.18s ease-out;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  /* The ring would otherwise trace the tab's rounded bottom and float a
+     teal line across the top of the page. The fill is already the accent
+     and the shape is already unmistakable. */
+  outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skip-link { transition: none; }
 }
 
 /* On the dark slabs the bright accent is the legible one — 8.41:1 against

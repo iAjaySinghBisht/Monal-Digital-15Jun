@@ -29,6 +29,20 @@ const SOURCES = [...walk("components"), ...walk("app")].filter(
 
 const BANDS = SPECTRUM.map((s) => s.name);
 
+/* Hoisted out of the two-forms test below, which owned the only copy —
+   the accent tests further down need it too, and a second copy is how
+   two guards quietly start measuring hue differently. */
+const hueOf = (hex: string) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  if (max === min) return 0;
+  const d = max - min;
+  const h =
+    max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return (h * 60 + 360) % 360;
+};
+
 /* Tier 1 is two values of one hue, and the pair is load-bearing: the
    accent must work as a FILL and as TEXT, and no single lightness does
    both. If they ever drift to different hues, "the accent" stops being a
@@ -40,18 +54,8 @@ test("the accent has both its forms, and they are the same hue", () => {
   const fill = grab("accent");
   const text = grab("accent-ink");
   assert.ok(fill, "--color-accent must exist — it is the whole of tier 1");
-  assert.ok(text, "--color-accent-ink must exist — magenta cannot hold text on white");
+  assert.ok(text, "--color-accent-ink must exist — it is the form that sits on mist");
 
-  const hueOf = (hex: string) => {
-    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    if (max === min) return 0;
-    const d = max - min;
-    const h =
-      max === r ? (g - b) / d + (g < b ? 6 : 0) : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
-    return (h * 60 + 360) % 360;
-  };
   const gap = Math.abs(hueOf(fill!) - hueOf(text!));
   assert.ok(
     gap < 8,
@@ -59,39 +63,39 @@ test("the accent has both its forms, and they are the same hue", () => {
   );
 });
 
-/* THE ONE SANCTIONED OVERLAP. The accent IS the magenta band — tier 1 and
+/* THE ONE SANCTIONED OVERLAP. The accent IS a band exactly — tier 1 and
    tier 2 share a value, deliberately, because the action colour was asked
-   to come from the brand set, and magenta is the band the wordmark is
-   mostly made of.
+   to come from the brand set. This guard has now flipped twice: it pinned
+   the accent to magenta, then briefly to "a darkened form of a band, never
+   a band", and is back. What it must NOT do is drift into asserting
+   nothing, so it checks the two halves that actually matter — the accent
+   is a band, and the band it is has a text-safe sibling, because a raw
+   band cannot carry a word on a pale ground.
 
-   The cost is real and worth naming: wherever a series walks to magenta
-   (one summit, one partner mark, one venture card) that decoration is the
-   exact colour of every button. It is tolerable only because the
-   convention puts the meaning in FORM — a filled disc with an arrow, a
-   pill — and lets colour reinforce rather than carry it.
-
-   The guard is that this stays the ONLY overlap and stays magenta. An
-   accent that drifts onto teal or sun would be an accident, not a
-   decision. */
-test("the accent overlaps exactly one band, and it is magenta", () => {
+   The cost is real and worth naming: wherever a series walks to the
+   accent's band (one summit, one partner mark, one venture card) that
+   decoration is the exact fill of every button. Tolerable only because the
+   convention puts the meaning in FORM and lets colour reinforce it. */
+test("the accent is exactly one band, and has a darker form for text", () => {
   const css = read("app/globals.css");
-  const fill = css.match(/--color-accent:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();
+  const grab = (n: string) =>
+    css.match(new RegExp(`--color-${n}:\\s*(#[0-9a-fA-F]{6})`))?.[1]?.toLowerCase();
+  const fill = grab("accent");
+  const text = grab("accent-ink");
   const matches = SPECTRUM.filter((s) => s.hex.toLowerCase() === fill);
-  assert.equal(matches.length, 1, `--color-accent (${fill}) should match exactly one band`);
   assert.equal(
-    matches[0].name,
-    "magenta",
-    `the accent has moved onto the ${matches[0].name} band — only the magenta overlap is intended`
+    matches.length,
+    1,
+    `--color-accent (${fill}) is not a band — the action colour must come from the brand set`
+  );
+  const gap = Math.abs(hueOf(fill!) - hueOf(text!));
+  assert.ok(
+    gap < 8,
+    `the accent's two forms are ${gap.toFixed(1)}deg apart — accent-ink must be the SAME ` +
+      `band darkened, not a different colour`
   );
 });
 
-/* The signature band and the accent must stay different bands. The
-   signature is a fixed decoration (the eyebrow diamond, the heading
-   highlight, the pull quotes); the accent means "you can act on this". If
-   the two ever land on one band, a highlight is indistinguishable from a
-   button and the accent stops carrying meaning. This caught nothing when
-   written — the point is that it fails the day someone moves one of them
-   onto the other. */
 test("the signature band is not the accent band", () => {
   const css = read("app/globals.css");
   const accent = css.match(/--color-accent:\s*(#[0-9a-fA-F]{6})/)?.[1]?.toLowerCase();

@@ -21,6 +21,8 @@ export default function HomePage() {
     <>
       <UiAnimations />
       <Header />
+
+      <main id="main-content">
       {/* The ecosystem comes before the work: the six ventures frame what we
           are building, and the shows that follow are the proof they are real.
           The partner wall then answers "who with", which only means anything
@@ -31,6 +33,8 @@ export default function HomePage() {
       <ContentLibrary />
       <Partners />
       <Testimonials />
+      </main>
+
       <Footer />
     </>
   );

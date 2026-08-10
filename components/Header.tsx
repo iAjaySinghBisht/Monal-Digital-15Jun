@@ -69,8 +69,19 @@ const Header = () => {
   );
 
   return (
-    <header
-      ref={rootRef}
+    <>
+      {/* OUTSIDE the <header>, deliberately. This element hides itself by
+          translating the whole bar off the top and setting
+          `pointer-events-none` once the footer logo is in view — a skip
+          link living inside it would go with it, so the one control a
+          keyboard user needs most would be the one control that
+          disappears. As a sibling it is always the first thing Tab
+          reaches, on every page. */}
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <header
+        ref={rootRef}
       className={`fixed top-0 left-0 w-full z-100 px-4 pt-6 md:pt-9 transition-all duration-500 ease-out ${
         atFooter
           ? "-translate-y-full opacity-0 pointer-events-none"
@@ -168,8 +179,9 @@ const Header = () => {
             Get in touch
           </Pill>
         </div>
-      )}
-    </header>
+        )}
+      </header>
+    </>
   );
 };
 

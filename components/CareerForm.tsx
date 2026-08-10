@@ -73,7 +73,7 @@ const Graphics = () => (
       <circle cx="100" cy="100" r="66" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-teal shadow-[0_10px_30px_-8px_rgba(35,198,199,0.7)]" />
+    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-violet shadow-[0_10px_30px_-8px_rgba(139,107,253,0.7)]" />
     <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-mint rotate-12" />
     <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/35" />
   </div>
@@ -159,6 +159,8 @@ export default function CareerForm() {
     <>
       <Header />
 
+
+      <main id="main-content">
       {/* Hero */}
       <section className="relative bg-black text-paper overflow-hidden">
         <div className="absolute inset-0 bg-dots-light opacity-50 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
@@ -361,6 +363,8 @@ export default function CareerForm() {
           </div>
         </div>
       </section>
+
+      </main>
 
       <Footer />
     </>

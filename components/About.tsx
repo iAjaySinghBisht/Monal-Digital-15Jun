@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Eyebrow, ArrowUpRight } from "./Decor";
-import { FractalBackdrop } from "./FractalField";
 import AipanMark from "./AipanMark";
 
 const About = () => {
@@ -9,14 +8,12 @@ const About = () => {
       id="about"
       className="relative bg-paper py-24 md:py-32 border-t border-line overflow-hidden"
     >
-      {/* A fern rising from the bottom edge — the section is about where the
-          company comes from, so the motif is the one that says "nature". */}
-      <FractalBackdrop
-        variant="fern"
-        opacity={0.15}
-        cell={8}
-        mask="radial-gradient(95% 100% at 50% 100%, #000 0%, transparent 82%)"
-      />
+      {/* No backdrop here. A fern used to rise from the bottom edge, on the
+          reasoning that the section is about where the company comes from
+          so the motif should be the one that says "nature" — but it sat
+          directly behind the copy and the team portraits, and a fractal is
+          busy in exactly the way a portrait grid cannot afford. The Aipan
+          corner marks on the cards carry the ornament for this section. */}
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-5 mb-12 md:mb-16">
@@ -78,7 +75,7 @@ const About = () => {
                 under AA even for large text — against ink's 8.41:1. White
                 was right while this card was the pink accent (3.83:1); it
                 is not right here. */}
-            <article className="card card-hover bg-teal border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+            <article className="card card-hover bg-violet border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
               <AipanMark
                 motif="corner"
                 size={38}

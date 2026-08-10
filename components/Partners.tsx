@@ -1,6 +1,5 @@
 import { brands } from "@/data/constants";
 import { Eyebrow } from "./Decor";
-import { FractalBackdrop } from "./FractalField";
 import GrowingFrond from "./GrowingFrond";
 
 /* Each partner mark's aspect ratio, measured from the TRIMMED logo — the
@@ -45,17 +44,12 @@ const Partners = () => {
       id="partners"
       className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden"
     >
-      {/* THE FIELD. Circles packed inside circles, each generation smaller
-          and fainter — many distinct things sharing one space without
+      {/* No field here. Circles packed inside circles used to sit behind
+          this wall — many distinct things sharing one space without
           overlapping, which is the argument the section makes in words.
-          Masked to fade out well before the logos so the wall stays the
-          subject. */}
-      <FractalBackdrop
-        variant="circles"
-        depth={4}
-        opacity={0.1}
-        mask="radial-gradient(70% 80% at 50% 45%, #000 0%, transparent 78%)"
-      />
+          It read as a smudge rather than as an argument at 10% and it sat
+          under a grid of partner logos, several of which are themselves
+          fine line art. The GrowingFrond below is this section's motif. */}
 
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         <div className="relative flex flex-col items-center text-center gap-5 mb-12 md:mb-16">

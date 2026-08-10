@@ -56,18 +56,35 @@ const Tile = ({
 }: {
   p: Project;
   sizes: string;
-  /** Stretch to the grid row instead of carrying its own 16:9 box. */
+  /** Stretch to the grid row, AT lg ONLY — see the className below. */
   fill?: boolean;
   large?: boolean;
   priority?: boolean;
   /** Cursor-following 3D tilt. Off for the feature — see its call site. */
   tilt?: boolean;
 }) => (
+  /* `fill` IS AN lg-ONLY INSTRUCTION, AND SAYING SO IS THE WHOLE FIX.
+     This read `fill ? "h-full" : "aspect-video"`, and h-full is a
+     PERCENTAGE height: it resolves only against a parent with a definite
+     one. The feature's parent gets that from `lg:row-span-2`, so above
+     1024px the card stretched to the two rows beside it exactly as
+     intended — and below 1024px there was no row track, no definite
+     height, and an <img> that is `absolute inset-0` and contributes none.
+     The card collapsed to its own 2px of border on every phone and
+     tablet: the largest thing in the section, and the only one anybody
+     would call the flagship, rendered as a hairline.
+
+     The header comment above already promised the right behaviour —
+     the feature "stops being a feature" on phones because nothing sits
+     beside it to be bigger than. Nothing implemented it. It now carries
+     the same 16:9 box as its siblings and only takes the row stretch at
+     the breakpoint where a row exists. `lg:aspect-auto` is load-bearing:
+     without it the aspect ratio keeps winning and h-full never applies. */
   <Link
     href="/work"
     {...(tilt ? { "data-tilt": "4" } : {})}
     className={`group relative block overflow-hidden rounded-[26px] border border-line bg-ink shadow-[0_30px_60px_-46px_rgba(24,24,27,0.5)] transition-[transform,box-shadow] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_44px_80px_-44px_rgba(24,24,27,0.55)] ${
-      fill ? "h-full" : "aspect-video"
+      fill ? "aspect-video lg:aspect-auto lg:h-full" : "aspect-video"
     }`}
   >
     {/* eslint-disable-next-line @next/next/no-img-element */}

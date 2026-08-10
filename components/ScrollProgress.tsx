@@ -31,8 +31,15 @@ const ScrollProgress = () => {
     >
       <div
         ref={barRef}
-        className="h-full w-full origin-left scale-x-0 bg-linear-to-r from-ink via-accent to-teal"
-        /* The Cantor set — remove the middle third, then the middle third
+        className="h-full w-full origin-left scale-x-0"
+        /* The bar is the logo's own eight bands, via --gradient-spectrum.
+           It used to run ink -> accent -> teal, which took two of the
+           eight and a text colour: the near-black start meant the first
+           screens of every page showed a dark sliver that read as a
+           rendering artefact rather than as progress, and nothing about
+           the three said Monal. The whole wordmark palette does.
+
+           The Cantor set — remove the middle third, then the middle third
            of what is left — is the canonical fractal of one dimension, and
            a 3px progress bar has exactly one dimension to be fractal in.
            Two iterations, laid over the whole width.
@@ -42,6 +49,7 @@ const ScrollProgress = () => {
            construction, so what survives is a self-similar banding you
            only notice once you know it is there. */
         style={{
+          backgroundImage: "var(--gradient-spectrum)",
           maskImage:
             "linear-gradient(to right, #000 0 11.11%, #0000006e 11.11% 22.22%, #000 22.22% 33.33%, #000000a8 33.33% 66.66%, #000 66.66% 77.77%, #0000006e 77.77% 88.88%, #000 88.88% 100%)",
           WebkitMaskImage:

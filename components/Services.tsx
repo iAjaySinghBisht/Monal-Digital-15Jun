@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ventures, type Venture } from "@/data/constants";
 import { Eyebrow, ArrowUpRight } from "./Decor";
-import FractalField, { FractalBackdrop } from "./FractalField";
+import FractalField, { type Variant } from "./FractalField";
 import AipanMark from "./AipanMark";
-import { SPECTRUM, motifTone } from "@/lib/palette";
+import { SPECTRUM, SPECTRUM_HEX } from "@/lib/palette";
 
 /* The partner wall used to trail this section; it is components/Partners
    now, and the mark-sizing table went with it. */
@@ -13,10 +13,16 @@ import { SPECTRUM, motifTone } from "@/lib/palette";
  *  is, rather than applied uniformly:
  *
  *    Kids        pythagoras  a story tree — "where every story begins"
- *    AI          hilbert     a circuit trace — computation
- *    Games       sierpinski  board/puzzle geometry — play
- *    Preschool   fern        the one that says "inspired by nature"
- *    Academy     subdiv      recursive frames — storyboards, animation
+ *    AI          bifurcation one state becoming two becoming everything,
+ *                            falling down the panel — a machine working
+ *    Games       fern        branching choices — every play a new limb
+ *                            off the same rule
+ *    Preschool   seedhead    the golden angle every plant agrees on —
+ *                            the one figure a child has already held
+ *    Academy     sierpinski  structure taught level by level, with the
+ *                            removed triangles drawn as well as the
+ *                            surviving ones, and the construction
+ *                            running as a pulse through the levels
  *    Consultancy dragon      one route folding out to reach everywhere
  *
  *  All six are fractals, so the section keeps a single logic while each
@@ -38,19 +44,70 @@ import { SPECTRUM, motifTone } from "@/lib/palette";
    Every card is still by default and wakes on hover, which is what keeps
    six canvases on one screen from costing anything while you are reading
    past them. Games is the exception: a card about play that only moves
-   once you touch it is the wrong way round, and its gasket is the one
-   motif whose motion is a continuous travelling wave rather than a
-   gesture with a beginning and an end. One always-on canvas is a cost
-   worth naming; six would not be. Reduced-motion still overrides it. */
-const MOTIFS = [
-  { motif: "pythagoras", depth: 9, scale: 1, speed: 1, drift: false },
-  /* The Hilbert traversal sweeps its whole curve in one pass, so at the
-     shared rate it reads as a flicker rather than a line being drawn. */
-  { motif: "hilbert", depth: 5, scale: 0.9, speed: 0.45, drift: false },
-  { motif: "sierpinski", depth: 6, scale: 0.85, speed: 0.55, drift: true },
-  { motif: "fern", depth: 30, scale: 0.95, speed: 1, drift: false },
-  { motif: "subdiv", depth: 7, scale: 1, speed: 1, drift: false },
-  { motif: "dragon", depth: 12, scale: 0.85, speed: 1, drift: false },
+   once you touch it is the wrong way round, and the cascade's motion —
+   transients scattering in and settling — is a continuous state rather
+   than a gesture with a beginning and an end. One always-on canvas is a
+   cost worth naming; six would not be. Reduced-motion still overrides it. */
+/* NO COLOUR IN THIS TABLE. The shape of a card's motif says something
+   about that venture; its colour does not, and picking one by name here
+   is how the page ended up with six unrelated hues that answered to no
+   system. The band comes from the card's POSITION, exactly as the peaks
+   and the partner wall take theirs — six cards drawing the first six of
+   the wordmark's eight, in the wordmark's own order. */
+
+/* THE MOTIF DRAWS THE LOGO'S OWN COLOURS, EXACTLY.
+ *
+ * Not a deepened version of them, and not a per-card hue: the eight
+ * bands of the wordmark, as they are. Every painter colours by
+ * RECURSION DEPTH — trunk band 0, its children band 1, and so on — so
+ * handing over the whole set is what makes a fractal show its own
+ * generations instead of coming back as one flat silhouette.
+ *
+ * THE FAINT VERSIONS ARE NOT SEPARATE COLOURS. Each painter already
+ * ramps alpha by depth, and the whole layer sits at 30% behind the
+ * copy, so what reaches the eye is these exact hues at low strength —
+ * a tint of the real thing rather than a different colour that happens
+ * to look similar. The breathing and lighting patterns then bring a
+ * band up toward full and let it fall back, which is only possible
+ * because the top of that range is the true colour.
+ *
+ * motifTone() is no longer used here. It existed to darken a band until
+ * a SINGLE-colour motif survived a light card; with all eight present
+ * and the layer behind the text, the honest thing is to show the
+ * palette rather than a corrected one.
+ */
+const LOGO_BANDS = SPECTRUM_HEX;
+
+/* ONE SPEED ACROSS THE ROW. These ran between 0.4 and 1, so a reader
+   moving down the grid met six different tempos and the section felt
+   restless. They now share a single gentle rate; where a motif genuinely
+   needs to run slower than the others that belongs in the painter, not
+   in six different numbers here.
+
+   `drift` is off everywhere, including Games. Six always-on canvases is
+   a cost the section should not pay for motion nobody asked to see, and
+   uniform behaviour is the thing being asked for — every card is still
+   until you touch it, then every card answers the same way. */
+const SPEED = 0.45;
+
+export const MOTIFS = [
+  { motif: "pythagoras", depth: 9, scale: 1.22, speed: SPEED, drift: false },
+  /* `depth` is a point population for this one, not a generation count —
+     it needs no scale-down for the panel, since the cascade is drawn to
+     fill whatever box it is given. */
+  { motif: "bifurcation", depth: 1, scale: 1, speed: SPEED, drift: false },
+  /* SWAPPED WITH ACADEMY. The whole tuned entry moves, not just the name:
+     fern wants depth 30 and scale 0.96, sierpinski depth 6 and 0.82, and
+     leaving the numbers behind would have drawn a fern at a sixth of its
+     density — a few bare stalks — while the triangle overflowed its box. */
+  { motif: "fern", depth: 30, scale: 0.96, speed: SPEED, drift: false },
+  { motif: "seedhead", depth: 40, scale: 0.85, speed: SPEED, drift: false },
+  { motif: "sierpinski", depth: 6, scale: 0.82, speed: SPEED, drift: false },
+  /* Small at rest on purpose: this one opens out and turns under the
+     pointer, so it needs room left over to open INTO. At 0.62 it already
+     spanned its whole box, so the zoom had nowhere to go and only pushed
+     the curve out of frame — a gesture you could measure but not see. */
+  { motif: "dragon", depth: 12, scale: 0.33, speed: SPEED, drift: false },
 ] as const;
 
 /* NO COLOUR IN THIS TABLE. The shape of a card's motif says something
@@ -60,86 +117,144 @@ const MOTIFS = [
    and the partner wall take theirs — six cards drawing the first six of
    the wordmark's eight, in the wordmark's own order. */
 
+
+
+/* The card's own numbers, in one place so the tuner at /lab/cards can
+   drive them and hand back a block to paste straight back in here. */
+export type CardTuning = {
+  /** The motif's resting opacity — mirrored by MOTIF_ALPHA. */
+  opacity: number;
+  /** Opacity once the card is hovered. */
+  hoverOpacity: number;
+  /** Resting saturation, 0..1. Below 1 the drawing is muted and the
+      pointer brings the real palette back. */
+  sat: number;
+  /** The motif box, as a % of card WIDTH. It is square, so this also
+      sets its height. */
+  size: number;
+  /** How far the box hangs off the corner, px. A little bleed stops it
+      reading as a sticker; a lot of it just crops the drawing. */
+  bleed: number;
+  /** Feather on the box's own vignette, %. */
+  maskInner: number;
+  /** Multiplier on every motif's own scale. */
+  scaleMul: number;
+};
+
+export const CARD_TUNING: CardTuning = {
+  opacity: 0.42,
+  hoverOpacity: 0.72,
+  sat: 0.45,
+  size: 58,
+  bleed: 14,
+  maskInner: 58,
+  scaleMul: 0.95,
+};
+
+/** What a card needs to draw one motif — loose enough for the tuner to
+    hand it any variant, satisfied by the MOTIFS table as written. */
+export type MotifSpec = {
+  motif: Variant;
+  depth: number;
+  scale: number;
+  speed: number;
+  drift: boolean;
+};
+
 /* Tinted mist so the cards still read against the section's white canvas —
    the same treatment About gives its story card. */
-const VentureCard = ({
+export const VentureCard = ({
   venture,
   num,
   band,
   motif,
+  tuning = CARD_TUNING,
 }: {
   venture: Venture;
   num: string;
   /** This card's band from the wordmark's set, chosen by position. */
   band: string;
-  motif: (typeof MOTIFS)[number];
+  motif: MotifSpec;
+  tuning?: CardTuning;
 }) => {
   const isExternal = venture.href?.startsWith("http");
   /* `relative overflow-hidden` so the motif can be absolutely placed and
      clipped to the card's rounded corners. */
   const surface =
     "group card card-hover bg-mist border-transparent flex flex-col p-7 md:p-8 relative overflow-hidden";
+  const mask = `radial-gradient(78% 78% at 52% 52%, #000 ${tuning.maskInner}%, transparent)`;
 
   const body = (
     <>
-      {/* This venture's own motif, in its own tone — see MOTIFS above. The
-          radial mask dissolves it into the card so the copy always wins. */}
+      {/* THE MOTIF SITS IN A CORNER, NOT ACROSS THE CARD.
+          A square box in the bottom-right, hanging just far enough off
+          the edge to look like it continues past it rather than like a
+          sticker placed on it. The whole figure is inside the box, so
+          nothing important is lost to the crop — the earlier full-bleed
+          version put the busiest part of every drawing directly under a
+          line of text.
+
+          Resting it is desaturated; a pointer brings it up to the
+          wordmark's real colours. Both values are custom properties
+          because the hover half lives in globals.css — see
+          .venture-motif there. */}
       <span
         aria-hidden="true"
-        /* 0.62 was tuned for Monal Test's dark cards, where the lines read as
-           a faint watermark. On this light mist the same value crosses the
-           body copy, so it sits lower here and only lifts on hover. The mask
-           is also pulled tighter into the corner for the same reason. */
-        className="pointer-events-none absolute -right-10 -bottom-8 h-60 w-60 opacity-[0.42] transition-opacity duration-500 group-hover:opacity-90"
+        className="venture-motif pointer-events-none absolute"
         style={{
-          maskImage: "radial-gradient(80% 80% at 74% 82%, #000 30%, transparent)",
-          WebkitMaskImage: "radial-gradient(80% 80% at 74% 82%, #000 30%, transparent)",
+          right: -tuning.bleed,
+          bottom: -tuning.bleed,
+          width: `${tuning.size}%`,
+          aspectRatio: "1 / 1",
+          ["--motif-o" as string]: tuning.opacity,
+          ["--motif-o-hover" as string]: tuning.hoverOpacity,
+          ["--motif-sat" as string]: tuning.sat,
+          maskImage: mask,
+          WebkitMaskImage: mask,
         }}
       >
         <FractalField
           variant={motif.motif}
-          /* The band at a value that survives the mist card. The light
-             half of the spectrum — sun above all, at 1.15:1 raw — drew a
-             motif nobody could see. See MOTIF TONE in lib/palette.ts. */
-          palette={[motifTone(band)]}
+          /* The wordmark's own eight, exactly — see LOGO_BANDS above. */
+          palette={LOGO_BANDS}
           speed={motif.speed}
           depth={motif.depth}
-          scale={motif.scale}
-          /* A drifting card still takes `activateOn`: hover cannot add
-             amplitude it already has, but it still resolves one level
-             deeper, so the card answers a pointer either way. */
+          scale={motif.scale * tuning.scaleMul}
           drift={motif.drift}
           activateOn=".group"
         />
       </span>
 
-      {/* Aipan corner, top-left only — the fractal motif already owns the
-          bottom-right, and the two would fight for the same corner. Kept
-          at 5%: this mark repeats down the whole grid, and repetition is
-          exactly what turned the dividers into wallpaper. Here it should
-          register as texture on the card, never as an ornament on it. */}
+      {/* A light scrim across the copy. The motif is out of the way of
+          the first three lines now, but the description still runs into
+          its corner, and hover brightens the drawing underneath it. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(105deg, var(--color-mist) 26%, color-mix(in srgb, var(--color-mist) 70%, transparent) 62%, transparent 88%)",
+        }}
+      />
+
+      {/* Aipan corner — texture on the card, never an ornament on it. */}
       <AipanMark
         motif="corner"
         size={30}
-        className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.05]"
+        className="pointer-events-none absolute left-1.5 top-1.5 text-ink opacity-[0.06]"
       />
 
       <div className="relative flex items-start justify-between gap-3">
         {/* The plate is the card's OWN band laid thinly, and the same band
-            at full strength on hover — so the number, the motif behind it
-            and the card all say one colour. The old three-entry TINTS
-            table cycled three arbitrary pastels across six cards, which
-            meant card 1 and card 4 matched for no reason at all. */}
+            at full strength on hover — so the number and the card agree. */}
         <span
           className="band-plate band-plate--lift grid place-items-center w-14 h-14 rounded-2xl font-display text-xl text-ink transition-colors duration-300 group-hover:text-white"
           style={{ ["--band" as string]: band }}
         >
           {num}
         </span>
-        {/* A venture is either not open yet, or somewhere you can go — never both.
-            The status chip stays hidden until the card is hovered. */}
         {venture.status ? (
-          <span className="mt-1 shrink-0 rounded-full border border-line bg-paper px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="mt-1 shrink-0 rounded-full border border-line bg-paper/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
             {venture.status}
           </span>
         ) : venture.href ? (
@@ -152,11 +267,22 @@ const VentureCard = ({
         ) : null}
       </div>
 
+      {/* TEXT COLOURS. The title stays full ink and the tagline stays the
+          accent — both already clear the ground with room to spare. The
+          description was `muted`, which is tuned for flat mist; over a
+          drawing it is the one line that gets into trouble, so it moves
+          to ink at 78%, which is darker than muted was and reads as the
+          same grey. */}
       <h3 className="relative mt-7 font-display text-ink text-2xl md:text-[1.7rem] leading-tight">
         {venture.title}
       </h3>
+      {/* Four percent off the accent. Over plain mist `accent-ink` is
+          fine, but over the busiest ground the fractal can make it
+          measured 4.41:1 — under the floor for text this size. This is
+          the lightest step that clears it, so the tagline still reads as
+          the accent rather than as a different colour. */}
       <p className="relative mt-1.5 text-accent-ink font-medium">{venture.tagline}</p>
-      <p className="relative mt-4 text-muted leading-relaxed">{venture.desc}</p>
+      <p className="relative mt-4 text-ink/[0.78] leading-relaxed">{venture.desc}</p>
     </>
   );
 
@@ -198,13 +324,11 @@ const Services = ({ showHeader = true }: { showHeader?: boolean }) => {
       id="services"
       className="relative bg-mist py-24 md:py-32 border-t border-line overflow-hidden"
     >
-      {/* Section-wide fern, rising from the bottom edge and fading out well
-          before the copy — the quiet bed the six card motifs sit on. */}
-      <FractalBackdrop
-        variant="fern"
-        opacity={0.14}
-        mask="radial-gradient(95% 100% at 50% 100%, #000 0%, transparent 82%)"
-      />
+      {/* No section-wide fern. It rose from the bottom edge as "the quiet
+          bed the six card motifs sit on", but each venture card already
+          carries its own fractal, so the bed competed with the things it
+          was meant to support — two layers of the same idea at two
+          opacities. The cards keep theirs; the section ground stays plain. */}
       <div className="relative max-w-325 mx-auto px-6 md:px-12">
         {/* Header */}
         {showHeader && (

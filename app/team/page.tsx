@@ -25,6 +25,8 @@ export default function TeamPage() {
       <UiAnimations />
       <Header />
 
+
+      <main id="main-content">
       {/* Hero */}
       <section className="relative bg-black text-paper overflow-hidden">
         <div className="absolute inset-0 bg-dots-light opacity-50 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
@@ -62,6 +64,8 @@ export default function TeamPage() {
 
       {/* Team grid (header lives in the hero above) */}
       <Team showHeader={false} />
+
+      </main>
 
       <Footer />
     </>

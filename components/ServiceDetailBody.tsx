@@ -51,7 +51,7 @@ const DisciplineRow = ({
       <span
         className={`shrink-0 grid place-items-center w-11 h-11 md:w-12 md:h-12 rounded-full border transition-all duration-300 ${
           isOpen
-            ? "bg-teal border-teal text-ink rotate-45"
+            ? "bg-violet border-violet text-ink rotate-45"
             : "border-line text-ink group-hover:border-ink"
         }`}
         aria-hidden="true"

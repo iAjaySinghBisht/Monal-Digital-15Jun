@@ -74,6 +74,8 @@ export default async function BlogPostPage({
       <UiAnimations />
       <Header />
 
+
+      <main id="main-content">
       {/* Article hero */}
       <section className="relative bg-black text-paper overflow-hidden">
         <div className="absolute inset-0 bg-dots-light opacity-50 pointer-events-none [mask-image:radial-gradient(80%_60%_at_50%_0%,#000,transparent)]" />
@@ -208,6 +210,8 @@ export default async function BlogPostPage({
           </div>
         </section>
       )}
+
+      </main>
 
       <Footer />
     </>

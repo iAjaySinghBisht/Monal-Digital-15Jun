@@ -103,7 +103,7 @@ export const stats = {
 /* Listed in display order — three per row on desktop. */
 export const brands: Brand[] = [
   {
-    name: "Lunar-X",
+    name: "Lunar X",
     logo: "/assets/brands/lunar-x.png",
     noTint: true,
   },
