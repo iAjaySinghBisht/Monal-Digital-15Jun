@@ -75,7 +75,7 @@ const About = () => {
                 under AA even for large text — against ink's 8.41:1. White
                 was right while this card was the pink accent (3.83:1); it
                 is not right here. */}
-            <article className="card card-hover bg-violet border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+            <article className="card card-hover bg-teal border-transparent text-ink p-7 md:p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
               <AipanMark
                 motif="corner"
                 size={38}

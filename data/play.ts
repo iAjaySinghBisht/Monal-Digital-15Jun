@@ -29,7 +29,7 @@ export const TOYS: readonly Toy[] = [
     blurb: "Make the colours inside the MONAL letters flow like water.",
     intro:
       "Our logo is one frozen frame of a fractal. Move the sliders and the colours start moving again — the letters stay exactly where they are.",
-    tint: "bg-lav",
+    tint: "bg-teal-soft",
     aspect: "705 / 170",
     embeddable: true,
   },

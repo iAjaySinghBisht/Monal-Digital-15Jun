@@ -12,6 +12,44 @@ import { SPECTRUM } from "@/lib/palette";
 import { services } from "@/data/constants";
 import AipanBorder from "./AipanBorder";
 
+/* ------------------------------------------------------------------ *
+ *  THE RANGES ARE ONE RAMP, not four colours that happen to sit near
+ *  each other. Every range is the SAME teal band, mixed further toward
+ *  the footer's own black the further back it sits, until the last is
+ *  barely a shade above the page. Depth is carried by value alone — one
+ *  hue, four distances.
+ *
+ *  NOTHING HERE REACHES THE RAW BAND. The nearest ridge briefly did, and
+ *  full-strength teal is too much colour for a shape this size: it is the
+ *  widest object in the footer, it renders OVER the wordmark, and at 100%
+ *  it stopped being a landscape behind the logo and became a teal bar
+ *  across it. The ramp now starts at 60% — a deep teal that still reads
+ *  as the brand rather than as a dark neutral, with the band itself left
+ *  to the things that are meant to be pressed.
+ *
+ *  IT USED TO RUN THE OTHER WAY, and that is the change worth naming.
+ *  The old ramp was atmospheric perspective out of landscape painting:
+ *  the near range darkest and near-black, the far ones lighter and
+ *  hazier, because distance scatters light and drains contrast. This
+ *  reverses it — the near range is the brightest thing in the footer and
+ *  the distance falls away into black. It is the less literal of the two
+ *  and the more legible on a black page: haze needs a bright sky behind
+ *  it to read as haze, and this footer has none, so the pale far ranges
+ *  were reading as grey fog rather than as distance.
+ *
+ *  THE STEPS HALVE — 60, 30, 15 — because equal steps do not look equal.
+ *  Value is perceived closer to logarithmically than linearly, so a
+ *  linear 60/40/20 ramp reads as two dark ranges and one lighter one.
+ *  Halving keeps each gap looking like the same gap, and it is why
+ *  lowering the front of the ramp meant moving all three rather than
+ *  darkening one range and leaving a hole behind it.
+ *
+ *  Mixed toward #000 exactly, not a near-black: the footer is bg-black,
+ *  so the far end of the ramp resolves to the ground it sits on and the
+ *  last range dissolves rather than silhouetting against it. */
+const rangeFill = (strength: number) =>
+  `color-mix(in srgb, var(--color-teal) ${strength}%, #000)`;
+
 const SocialIcon = ({
   children,
   href = "#",
@@ -43,8 +81,11 @@ const FooterLink = ({ href, children }: { href: string; children: ReactNode }) =
       href={href}
       className="group inline-flex min-h-11 items-center gap-2 py-1 text-white/60 hover:text-white transition-colors"
     >
-      {/* The growing rule marks a link, so it takes the accent — violet is
-          an identity band and may not carry meaning. */}
+      {/* The growing rule marks a link, so it takes the ACCENT token and
+          not `teal`, even though the two resolve to the same hex. The
+          distinction is the whole tier system: this one means "you can act
+          on this", and if the accent ever moves off the band this rule
+          follows it. An identity band would not. */}
       <span className="w-0 h-[1.5px] bg-accent transition-all duration-300 group-hover:w-4" />
       {children}
     </Link>
@@ -221,9 +262,12 @@ const Footer = () => {
             trace each other, and given a deeper `drop` the nearer it is —
             close valleys read as cut, far ones as hazed over.
 
-            Reading up the frame: deep-purple foothills, accent, violet, and
-            snow furthest back. Distance drains colour, which is why the far
-            range is the pale one — it is the only one above the snowline.
+            Reading up the frame: a deep teal at your feet, then the same
+            band at half and a quarter of that as the ranges recede, then the
+            snow. Depth is one hue at four values — see `rangeFill` above for
+            why it runs bright-to-black rather than the other way, why
+            nothing reaches the raw band, and why the steps halve instead of
+            stepping evenly.
 
             The snow range's mask runs the OPPOSITE way to the others. They
             fade out towards the top so their peaks dissolve into the footer;
@@ -245,14 +289,23 @@ const Footer = () => {
         >
           <path
             d={ridgePath(KUMAON_SKYLINE, 1440, 520, 150, 0.34)}
-            /* Deliberately NOT a spectrum band: this range is above the
-               snowline, and snow is the absence of hue. A pale neutral
-               with a trace of the violet in it. */
-            fill="#eaecf7"
-            /* 0.45 was tuned against a near-black GREEN canvas. Over this
-               footer's true black the same value reads as a grey haze
-               rather than a snowline, so it sits lower here. */
-            fillOpacity="0.3"
+            /* THE ONE RANGE OUTSIDE THE RAMP, and the only reason it is
+               allowed to be is that it is not a distance — it is an
+               ALTITUDE. Everything below is the same teal at four depths;
+               this sits above the snowline, where the rule stops being
+               "further away" and becomes "high enough to be white". Snow is
+               the absence of hue, so it stays a pale neutral carrying only a
+               trace of the range beneath it. */
+            fill="#e3f0f2"
+            /* DROPPED FROM 0.3 TO 0.14 when the ramp inverted. The old
+               scheme got lighter with distance, so a pale cap at the back
+               was the end of a progression and belonged there. Now the
+               distance falls away to black and this is the only bright
+               thing behind the ridges — at 0.3 it stopped reading as a
+               snowline and started reading as the ramp failing at the last
+               step. Faint enough to be a gleam on the far summits, which is
+               all it was ever meant to be. */
+            fillOpacity="0.14"
           />
         </svg>
 
@@ -265,8 +318,18 @@ const Footer = () => {
           preserveAspectRatio="none"
           className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
         >
-          {/* Azure — the range below the snowline. Furthest of the two, so
-              it takes the bluer band: distance drains warmth. */}
+          {/* THE FAR RANGE — third step of the ramp, and the last one with
+              any colour left in it. This was azure, the one range that took
+              a different band on the argument that distance drains warmth.
+              A second hue cannot survive a ramp built on value: at 15% it
+              would be a blue-black next to a teal-black, which reads as a
+              printing error rather than as depth. One hue, four distances.
+
+              PAINTED OPAQUE NOW, where these two were 0.16 and 0.2. Low
+              alpha was how the old atmospheric version worked — ranges
+              showing THROUGH each other like haze. A value ramp wants the
+              opposite: each ridge occludes the one behind it, so the
+              silhouettes stay crisp and the depth comes from the steps. */}
           <path
             d={ridgePath(
               [...KUMAON_SKYLINE.slice(2), ...KUMAON_SKYLINE.slice(0, 2)],
@@ -275,10 +338,11 @@ const Footer = () => {
               232,
               0.48,
             )}
-            style={{ fill: "var(--color-azure)" }}
-            fillOpacity="0.16"
+            style={{ fill: rangeFill(15) }}
           />
-          {/* Violet — nearer still, sitting just above the foothills. */}
+          {/* The middle step — nearer still, sitting just above the
+              foothills, at a little under half the strength of the ridge in
+              front of it. */}
           <path
             d={ridgePath(
               [...KUMAON_SKYLINE.slice(4), ...KUMAON_SKYLINE.slice(0, 4)],
@@ -287,8 +351,7 @@ const Footer = () => {
               312,
               0.62,
             )}
-            style={{ fill: "var(--color-violet)" }}
-            fillOpacity="0.2"
+            style={{ fill: rangeFill(30) }}
           />
         </svg>
 
@@ -310,7 +373,20 @@ const Footer = () => {
           className="pointer-events-none absolute inset-x-0 bottom-0 w-full h-[140%] [mask-image:linear-gradient(to_top,#000_55%,transparent)]"
         >
           {/* Nearest range — the foothills you actually stand on, so the
-              same profile flattened right down and shifted again. */}
+              same profile flattened right down and shifted again.
+
+              THE TOP OF THE RAMP, but not the raw band — 60%, a deep teal.
+              It reached 100% for one pass and was too much: this shape is
+              the widest thing in the footer and it renders OVER the
+              wordmark, so at full strength it read as a teal bar across the
+              logo rather than as ground in front of it. 60% keeps it
+              obviously teal while leaving the band itself to the accent.
+
+              It was the DARKEST range before the ramp inverted — teal taken
+              58% of the way to black — so near enough this same value,
+              arrived at from the opposite direction. The layer's own mask
+              still fades it out towards the top, so even 60% is only
+              reached along the very bottom edge of the page. */}
           <path
             d={ridgePath(
               [...KUMAON_SKYLINE.slice(5), ...KUMAON_SKYLINE.slice(0, 5)],
@@ -319,10 +395,7 @@ const Footer = () => {
               392,
               0.75,
             )}
-            /* The darkest range, so the violet band taken most of the way
-               down to black rather than an unrelated navy. */
-            style={{ fill: "color-mix(in srgb, var(--color-violet) 42%, #06060b)" }}
-            fillOpacity="1"
+            style={{ fill: rangeFill(60) }}
           />
         </svg>
 

@@ -21,9 +21,9 @@
  *                          the focus ring — the two jobs the raw band
  *                          cannot do on a pale ground.
  *      --color-accent-2    the SECOND state, not a second accent. The
- *                          violet band. Hover and press only — it never
- *                          appears on anything at rest, so it cannot
- *                          start competing for "act".
+ *                          same teal band sunk toward ink. Hover and press
+ *                          only — it never appears on anything at rest, so
+ *                          it cannot start competing for "act".
  *      ink / paper / mist / cloud / line / muted — structure.
  *
  *  MAGENTA IS NO LONGER THE ACCENT. It was the logo's dominant band and
@@ -64,10 +64,11 @@
  *              Picking one band by hand is how six cards ended up with
  *              six unrelated hues answering to nothing.
  *
- *    SIGNATURE --color-violet, for recurring decoration that is NOT a
+ *    SIGNATURE --color-teal, for recurring decoration that is NOT a
  *              series and so has no set to walk: the eyebrow diamond, the
  *              pull quotes, the big tinted card surfaces. Same mark, same
- *              colour, everywhere.
+ *              colour, everywhere — in the two forms set out below, chosen
+ *              by the ground the mark lands on.
  *
  *    HIGHLIGHT --color-sun, and ONLY as a fill behind ink at size: the
  *              marker behind a heading word, and the selection. This is
@@ -75,8 +76,9 @@
  *              highlighter pen (12.12:1 under ink), and the one band that
  *              can do nothing else.
  *
- *  The pale plates (lav, mint, peach, sky, teal-soft) are bands laid
- *  thinly — tier 2, derived, never independent.
+ *  The pale plates (mint, peach, sky, teal-soft) are bands laid thinly —
+ *  tier 2, derived, never independent. `lav` was the violet plate and went
+ *  with the signature; its call sites took teal-soft.
  *
  *  THE ONE SANCTIONED OVERLAP, AGAIN. --color-accent IS the teal band,
  *  exactly, as it was once magenta exactly. Tier 1 and tier 2 share that
@@ -91,25 +93,40 @@
  *  disc with an arrow) and lets colour reinforce rather than carry it.
  *  A test fails if the accent drifts off the band.
  *
- *  THE SIGNATURE AND THE ACCENT MAY NOT BE THE SAME BAND. Teal is the
- *  accent now, so the signature had to leave teal — otherwise a pull
- *  quote is the exact colour of a button and "you can act on this" stops
- *  meaning anything. It went to violet.
+ *  THE SIGNATURE AND THE ACCENT ARE NOW THE SAME BAND, ON PURPOSE. This
+ *  file used to argue the opposite, and the argument was sound: teal is
+ *  the accent, so a pull quote wearing teal is the exact colour of a
+ *  button and "you can act on this" gets quieter. The signature was
+ *  violet for exactly that reason. Purple is out of the brand by
+ *  instruction, and of the seven bands left, teal is the one the identity
+ *  actually leans on — so the signature came to it and the cost is taken
+ *  knowingly rather than pretended away.
  *
- *  WHY THE SIGNATURE SPLIT IN TWO. The obvious move was to send the whole
- *  signature to sun and be done. Sun is 1.46:1 on white — the least
- *  legible band there is — and the signature's jobs are not all the same
- *  job. The eyebrow DIAMOND is a small solid glyph on a pale pill, which
- *  WCAG holds to 3:1 as a non-text mark; in sun it is 1.46:1 and simply
- *  disappears. (It was teal before, at 2.11:1, and was already failing
- *  that bar — violet is 3.74:1 and is the first value here that passes.)
- *  The heading MARKER is the opposite case: a fill behind ink at display
- *  size, where sun's lightness is the whole point and any deeper band
- *  makes it look like a redaction rather than a highlighter.
+ *  WHAT CARRIES THE MEANING NOW IS FORM, not hue. It is the same trade
+ *  already made for the one sanctioned overlap above, spent again and
+ *  wider: a filled pill with an arrow is a button, a full-bleed card is a
+ *  quote, a 12px diamond is an eyebrow. Colour reinforces; shape decides.
+ *  If a control ever becomes hard to spot, this is the paragraph that was
+ *  wrong, and the fix is to move the ACCENT to a band of its own — not to
+ *  scatter the signature back across three hues.
  *
- *  So the rule is by GROUND, not by taste: sun where the band sits behind
- *  ink, violet where the band has to hold its own edge against paper. A
- *  band never becomes text in either case.
+ *  THE SIGNATURE STILL SPLITS IN TWO, by ground, exactly as before — only
+ *  now both halves are teal. The heading MARKER stays `sun`: it is a fill
+ *  behind ink at display size, where sun's lightness is the whole point
+ *  and any deeper band reads as a redaction rather than a highlighter.
+ *  Everything else asks one question — is this mark a SURFACE, or an EDGE?
+ *
+ *    SURFACE  --color-teal, the raw band, wherever it sits behind ink:
+ *             the tinted cards, the pull quotes, the dot on a dark panel.
+ *             Ink on it is 8.41:1, up from violet's 4.74:1.
+ *    EDGE     --color-teal-deep, wherever a small mark has to hold its own
+ *             edge against paper: the eyebrow diamond, the pull-quote
+ *             rule. The raw band is 2.11:1 on white and fails the 3:1 WCAG
+ *             holds a non-text mark to; the deep form is 5.22:1. Violet
+ *             passed that bar at 3.74:1 with nothing spare, so this is the
+ *             one place the swap made a mark MORE legible, not less.
+ *
+ *  A band never becomes text in either case.
  *
  *  ---------------------------------------------------------------- *
  *  TIER 3 — THE ONE EXCEPTION. Aipan's pigment: #a81f16 brick red and
@@ -148,12 +165,21 @@
      surface is never dark enough to be a word on one. Same hue as the
      fill to within 0.02deg, which a test enforces. */
   --color-accent-ink: #157777;
-  /* THE SECOND STATE, NOT A SECOND ACCENT. The violet band, carrying ink
-     at 4.74:1. It appears on hover and press and nowhere else — a colour
-     that only exists while you are touching something cannot drift into
-     meaning "act" on its own, which is exactly how the green that this
-     palette pass killed got started. */
-  --color-accent-2: #8b6bfd;
+  /* THE SECOND STATE, NOT A SECOND ACCENT. It appears on hover and press
+     and nowhere else — a colour that only exists while you are touching
+     something cannot drift into meaning "act" on its own, which is exactly
+     how the green that this palette pass killed got started.
+
+     THE PRESS NOW MOVES IN VALUE, NOT HUE. This was the violet band, and
+     the hand-off teal -> violet was the point: two logo bands, so the
+     shift read as the identity moving rather than a second colour
+     arriving. With purple out of the brand there is no second band to hand
+     off to without inventing a meaning, so the state is the SAME band sunk
+     30% toward ink. Ink holds at 4.72:1 here against violet's 4.74:1 — the
+     floor across both states is unchanged to within a rounding error,
+     which was the property worth keeping. What is lost is the hue shift:
+     the press is now a deepening, and reads quieter than it did. */
+  --color-accent-2: #209293;
 
   /* Onest everywhere — self-hosted via next/font (--font-onest, set in layout). */
   --font-display: var(--font-onest), system-ui, sans-serif;
@@ -205,22 +231,36 @@
      it is mixed from, or it becomes an independent colour, which is the
      thing this palette exists to prevent. */
   --color-peach: color-mix(in srgb, var(--color-tangerine) 18%, white);
-  --color-lav: color-mix(in srgb, var(--color-violet) 14%, white);
   --color-mint: color-mix(in srgb, var(--color-leaf) 22%, white);
   --color-sky: color-mix(in srgb, var(--color-azure) 18%, white);
-  --color-teal-soft: color-mix(in srgb, var(--color-teal) 35%, white);
+  /* Retuned from 35% to 18%, the same strength as peach and sky. It was
+     the one plate with no call sites, so 35% had never been checked
+     against the others; it inherited every use of `lav` (violet at 14%)
+     when the signature moved, and at 35% those chips and pills would have
+     read a full step heavier than the tint they replaced. 15.41:1 under
+     ink, within a hair of lav's 15.09:1. */
+  --color-teal-soft: color-mix(in srgb, var(--color-teal) 18%, white);
 
   /* A plate laid the other way: the same band mixed toward INK rather than
-     white, for the one case a band has to sit UNDER white copy — the split
-     panels on the contact and careers pages. The raw band is 2.11:1 behind
-     white and unusable there; at 55% it reaches 5.22:1, which is where the
-     magenta it replaces already sat (5.24:1), so those panels keep the
-     legibility they had.
+     white. THE SIGNATURE'S EDGE FORM — see THE PALETTE above. When the
+     signature moved to teal, the small marks that used to be violet on
+     paper (the eyebrow diamond at 3.74:1, the pull-quote rule) needed a
+     value clearing the 3:1 WCAG holds a non-text mark to, and the raw band
+     is 2.11:1 there. At 55% this is 5.22:1.
+
+     IT WAS BUILT FOR A JOB IT NO LONGER HAS, which is worth recording so
+     the 55% is not read as arbitrary. It existed to be a GROUND under white
+     copy — the split panels on the contact and careers pages — and 55% is
+     precisely the lightest teal that holds white at AA, matched to the
+     5.24:1 the magenta before it managed. Those panels have since turned
+     their copy to ink and climbed into the light half of the ramp, so
+     nothing carries white on teal any more. The value survives because the
+     number that made it the lightest safe GROUND also makes it a legible
+     MARK, and re-deriving it for the second job lands in the same place.
 
      Not an `-ink` sibling returning: those were bands darkened so they
-     could pretend to be TEXT, and a test still forbids them. This is a
-     GROUND, derived from the band by the same rule as the pale plates, and
-     it may never carry copy itself. */
+     could pretend to be TEXT, and a test still forbids them. Still never
+     copy — a glyph is not a word. */
   --color-teal-deep: color-mix(in srgb, var(--color-teal) 55%, var(--color-ink));
 }
 
@@ -294,7 +334,7 @@
 .font-heavy { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; }
 
 /* Highlighted heading word — a soft rounded marker behind the text.
-   ONE flavour. There were two (`sun` and `violet`) alternating down the
+   ONE flavour. There were two (`sun` and the signature) alternating down the
    page with no rule saying which belonged where, so the same device meant
    two different things depending on where you met it. A highlight is a
    singleton — there is no series for it to walk — so it takes the
@@ -475,7 +515,7 @@
 .peak-pin--end:hover .peak-label { transform: translateX(0) translateY(0); }
 
 /* Pill buttons + bento cards live in the components layer so Tailwind
-   utility colours (e.g. bg-lav, bg-sun) can still override their default
+   utility colours (e.g. bg-teal-soft, bg-sun) can still override their default
    surface — utilities outrank the components layer. */
 @layer components {
   .btn {
@@ -516,12 +556,14 @@
      legible control on the site, and it is how the wordmark is drawn —
      ink over colour, never colour over ink.
 
-     THE PRESS CHANGES HUE, NOT JUST WEIGHT. Magenta could only deepen
-     towards itself. Teal hands off to violet, and because both are logo
-     bands the shift reads as the identity moving rather than as a second
-     colour arriving. Ink holds at 4.74:1 there, so the pressed state
-     stays over the bar too — the floor across both states, not the
-     ceiling of one. */
+     THE PRESS DEEPENS, and that is a step back from where this was.
+     Magenta could only deepen towards itself; teal briefly handed off to
+     violet, and because both were logo bands the shift read as the
+     identity moving. With purple out of the brand the press is the same
+     band sunk toward ink — see --color-accent-2. Ink holds at 4.72:1
+     against violet's 4.74:1, so the floor across both states is intact;
+     what went is the hue change that made the press obvious at a glance.
+     The lift and the shadow are carrying more of that signal now. */
   .btn-primary {
     background: var(--color-accent);
     color: var(--color-ink);
@@ -531,7 +573,7 @@
     background: var(--color-accent-2);
     color: var(--color-ink);
     transform: translateY(-2px);
-    box-shadow: 0 22px 46px -18px rgba(139, 107, 253, 0.7);
+    box-shadow: 0 22px 46px -18px rgba(32, 146, 147, 0.7);
   }
   .btn-outline {
     background: transparent;
@@ -763,7 +805,7 @@ body.is-embed.has-custom-cursor * {
  *  The three states differ in FORM, not hue, which is what lets one
  *  accent carry the whole system. The dot is ink rather than accent
  *  precisely because accent has a job now: if the resting pointer were
- *  also purple, the colour would stop meaning "you can act on this". */
+ *  also teal, the colour would stop meaning "you can act on this". */
 
 /* GO — filled, with an arrow. The arrow is the whole point: it names the
    action rather than leaving you to infer it from a size change. */

@@ -116,7 +116,7 @@ export function PaletteChoice({
               title={p.name}
               onClick={() => onChange(p.id)}
               className={`flex h-11 items-center gap-2 rounded-full border pr-4 pl-1.5 transition-colors ${
-                active ? "border-accent bg-lav" : "border-line bg-paper hover:border-ink/30"
+                active ? "border-accent bg-teal-soft" : "border-line bg-paper hover:border-ink/30"
               }`}
             >
               <span className="flex h-8 w-8 overflow-hidden rounded-full">

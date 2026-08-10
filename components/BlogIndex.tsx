@@ -60,7 +60,7 @@ export default function BlogIndex({
               </div>
               <div className="p-7 md:p-10 flex flex-col">
                 <div className="flex items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-accent-ink mb-5">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-lav px-3 py-1">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-teal-soft px-3 py-1">
                     {featured.category}
                   </span>
                   <span className="text-muted normal-case tracking-normal font-medium">

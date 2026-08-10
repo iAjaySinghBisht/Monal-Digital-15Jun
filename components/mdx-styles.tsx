@@ -44,7 +44,7 @@ export const mdxComponents = {
   ),
   blockquote: (props: Props<"blockquote">) => (
     <blockquote
-      className="my-8 border-l-[3px] border-violet pl-6 py-1 font-display text-[clamp(1.25rem,2.6vw,1.7rem)] leading-snug tracking-tight text-ink"
+      className="my-8 border-l-[3px] border-teal-deep pl-6 py-1 font-display text-[clamp(1.25rem,2.6vw,1.7rem)] leading-snug tracking-tight text-ink"
       {...props}
     />
   ),
