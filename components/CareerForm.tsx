@@ -63,19 +63,22 @@ const toBase64 = (file: File) =>
     reader.readAsDataURL(file);
   });
 
-// Decorative graphics for the blue half — rings, pattern, and pastel shapes.
+/* Decoration for the brand half. Tinted by POSITION — see the fuller note
+   on the contact panel, which is the same device. The ramp is pale at the
+   top-left and the full band at the bottom-right, so deep teal goes where
+   the ground is palest and white where it is most saturated. */
 const Graphics = () => (
   <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
-    <div className="absolute inset-0 bg-dots-light opacity-40 [mask-image:radial-gradient(90%_80%_at_25%_15%,#000,transparent)]" />
-    <span className="absolute -top-20 -left-16 w-72 h-72 rounded-full bg-violet/45 blur-3xl" />
-    <svg className="absolute -bottom-20 -right-20 w-80 h-80 text-white/12" viewBox="0 0 200 200" fill="none">
+    <div className="absolute inset-0 bg-dots opacity-60 [mask-image:radial-gradient(90%_80%_at_25%_15%,#000,transparent)]" />
+    <span className="absolute -top-20 -left-16 w-72 h-72 rounded-full bg-teal/60 blur-3xl" />
+    <svg className="absolute -bottom-20 -right-20 w-80 h-80 text-white/45" viewBox="0 0 200 200" fill="none">
       <circle cx="100" cy="100" r="92" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="66" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-violet shadow-[0_10px_30px_-8px_rgba(139,107,253,0.7)]" />
-    <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-mint rotate-12" />
-    <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/35" />
+    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-teal-deep shadow-[0_10px_30px_-8px_rgba(30,120,122,0.55)]" />
+    <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-paper rotate-12" />
+    <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/70" />
   </div>
 );
 
@@ -202,24 +205,26 @@ export default function CareerForm() {
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
-            {/* Left — brand half with graphics. The ramp starts at the DEEP
-                teal, not the bright band: this panel carries white copy,
-                and bright teal under white is 2.11:1 against the deep
-                tone's 5.22:1. */}
-            <div className="relative bg-linear-to-br from-teal-deep to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
+            {/* Left — brand half with graphics. A light panel: the copy went
+                to INK, which is what let the ground climb from a darkened
+                stand-in teal to the brand's own band. Ink is 8.41:1 on the
+                band and 15.41:1 on the pale plate, so both ends of the ramp
+                hold type with room to spare. See the contact panel for the
+                full reasoning — the two are the same device on two pages. */}
+            <div className="relative bg-linear-to-br from-teal-soft to-teal text-ink p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[640px]">
               <Graphics />
               <div className="relative">
-                <Eyebrow tone="dark">Apply now</Eyebrow>
+                <Eyebrow tone="light">Apply now</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
-                  Tell us about <span className="text-teal">yourself</span>.
+                  Tell us about <span className="mark">yourself</span>.
                 </h2>
-                <p className="mt-5 text-white/75 leading-relaxed max-w-sm">
+                <p className="mt-5 text-ink/75 leading-relaxed max-w-sm">
                   Share your details and attach your résumé. If there&apos;s a fit,
                   a real person from our team will reach out.
                 </p>
               </div>
-              <div className="relative mt-10 inline-flex items-center gap-2.5 self-start rounded-full bg-white/10 border border-white/20 px-4 py-2 text-sm text-white/85">
-                <span className="w-2 h-2 rounded-full bg-mint animate-pulse-dot" />
+              <div className="relative mt-10 inline-flex items-center gap-2.5 self-start rounded-full bg-paper/70 border border-ink/10 px-4 py-2 text-sm text-ink/80">
+                <span className="w-2 h-2 rounded-full bg-teal-deep animate-pulse-dot" />
                 We review every application
               </div>
             </div>

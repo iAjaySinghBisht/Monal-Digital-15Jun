@@ -35,7 +35,7 @@ const Caption = ({ children }: { children: React.ReactNode }) => (
     <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-transparent" />
     <div className="absolute bottom-0 inset-x-0 p-5 md:p-6">
       <span className="inline-flex items-center gap-2 text-white font-display text-base md:text-lg drop-shadow-[0_4px_14px_rgba(0,0,0,0.6)]">
-        <span className="w-1.5 h-1.5 rounded-full bg-violet" />
+        <span className="w-1.5 h-1.5 rounded-full bg-teal" />
         {children}
       </span>
     </div>
@@ -58,7 +58,7 @@ const AboutStory = () => {
                at any size — against ink's 8.41:1, so the copy flips with
                the ground rather than staying white as it was on the pink
                accent. Matches the namesake card in the About section. */
-            className="group card card-hover bg-violet border-transparent lg:col-span-7 p-8 md:p-11 flex flex-col justify-center"
+            className="group card card-hover bg-teal border-transparent lg:col-span-7 p-8 md:p-11 flex flex-col justify-center"
           >
             <h2
               data-split
@@ -167,7 +167,7 @@ const AboutStory = () => {
               The dot texture flipped with it: `bg-dots-light` is white
               dots, drawn for a dark ground, and on teal it read as haze.
               `bg-dots` is the ink version and gives the same texture. */}
-          <article className="lg:col-span-4 min-h-[420px] md:min-h-[560px] rounded-3xl bg-violet text-ink p-8 md:p-10 flex flex-col justify-between overflow-hidden relative">
+          <article className="lg:col-span-4 min-h-[420px] md:min-h-[560px] rounded-3xl bg-teal text-ink p-8 md:p-10 flex flex-col justify-between overflow-hidden relative">
             <div className="absolute inset-0 bg-dots opacity-40 pointer-events-none [mask-image:radial-gradient(70%_60%_at_80%_0%,#000,transparent)]" />
             <span className="relative text-[12px] font-semibold uppercase tracking-[0.22em] text-ink">
               Our Mission
@@ -218,8 +218,8 @@ const AboutStory = () => {
             </p>
 
             <div className="relative mt-auto h-44">
-              <div className="absolute right-3 bottom-0 w-44 h-40 rounded-3xl bg-lav" />
-              <span className="absolute left-0 bottom-8 -rotate-6 rounded-2xl bg-violet text-ink font-display text-sm px-4 py-3 leading-none shadow-[0_14px_30px_-12px_rgba(35, 198, 199,0.9)] z-10">
+              <div className="absolute right-3 bottom-0 w-44 h-40 rounded-3xl bg-teal-soft" />
+              <span className="absolute left-0 bottom-8 -rotate-6 rounded-2xl bg-teal text-ink font-display text-sm px-4 py-3 leading-none shadow-[0_14px_30px_-12px_rgba(35,198,199,0.9)] z-10">
                 Original<br />IP
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}

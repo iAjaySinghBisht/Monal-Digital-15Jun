@@ -70,7 +70,7 @@ export const Diamond = ({
 /* Section eyebrow — a small rounded chip with the nested diamond.
    tone "light" sits on light backgrounds, "dark" on dark panels.
 
-   THE DIAMOND HAS NO COLOUR PROP. It used to take accent, sun or violet
+   THE DIAMOND HAS NO COLOUR PROP. It used to take accent, sun or purple
    per call site, decided ad hoc — twenty-one eyebrows across the site and
    nothing saying which hue belonged to which section, so the mark meant
    something different every time you met it. An eyebrow is a singleton,
@@ -91,10 +91,20 @@ export const Eyebrow = ({
   className?: string;
   tone?: "light" | "dark";
 }) => {
+  /* THE DIAMOND'S FORM FOLLOWS THE TONE, and it did not have to before.
+     Violet was one value that cleared the 3:1 bar on both grounds (3.74:1
+     on the pale pill, and it is a logo band so it read on the dark one).
+     Teal cannot be one value: the raw band is 2.11:1 on paper and vanishes
+     there, while the deep form is 1.4:1 on a dark panel and vanishes the
+     other way. So the mark takes the SURFACE form on dark and the EDGE
+     form on light — the split already set out in THE PALETTE, applied to
+     the one component that meets both grounds. Still no colour prop: the
+     ground picks the form, never the call site. */
   const tones = {
     light: "bg-paper border-line text-ink/70",
     dark: "bg-white/10 border-white/20 text-white/80",
   };
+  const diamond = { light: "text-teal-deep", dark: "text-teal" };
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] ${tones[tone]} ${className}`}
@@ -104,7 +114,7 @@ export const Eyebrow = ({
           beside 12px caps; at 12 the diamond's width equals the cap height,
           so the mark and the letters share one measure. Same figure and
           same proportions as the band, drawn a little larger. */}
-      <Diamond className="text-violet" />
+      <Diamond className={diamond[tone]} />
       {children}
     </span>
   );

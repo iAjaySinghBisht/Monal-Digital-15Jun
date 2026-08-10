@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { prefersReducedMotion } from "@/hooks/useUiAnimations";
 
 /* Minimalist cursor — a single ink dot that softly trails the pointer and
-   blooms (to brand purple, via the .cursor-dot--hover CSS rule) over any
+   blooms (to the accent, via the .cursor-dot--hover CSS rule) over any
    interactive element. Colour is handled entirely in globals.css. */
 
 const CustomCursor = () => {
@@ -66,7 +66,7 @@ const CustomCursor = () => {
       dot.classList.toggle("cursor-dot--fine", Boolean(fine));
 
       /* The ink dot vanishes against dark sections (footer, service page
-         heroes). Over any .bg-ink surface, switch it to brand purple. */
+         heroes). Over any .bg-ink surface, switch it to the accent. */
       const onDark = target.closest(".bg-ink, .bg-black");
       dot.classList.toggle("cursor-dot--dark", Boolean(onDark));
 
@@ -78,7 +78,12 @@ const CustomCursor = () => {
 
          One filled button colour means one selector to care about, plus
          the accent card surfaces the cursor can also land on. */
-      const BRAND_FILL = ".btn-primary, .bg-accent";
+      /* `.bg-teal` joined the list when the signature moved onto the
+         accent's band. The two tokens resolve to the same hex now, so a
+         teal disc vanishes on a signature card exactly as it does on a
+         primary button — same failure, and it would have been invisible to
+         this selector while the class name differed. */
+      const BRAND_FILL = ".btn-primary, .bg-accent, .bg-teal";
       const onBrand =
         interactive &&
         (interactive.closest(BRAND_FILL) || interactive.matches(BRAND_FILL));

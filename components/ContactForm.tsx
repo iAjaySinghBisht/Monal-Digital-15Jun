@@ -40,25 +40,34 @@ const Field = ({
 const inputClass =
   "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent-ink/15";
 
-// Decorative graphics for the blue half — rings, pattern, and pastel shapes.
+/* Decoration for the brand half — rings, texture and floating shapes.
+   IT IS TINTED BY POSITION, because the panel is no longer one ground.
+   The ramp runs pale at the top-left to the full band at the bottom-right,
+   so a single decoration colour is wrong at one end or the other: white
+   line-work is invisible on the pale corner (1.15:1) and deep teal is
+   nearly gone on the bright one (2.48:1). Each piece therefore takes the
+   value its own corner can hold — deep teal up in the pale end, white down
+   in the saturated end. This is why the shapes are placed here rather than
+   passed in: the position and the tint are one decision. */
 const Graphics = () => (
   <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden">
-    {/* dotted texture */}
-    <div className="absolute inset-0 bg-dots-light opacity-40 [mask-image:radial-gradient(90%_80%_at_25%_15%,#000,transparent)]" />
-    {/* soft glow */}
-    <span className="absolute -top-20 -left-16 w-72 h-72 rounded-full bg-violet/45 blur-3xl" />
-    {/* concentric rings, bottom-right */}
-    <svg className="absolute -bottom-20 -right-20 w-80 h-80 text-white/12" viewBox="0 0 200 200" fill="none">
+    {/* dotted texture — the INK dots, not the white ones. This is a light
+        panel now, and bg-dots-light is white-on-dark by construction. */}
+    <div className="absolute inset-0 bg-dots opacity-60 [mask-image:radial-gradient(90%_80%_at_25%_15%,#000,transparent)]" />
+    {/* soft glow, in the pale corner — saturation where the ramp has least */}
+    <span className="absolute -top-20 -left-16 w-72 h-72 rounded-full bg-teal/60 blur-3xl" />
+    {/* concentric rings, bottom-right, over the brightest part of the ramp */}
+    <svg className="absolute -bottom-20 -right-20 w-80 h-80 text-white/45" viewBox="0 0 200 200" fill="none">
       <circle cx="100" cy="100" r="92" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="66" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="100" cy="100" r="40" stroke="currentColor" strokeWidth="1.5" />
     </svg>
-    {/* floating pastel shapes */}
-    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-violet shadow-[0_10px_30px_-8px_rgba(139,107,253,0.7)]" />
-    <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-mint rotate-12" />
-    <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/35" />
+    {/* floating shapes — deep teal high on the panel, white lower down */}
+    <span className="absolute top-10 right-12 w-14 h-14 rounded-full bg-teal-deep shadow-[0_10px_30px_-8px_rgba(30,120,122,0.55)]" />
+    <span className="absolute top-1/2 right-8 w-9 h-9 rounded-xl bg-paper rotate-12" />
+    <span className="absolute bottom-14 left-10 w-10 h-10 rounded-full border-2 border-white/70" />
     {/* squiggle */}
-    <svg className="absolute bottom-24 left-1/3 w-24 text-violet/70" viewBox="0 0 120 24" fill="none">
+    <svg className="absolute bottom-24 left-1/3 w-24 text-white/80" viewBox="0 0 120 24" fill="none">
       <path d="M2 12c8-12 16 12 24 0s16 12 24 0 16 12 24 0 16 12 24 0" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
     </svg>
   </div>
@@ -164,29 +173,50 @@ export default function ContactForm() {
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
-            {/* Left — brand half with graphics. The ramp starts at the DEEP
-                teal, not the bright band: this panel carries white copy,
-                and bright teal under white is 2.11:1 against the deep
-                tone's 5.22:1. Kept identical to the careers panel — the two
-                are the same device on two pages. */}
-            <div className="relative bg-linear-to-br from-teal-deep to-violet text-white p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[560px]">
+            {/* Left — brand half with graphics. A LIGHT PANEL, AND THE COPY
+                IS WHAT MADE IT POSSIBLE. This was a dark slab for as long as
+                it carried WHITE type, and that one decision set its floor:
+                white needs 4.5:1, the brightest teal that gives it is
+                `teal-deep` at 5.22:1, so every attempt to lighten the panel
+                ran into type that could not follow. Turning the copy to INK
+                inverts the constraint — ink is 8.41:1 on the raw band and
+                15.41:1 on the pale plate, so the whole light half of the
+                ramp opens up and the panel can finally be the brand's own
+                bright teal instead of a darkened stand-in for it.
+
+                It is the same move the primary button made, for the same
+                reason: ink over colour, never colour over ink. Even the
+                dimmed paragraph clears AA now at 5.08:1, where the white it
+                replaces was 3.69:1 and under.
+
+                Kept identical to the careers panel — the two are the same
+                device on two pages. */}
+            <div className="relative bg-linear-to-br from-teal-soft to-teal text-ink p-8 md:p-12 flex flex-col justify-between min-h-[340px] lg:min-h-[560px]">
               <Graphics />
 
               <div className="relative">
-                <Eyebrow tone="dark">Say hello</Eyebrow>
+                <Eyebrow tone="light">Say hello</Eyebrow>
                 <h2 className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] leading-[1.04] max-w-md">
                   Let&apos;s make something{" "}
-                  <span className="text-teal">great</span> together.
+                  {/* Was `text-teal`, which is now the panel itself. A word
+                      set apart takes the site's one highlight — sun behind
+                      ink, 12.12:1 — rather than a second tone of the ground
+                      it is sitting on. */}
+                  <span className="mark">great</span> together.
                 </h2>
-                <p className="mt-5 text-white/75 leading-relaxed max-w-sm">
+                <p className="mt-5 text-ink/75 leading-relaxed max-w-sm">
                   Whoever you are and whatever you&apos;re dreaming up, we&apos;re
                   here for it. Send us a message and a real person from our team
                   will get right back to you.
                 </p>
               </div>
 
-              <div className="relative mt-10 inline-flex items-center gap-2.5 self-start rounded-full bg-white/10 border border-white/20 px-4 py-2 text-sm text-white/85">
-                <span className="w-2 h-2 rounded-full bg-mint animate-pulse-dot" />
+              <div className="relative mt-10 inline-flex items-center gap-2.5 self-start rounded-full bg-paper/70 border border-ink/10 px-4 py-2 text-sm text-ink/80">
+                {/* The live dot was `mint`, a pale green that had a dark slab
+                    to sit on. On a pale chip on a teal panel it disappears;
+                    the signature's edge form is the value that reads on a
+                    near-white ground. */}
+                <span className="w-2 h-2 rounded-full bg-teal-deep animate-pulse-dot" />
                 Typically replies within a business day
               </div>
             </div>

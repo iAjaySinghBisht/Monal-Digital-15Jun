@@ -42,14 +42,17 @@ const PullQuote = ({
      act on — accent now means "you can press this" and a quote is not a
      button. Both pull quotes take the signature band.
 
-     THE ROLE LINE IS FULL INK, not a dimmed one. Ink on violet is
-     4.74:1 — it clears AA with nothing to spare, so ANY opacity below
-     100% drops it under (ink/55 lands at 2.45:1). It was already under
-     on the teal this replaced, at 3.15:1; violet just makes a failure
-     that was already there impossible to ignore. Hierarchy comes from
-     the size, weight and tracking instead, which were doing most of the
-     work anyway. */
-  const skin = { surface: "bg-violet text-ink", role: "text-ink", ring: "ring-ink/15" };
+     THE ROLE LINE IS FULL INK, not a dimmed one. This card has now worn
+     three surfaces and the rule survived all three because the reason for
+     it keeps changing while the answer does not. On the first teal it was
+     3.15:1 and already failing; on violet it was 4.74:1, clearing AA with
+     nothing to spare, so any opacity below 100% dropped it back under. On
+     the teal band it is 8.41:1, which is the first surface here with real
+     headroom — dimming would now be survivable, and it still is not worth
+     doing. Hierarchy comes from the size, weight and tracking, which were
+     doing most of the work anyway, and a rule that has to be re-derived
+     every time the surface moves is a rule that should just hold. */
+  const skin = { surface: "bg-teal text-ink", role: "text-ink", ring: "ring-ink/15" };
   return (
     <div
       data-tilt="5"

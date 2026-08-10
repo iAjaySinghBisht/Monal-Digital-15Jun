@@ -60,7 +60,7 @@ const TeamCard = ({ m, band }: { m: TeamMember; band: string }) => (
 
     {/* Info */}
     <div className="px-3 pt-5 pb-2">
-      {/* Role row — turns brand purple on hover */}
+      {/* Role row — takes the accent's text form on hover */}
       <div className="flex items-center gap-2 mb-2.5">
         <span className="w-2.5 h-2.5 rounded-full bg-accent transition-transform duration-300 group-hover:scale-125" />
         <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors duration-300 group-hover:text-accent-ink">
