@@ -9,7 +9,7 @@ import {
   ridgePoints,
 } from "@/lib/himalaya";
 import { SPECTRUM } from "@/lib/palette";
-import { services } from "@/data/constants";
+import { contact, services } from "@/data/constants";
 import AipanBorder from "./AipanBorder";
 
 /* ------------------------------------------------------------------ *
@@ -137,17 +137,20 @@ const Footer = () => {
               Get in touch
             </div>
             <div className="space-y-2 mb-6">
-              <a href="mailto:hello@monaldigital.com" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors break-all">
-                hello@monaldigital.com
+              <a href={`mailto:${contact.email}`} className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors break-all">
+                {contact.email}
               </a>
-              <a href="tel:+918200696551" className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors">
-                +91 82006 96551
+              <a href={`tel:${contact.tel}`} className="flex min-h-11 items-center text-white/80 text-lg hover:text-accent transition-colors">
+                {contact.phone}
               </a>
             </div>
             <p className="text-white/45 leading-relaxed mt-auto">
-              Monal Digital, Karan Tower, Gas Godam Road,
-              <br />
-              Haldwani, Uttarakhand, India 263139
+              {contact.address.map((line, i) => (
+                <span key={line} className="block">
+                  {line}
+                  {i === 0 && ","}
+                </span>
+              ))}
             </p>
           </div>
 

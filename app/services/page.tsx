@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UiAnimations from "@/components/UiAnimations";
-import { Eyebrow, ArrowGlyph, ArrowUpRight } from "@/components/Decor";
+import { Eyebrow, ArrowGlyph, ArrowUpRight, Pill } from "@/components/Decor";
 import { services } from "@/data/constants";
 
 export const metadata: Metadata = {
@@ -109,6 +109,17 @@ export default function ServicesPage() {
                 </Link>
               );
             })}
+          </div>
+
+          {/* Same CTA the three detail pages close on, so a reader who
+              browses the index rather than opening a service still has
+              the one exit that leads somewhere. Identical wording and
+              destination on purpose — this is the same offer, and a
+              second phrasing for it would read as a second thing. */}
+          <div data-reveal="up" className="mt-14 flex justify-center">
+            <Pill as={Link} href="/contact-us" variant="primary">
+              Discuss a project
+            </Pill>
           </div>
         </div>
       </section>

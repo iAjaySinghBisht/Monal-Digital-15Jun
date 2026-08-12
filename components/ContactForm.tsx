@@ -5,6 +5,9 @@ import Link from "next/link";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Eyebrow, ArrowGlyph } from "./Decor";
+import FractalField, { type Variant } from "./FractalField";
+import { SPECTRUM_HEX } from "@/lib/palette";
+import { contact } from "@/data/constants";
 
 // Google Apps Script web app endpoint (logs to "Monal Contact Submissions"
 // and emails the team on each submission).
@@ -39,6 +42,126 @@ const Field = ({
 
 const inputClass =
   "w-full rounded-2xl border border-line bg-paper px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent-ink/15";
+
+/* One of the three details in the card above the form.
+
+   The label is the same 12px uppercase micro-caps the form's own field
+   labels use, so the card reads as the first row of the same document
+   rather than as a separate widget that happens to sit above it.
+
+   Email and contact are links and the address is not, and that
+   difference is carried by more than colour: the two links take the
+   accent on hover AND a 44px-tall press target (WCAG 2.5.8), the same
+   floor the footer's links were raised to. The address stays plain text
+   — we have no verified map URL for the studio, and a link that lands on
+   the wrong pin is worse than an address you copy by hand. */
+/* ------------------------------------------------------------------ *
+ *  EACH DETAIL ANSWERS TO ITS OWN POINTER, and what answers is a
+ *  fractal — the same device the venture cards use, called the same way.
+ *
+ *  The motif is CHOSEN, not decorative. Each figure says the thing its
+ *  detail says:
+ *
+ *    email   hilbert  one unbroken line that reaches every cell, with a
+ *                     signal that traverses it on hover — a message
+ *                     going out and arriving.
+ *    contact htree    the layout real antenna and clock networks use,
+ *                     because every endpoint sits the same distance from
+ *                     the source. Its pulse leaves the root and reaches
+ *                     all four tips together: a call being picked up.
+ *    studio  koch     the one closed, crystalline, fully symmetric
+ *                     figure in the set — a fixed point rather than a
+ *                     thing travelling. It is the map pin, drawn.
+ *
+ *  Sized to sit BEHIND THE ICON, not behind the words. The venture cards
+ *  needed a scrim because their motif ran under a paragraph; this one is
+ *  masked to a disc centred on the chip and has faded out well before it
+ *  reaches the label, so the copy never competes with it and no scrim is
+ *  needed. The card clips, so nothing escapes the rounded corner.
+ * ------------------------------------------------------------------ */
+const MOTIF_BOX = 150; // px, square — the motif's box, centred on the chip
+const MOTIF_MASK = "radial-gradient(70% 70% at 50% 50%, #000 42%, transparent)";
+
+/* Resting the drawing is dim and desaturated; the pointer brings it up
+   to the wordmark's real colours. Both halves of that live in
+   globals.css under `.venture-motif`, which is driven entirely by these
+   custom properties — so this reuses that rule rather than restating it.
+   Dimmer at rest than the venture cards (0.42), because those sit on
+   `mist` and this sits on white, where the same ink reads louder. */
+const MOTIF_TUNING = {
+  ["--motif-o" as string]: 0.3,
+  ["--motif-o-hover" as string]: 0.68,
+  ["--motif-sat" as string]: 0.4,
+};
+
+const SPEED = 0.45; // the rate the venture row settled on
+
+const Detail = ({
+  label,
+  icon,
+  motif,
+  children,
+}: {
+  label: string;
+  icon: ReactNode;
+  motif: { variant: Variant; depth: number; scale: number };
+  children: ReactNode;
+}) => (
+  /* STACKED AND CENTRED, so the three read as a rank of medallions
+     rather than as a left-aligned list that happens to sit in columns.
+     Two details make it work:
+
+     `mx-auto` on the chip is load-bearing — a grid box centres its
+     CONTENTS, not itself, so `place-items-center` alone centres the icon
+     inside a chip still sitting flush left under a centred label.
+
+     Stacking also fixes an alignment problem the side-by-side version
+     had: the address wraps to two lines, and with the icon inline that
+     column's text started at a different x than its neighbours. On its
+     own line the icon steals no width, so all three columns set full. */
+  /* `group` sits HERE and not on the card, so the three answer
+     independently — one on the card would light all three at once, and
+     `.group:hover .venture-motif` matches from any group ancestor.
+     FractalField's own `activateOn=".group"` resolves by `closest()`, so
+     it finds this same element and the CSS and the canvas agree. */
+  <div className="group relative text-center">
+    <span
+      aria-hidden="true"
+      className="venture-motif pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 -translate-y-1/2"
+      style={{
+        width: MOTIF_BOX,
+        height: MOTIF_BOX,
+        maskImage: MOTIF_MASK,
+        WebkitMaskImage: MOTIF_MASK,
+        ...MOTIF_TUNING,
+      }}
+    >
+      <FractalField
+        variant={motif.variant}
+        /* The wordmark's own eight — the same set the venture motifs
+           draw, so the two pages read as one system. */
+        palette={SPECTRUM_HEX}
+        depth={motif.depth}
+        scale={motif.scale}
+        speed={SPEED}
+        activateOn=".group"
+      />
+    </span>
+
+    {/* `relative` on everything from here down, so the copy sits above
+        the drawing rather than under it. */}
+    <span className="relative mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-teal-soft text-teal-deep transition-colors duration-300 group-hover:bg-accent group-hover:text-ink">
+      {icon}
+    </span>
+    <span className="relative mt-5 block text-[12px] font-semibold uppercase tracking-[0.16em] text-ink/60 mb-1.5">
+      {label}
+    </span>
+    <div className="relative">{children}</div>
+  </div>
+);
+
+const detailLink =
+  "inline-flex min-h-11 items-center text-ink text-lg leading-snug hover:text-accent-ink transition-colors break-words";
 
 /* Decoration for the brand half — rings, texture and floating shapes.
    IT IS TINTED BY POSITION, because the panel is no longer one ground.
@@ -170,6 +293,69 @@ export default function ContactForm() {
       {/* Big split card */}
       <section className="relative bg-paper py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-dots opacity-50 pointer-events-none [mask-image:radial-gradient(70%_60%_at_50%_0%,#000,transparent)]" />
+
+        {/* Details card — the direct routes, above the form that is the
+            slower one. It borrows the split card's radius, border and
+            shadow so the two read as a stack of one thing; the shadow is
+            shortened because this card is less tall and the deeper cast
+            would pool under it. */}
+        <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12 mb-5">
+          {/* `overflow-hidden` because the motifs are boxes centred on the
+              chips and reach past the card's top padding — this clips
+              them to the rounded corner instead of letting them spill. */}
+          <div className="overflow-hidden rounded-[32px] border border-line bg-paper p-8 md:p-10 shadow-[0_30px_70px_-55px_rgba(24,24,27,0.4)]">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <Detail
+                label="Email"
+                motif={{ variant: "hilbert", depth: 4, scale: 0.78 }}
+                icon={
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2.5" y="4.5" width="19" height="15" rx="3" />
+                    <path d="m3.5 7 7.35 5.15a2 2 0 0 0 2.3 0L20.5 7" />
+                  </svg>
+                }
+              >
+                <a href={`mailto:${contact.email}`} className={detailLink}>
+                  {contact.email}
+                </a>
+              </Detail>
+
+              <Detail
+                label="Contact"
+                motif={{ variant: "htree", depth: 6, scale: 0.9 }}
+                icon={
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6.5 3h3l1.5 4-2 1.5a12 12 0 0 0 5.5 5.5L16 12l4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4 6.2 2 2 0 0 1 6 4z" />
+                  </svg>
+                }
+              >
+                <a href={`tel:${contact.tel}`} className={detailLink}>
+                  {contact.phone}
+                </a>
+              </Detail>
+
+              <Detail
+                label="Headquarters"
+                motif={{ variant: "koch", depth: 4, scale: 0.62 }}
+                icon={
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 21.5s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z" />
+                    <circle cx="12" cy="10.5" r="2.5" />
+                  </svg>
+                }
+              >
+                {/* Not a link — see the note on Detail. */}
+                <address className="not-italic text-muted text-[15px] leading-relaxed">
+                  {contact.address.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              </Detail>
+            </div>
+          </div>
+        </div>
 
         <div data-reveal="up" className="relative max-w-300 mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 rounded-[32px] overflow-hidden border border-line bg-paper shadow-[0_40px_90px_-50px_rgba(24,24,27,0.4)]">
