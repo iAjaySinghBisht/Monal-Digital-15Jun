@@ -100,6 +100,26 @@ export const stats = {
   years: { n: "10", suffix: "+" },
 } as const;
 
+/* The studio's own contact details, single-sourced for the same reason
+   the stats above are: they render in the footer on every page and again
+   on the contact page, and a number that is current in one place and
+   stale in the other is worse than either on its own.
+
+   `tel` is the dialable form and `phone` the readable one — they differ
+   by spacing alone, which a tel: href must not carry. The address is
+   split at the line it is meant to break on rather than at a comma, so
+   the break is a decision made here and not by whatever width the card
+   happens to be. */
+export const contact = {
+  email: "hello@monaldigital.com",
+  phone: "+91 82006 96551",
+  tel: "+918200696551",
+  address: [
+    "Monal Digital, Karan Tower, Gas Godam Road",
+    "Haldwani, Uttarakhand, India 263139",
+  ],
+} as const;
+
 /* Listed in display order — three per row on desktop. */
 export const brands: Brand[] = [
   {

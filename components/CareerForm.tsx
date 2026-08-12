@@ -28,7 +28,18 @@ const ROLES = [
 const ACCEPTED = [".pdf", ".doc", ".docx"];
 const MAX_MB = 5;
 
-const EMPTY = { name: "", email: "", phone: "", role: "", message: "", company: "" };
+const OTHER = "Other";
+const MAX_ROLE_LEN = 80;
+
+const EMPTY = {
+  name: "",
+  email: "",
+  phone: "",
+  role: "",
+  roleOther: "",
+  message: "",
+  company: "",
+};
 
 type FormState = typeof EMPTY;
 type Errors = Partial<Record<keyof FormState | "resume", string>>;
@@ -96,6 +107,14 @@ export default function CareerForm() {
       setErrors((er) => ({ ...er, [key]: undefined }));
     };
 
+  // Picking a different role drops whatever was typed into the write-in,
+  // so a stale "Other" answer can never ride along with a listed role.
+  const onRole = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const role = e.target.value;
+    setForm((f) => ({ ...f, role, roleOther: role === OTHER ? f.roleOther : "" }));
+    setErrors((er) => ({ ...er, role: undefined, roleOther: undefined }));
+  };
+
   const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setResume(file);
@@ -110,6 +129,8 @@ export default function CareerForm() {
     if (!form.phone.trim()) next.phone = "Please enter your contact number.";
     else if (!PHONE_RE.test(form.phone.trim())) next.phone = "Enter a valid phone number.";
     if (!form.role) next.role = "Please select a role.";
+    else if (form.role === OTHER && !form.roleOther.trim())
+      next.roleOther = "Please tell us which role you're applying for.";
 
     if (!resume) {
       next.resume = "Please attach your résumé.";
@@ -130,12 +151,18 @@ export default function CareerForm() {
     setStatus("sending");
     try {
       const fileData = await toBase64(resume!);
+      // The sheet and the notification mail both read `role`, so a write-in
+      // has to land there — tagged, so "Other" stays filterable in the sheet.
+      const roleOther = form.roleOther.trim();
+      const role = form.role === OTHER && roleOther ? `${OTHER} — ${roleOther}` : form.role;
       const res = await fetch(CAREER_ENDPOINT, {
         method: "POST",
         // text/plain avoids a CORS preflight against the Apps Script endpoint.
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           ...form,
+          role,
+          roleOther,
           fileName: resume!.name,
           fileType: resume!.type,
           fileData,
@@ -301,7 +328,7 @@ export default function CareerForm() {
                   <Field label="Role" error={errors.role}>
                     <select
                       value={form.role}
-                      onChange={update("role")}
+                      onChange={onRole}
                       className={`${inputClass} ${form.role ? "" : "text-ink/35"}`}
                     >
                       <option value="">Select a role…</option>
@@ -312,6 +339,19 @@ export default function CareerForm() {
                       ))}
                     </select>
                   </Field>
+
+                  {form.role === OTHER && (
+                    <Field label="Which role?" error={errors.roleOther}>
+                      <input
+                        type="text"
+                        value={form.roleOther}
+                        onChange={update("roleOther")}
+                        maxLength={MAX_ROLE_LEN}
+                        placeholder="e.g. Sound Designer"
+                        className={inputClass}
+                      />
+                    </Field>
+                  )}
 
                   <Field label="Résumé (PDF or Word, max 5 MB)" error={errors.resume}>
                     <div className="flex items-center gap-3">
