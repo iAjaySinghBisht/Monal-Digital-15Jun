@@ -225,7 +225,7 @@ const AboutStory = () => {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/assets/pearl.png"
-                alt="Monal original character"
+                alt="Pearl, an original Wands And Wings character"
                 loading="lazy"
                 draggable="false"
                 className="absolute right-2 -bottom-2 h-60 w-auto max-w-none object-contain z-20 drop-shadow-[0_30px_40px_rgba(24,24,27,0.32)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.04]"

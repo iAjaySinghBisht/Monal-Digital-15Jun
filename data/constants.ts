@@ -43,6 +43,13 @@ export type Project = {
      itself rather than transforming the image, because `data-reveal`
      already animates its transform. Default 1. */
   logoScale?: number;
+  /* Alt text for the key art, where the TITLE ALONE IS NOT A DESCRIPTION.
+     Every thumbnail used to fall back to `title`, which tells a screen
+     reader "Zappy Zoo" — the name of a thing it cannot see and has no
+     way to picture. These name the format and the subject instead, so
+     the image says what it is. Optional: a show without one still falls
+     back to its title, which is wrong but never blank. */
+  alt?: string;
   channels?: Channel[];
   /* The two places you can go and listen or watch. These are the only
      LINKS on a band — the `channels` list beside them is a statement of
@@ -200,6 +207,7 @@ export const projects: Project[] = [
   },
   {
     title: "Wands And Wings",
+    alt: "Wands and Wings — 3D animated fantasy-adventure series",
     ...shot("wands-and-wings"),
     logo: logo("wands-and-wings"),
     logoScale: 1.25,
@@ -211,6 +219,7 @@ export const projects: Project[] = [
   },
   {
     title: "Zappy Toons",
+    alt: "Zappy Toons — 3D animated Hindi nursery rhymes series",
     ...shot("zappy-toons"),
     logo: logo("zappy-toons"),
     links: {
@@ -221,6 +230,7 @@ export const projects: Project[] = [
   },
   {
     title: "Zappy Zoo",
+    alt: "Zappy Zoo — 3D animated animal nursery rhymes",
     ...shot("zappy-zoo"),
     logo: logo("zappy-zoo"),
     logoScale: 1.25,
@@ -231,6 +241,7 @@ export const projects: Project[] = [
   },
   {
     title: "Wands And Wings Junior",
+    alt: "Wands and Wings Junior — 3D series for younger kids",
     ...shot("wands-and-wings-jr"),
     logo: logo("wands-and-wings-jr"),
     logoScale: 1.25,
@@ -241,6 +252,7 @@ export const projects: Project[] = [
   },
   {
     title: "Groovy The Martian",
+    alt: "Groovy the Martian — 3D animated educational series",
     ...shot("groovy-the-martian"),
     logo: logo("groovy-the-martian"),
     logoScale: 1.25,
@@ -251,6 +263,7 @@ export const projects: Project[] = [
   },
   {
     title: "The GiggleBellies",
+    alt: "GiggleBellies — animated songs and rhymes for kids",
     ...shot("gigglebellies"),
     logo: logo("gigglebellies"),
     links: {
