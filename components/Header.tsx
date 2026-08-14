@@ -100,7 +100,7 @@ const Header = () => {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/monal-logo-nav.png"
-            alt="Monal Digital"
+            alt="Monal Digital logo"
             width="480"
             height="116"
             loading="eager"

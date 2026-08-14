@@ -111,7 +111,7 @@ const Partners = () => {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={logo}
-                    alt={b.name}
+                    alt={`${b.name} logo`}
                     loading="lazy"
                     /* Height drives the equal-area sizing; width follows
                        the logo's own ratio. `object-contain` is belt and

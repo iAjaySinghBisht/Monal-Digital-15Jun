@@ -85,8 +85,11 @@ const PullQuote = ({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={t.img}
-          alt=""
-          aria-hidden="true"
+          /* `role` holds the company, so this reads "Tobias Hoss, 30
+             Dishes". The `aria-hidden` that used to sit alongside an
+             empty alt is gone — it would have suppressed this text and
+             left the photo unnamed again. */
+          alt={`${t.name}, ${t.role}`}
           loading="lazy"
           className={`w-9 h-9 rounded-full shrink-0 object-cover ring-2 ${skin.ring}`}
         />
@@ -143,7 +146,9 @@ const QuoteCard = ({ t, className = "" }: { t: Testimonial; className?: string }
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={t.img}
-        alt={t.name}
+        /* Same form as the pull-quote copy of this photo — one image
+           should not answer to two different descriptions. */
+        alt={`${t.name}, ${t.role}`}
         loading="lazy"
         className="w-11 h-11 rounded-full shrink-0 object-cover ring-2 ring-accent-ink/15 transition-transform duration-300 group-hover:scale-110"
       />

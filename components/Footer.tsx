@@ -116,8 +116,8 @@ const Footer = () => {
                 Building the Future of Childhood?
               </h2>
               <p className="mt-4 text-white/55 leading-relaxed max-w-md">
-                Whether you&apos;re creating a new character, an original IP, an
-                animated series, a game, or an AI-powered learning experience,
+                Whether you&apos;re creating a new character, an original IP,
+                a game, or an AI-powered learning experience,
                 we&apos;d love to help bring your vision to life.
               </p>
             </div>

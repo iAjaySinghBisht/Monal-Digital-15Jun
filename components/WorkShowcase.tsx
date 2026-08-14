@@ -61,7 +61,7 @@ const ArtBand = ({ p, index }: { p: Project; index: number }) => (
         src={p.img}
         srcSet={`${p.small} 800w, ${p.img} 1600w`}
         sizes="100vw"
-        alt={p.title}
+        alt={p.alt ?? p.title}
         loading={index === 0 ? "eager" : "lazy"}
         fetchPriority={index === 0 ? "high" : "auto"}
         className="h-full w-full object-cover"
@@ -103,7 +103,10 @@ const ArtBand = ({ p, index }: { p: Project; index: number }) => (
       <img
         data-reveal="zoom"
         src={p.logo}
-        alt={p.title}
+        /* THE WORDMARK, not the key art — so it takes the same "<name>
+           logo" form the partner wall does, and NOT the show's `alt`,
+           which describes the artwork this mark is drawn on top of. */
+        alt={`${p.title} logo`}
         loading={index === 0 ? "eager" : "lazy"}
         /* Capped on BOTH axes, because the set spans 1.2:1 to 3.2:1:
            height alone leaves the near-square marks undersized against a
