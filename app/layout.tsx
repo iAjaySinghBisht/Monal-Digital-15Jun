@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, Onest } from "next/font/google";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { GOOGLE_SITE_VERIFICATION, SITE_NAME, SITE_URL } from "@/lib/site";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollProgress from "@/components/ScrollProgress";
 import ScrollManager from "@/components/ScrollManager";
@@ -40,6 +40,14 @@ export const metadata: Metadata = {
   description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
   alternates: { canonical: "/" },
+  /* Search Console ownership. Next renders this as
+     <meta name="google-site-verification" ...> inside <head> on every
+     route, which is what Google's "HTML tag" method checks. The GA4
+     verification method cannot work here: gtag loads via next/script with
+     strategy="afterInteractive", so it lands in <body>, not <head>. */
+  ...(GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+    : {}),
   icons: {
     // Use the colourful Monal (MONAL) logo mark for the browser tab.
     icon: [{ url: "/favicon.png", type: "image/png" }],
